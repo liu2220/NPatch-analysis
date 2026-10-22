@@ -1,0 +1,4381 @@
+
+
+
+
+See 
+
+See https://github.com/google/gson/blob/main/Troubleshooting.md#duplicate-fields
+
+See https://github.com/google/gson/blob/main/Troubleshooting.md#malformed-json
+
+See https://github.com/google/gson/blob/main/Troubleshooting.md#r8-abstract-class
+
+Verify that the adapter was registered for the correct type.
+  
+    Failed to load class 
+    This class doesn't implement any sub-interface of IXposedMod, skipping it
+  Cannot load module: 
+  For details, see: https://api.xposed.info/using.html
+  Loading class 
+  The Xposed API classes are compiled into the module's APK.
+  This may cause strange issues and must be fixed by the module developer.
+ (deleted)
+ (remoteAvailable=
+ -> 
+ AND `group` = ?
+ AND user_id = ?
+ accessible; either increase its visibility or write a custom TypeAdapter for its declaring type.
+ and 
+ argument 
+ as a @JsonAdapter for 
+ at 
+ at line 
+ belongs to Vector itself. Hooking the framework would hook the code running your hook.
+ but got instance of 
+ but was 
+ can accept a hot reload
+ column 
+ could be instantiated
+ declares multiple JSON fields named '
+ does not declare exactly one Java entry class
+ escaped because of deprecated replacement. Please use XResForwarder instead.
+ failed
+ field; at path 
+ for 
+ found in 
+ from 
+ given, resolves to 
+ has detached in this process
+ has no static initializer
+ has type 
+ in 
+ in class 
+ is abstract: it has no body to hook. Hook the concrete override instead.
+ is already running in this process
+ is less than minimum 0.
+ is neither defined in module nor in original resources
+ is not Comparable
+ is not a valid JSON number: 
+ is not inherited from 
+ is not loaded in 
+ is not supported
+ is not the same as or a subtype of 
+ is out of range for 
+ is unavailable to modules targeting Xposed API 102 or higher
+ not found in original resources
+ path 
+ refused the hot reload
+ successfully.
+ threw
+ to byte; at path 
+ to short; at path 
+ was supplied
+!/
+!/lib/
+"
+" for resource id 0x
+#
+#exact
+$
+$VALUES
+$appInfo
+$assertionsDisabled
+$classLoader
+$defaultClassLoader
+$extras
+$isFirst
+$isSystemServer
+$old
+$oldHandles
+$packageName
+$processName
+$savedState
+$values
+'
+' accessible; either increase its visibility or write a custom InstanceCreator or TypeAdapter for its declaring type: 
+' as BigDecimal; at path 
+' as BigInteger; at path 
+' as Currency; at path 
+' as Date; at path 
+' as SQL Date; at path 
+' as SQL Time; at path 
+' as UUID; at path 
+' for field with name '
+' of primitive type; at path 
+' returned wrong type; requested 
+' with args 
+' with no args
+', unable to determine which argument in the constructor the field corresponds to. This is unexpected behavior, as we expect the RecordComponents to have the same names as the fields in the Java class, and that the order of the RecordComponents is the same as the order of the canonical constructor parameters.
+'; conflict is caused by fields 
+(
+()
+()TT;
+()TU;
+()V
+()[
+(?:\[\])+
+(I
+(TE;)Z
+(TT;
+(TT;)V
+(TU;)V
+(Z
+(Z)
+([
+)
+) is greater than size (
+).
+)B
+)C
+)D
+)F
+)I
+)J
+)S
+)TT;
+)TU;
+)TV;
+)V
+)V^TT;
+)Z
+)[
+)[[
+*
+**>;
+*.so
+*/
+*>;
+*>;)
+*>;)C
+*>;)I
+*>;)V
+*>;)Z
+*>;)[
+*>;)[C
+*>;>;>;
+*>;I
+*>;Z)V
+*>;ZZ
+*>;[
+*>;[JJ)
++
++0000
++00:00
+,
+, 
+, appInfo=
+, but got 
+, cacheApkPath=
+, classLoader=
+, executable=
+, expected 
+, expected 0 or 1; at path 
+, falling back to local service
+, got 
+, id=
+, isFirstApplication=
+, isFirstPackage=
+, legacyPackageName=
+, methodName=
+, mtime: 
+, outputLog=
+, params=
+, processName=
+, selected=
+, toIndex: 
+, useManager=
+, using target-local fallback
+, which was created under the old module classloader
+, zipfile=
+,adapter=
+,instanceCreators:
+-
+-?(?:0|[1-9][0-9]*)(?:\.[0-9]+)?(?:[eE][-+]?[0-9]+)?
+-Infinity
+.
+. @JsonAdapter value must be a TypeAdapter, TypeAdapterFactory, JsonSerializer or JsonDeserializer.
+. Registering an InstanceCreator or a TypeAdapter for this type, or adding a no-args constructor may fix this problem.
+. Usage of JDK sun.misc.Unsafe is enabled, but it could not be used. Make sure your runtime is configured correctly.
+..
+...
+.XposedService
+.android.c2dm
+.android.gms
+.apk
+.apk.verified
+.bak
+.common.account.CHOOSE_ACCOUNT
+.complete
+.dex
+.log
+.npatch_patch_stamp
+.ready
+.so
+.split.prof
+.tmp
+.tmp-
+.tmp.
+.verified
+.xml
+/
+/Android/media/
+/code_cache/mods/
+/data/data/
+/npatch/log/
+/shared_prefs/
+00
+1.0.9
+123456789ABCDEFGHJKLMNPQRSTUVWXYZabcdefghijkmnopqrstuvwxyz
+360
+360-like protector detected, using minimal native APK redirect
+:
+: 
+;
+; Register an InstanceCreator or a TypeAdapter for this type.
+; at 
+; at path 
+; using local fallback
+<
+<E:
+<T:
+<T::
+<U:
+<V:
+<clinit>
+<init>
+<skipped>
+<unknown AccessibleObject> 
+=
+>
+> is of type 
+>(
+>([TT;)[TT;
+>;
+>;)
+>;)V
+>;)Z
+>;>;
+>;>;>;
+>;Z
+?
+? extends 
+? super 
+@
+@SerializedName on 
+A reload of 
+API_101
+API_102
+API_CODE
+APK not found: 
+APPLICATION_ID
+ASSERT
+ATOMIC_MOVE
+ATOMIC_MOVE unsupported on this filesystem, falling back to copy+delete
+AUTHORITY
+AUTHORITY_SUFFIX
+Abstract classes can't be instantiated! Adjust the R8 configuration or register an InstanceCreator or a TypeAdapter for this type. Class name: 
+Access denied
+Access denied to internal API
+Activating GMS redirect: com.google.android.gms -> 
+Activating MicroG redirect via NPatch
+Adapter for type with cyclic dependency has been used before dependency has been resolved
+Already wrote a name, expecting a value.
+AndroidManifest.xml
+AnonymousOrNonStaticLocalClassAdapter
+Apk parser fails: 
+AppComponentFactory is not available on this API level
+AppComponentFactory probe failed: 
+Appended host native library paths via ClassLoader.addNativePath: 
+Appended host native library paths via DexPathList.addNativePath: 
+ApplicationTagVisitor
+Array dimension greater than JVM specification maximum of 255.
+AssertionError (GSON 2.14.0): 
+At most one lower bound is supported
+Attempted to deserialize a java.lang.Class. Forgot to register a type adapter?
+See 
+Attribute 
+AxmlReader: Unsupported tag: 
+B
+B)V
+BEGIN_ARRAY
+BEGIN_OBJECT
+BI
+BIND_EXECUTOR
+BL
+BLL
+BOOLEAN
+BOOTCLASSLOADER
+BUILD_TYPE
+C
+C)V
+C2DM redirect disabled for targetGms: 
+C2DM redirect prefix derived: 
+C2DM_STANDARD_ACTIONS
+CAP_REMOTE
+CC
+CERT_INPUT_RAW_X509
+CERT_INPUT_SHA256
+CHIMERA_AUTHORITY
+CHOOSE_ACCOUNT_ACTION
+CI
+CII
+CL
+CLASS_RESOURCES_KEY
+CLL
+CONNECTION_TIMEOUT_SEC
+CONTENT
+CONTINUE
+CORE_VERSION_CODE
+CORE_VERSION_NAME
+CREATE
+CREATE TABLE IF NOT EXISTS configs (module_pkg_name TEXT NOT NULL,user_id INTEGER NOT NULL,`group` TEXT NOT NULL,`key` TEXT NOT NULL,data BLOB,PRIMARY KEY (module_pkg_name, user_id, `group`, `key`))
+CREATE_NEW
+CREATOR
+Cache apk missing AndroidManifest.xml: 
+Cache apk size mismatch: actual 
+Callback
+CallerContext
+Can not load 
+Can not open 
+Can not read modern module metadata in 
+Cannot allocate 
+Cannot build a new generation of 
+Cannot coerce value to an empty range: maximum 
+Cannot create remote file directory
+Cannot deoptimize abstract methods: 
+Cannot deoptimize methods from proxy class: 
+Cannot escape a newline character in strict mode
+Cannot find matching method
+Cannot hook 
+Cannot hook resources
+Cannot make calls to a recycled instance!
+Cannot map 
+Cannot open 
+Cannot open remote file: 
+Cannot parse 
+Cannot present <clinit> of ${clinit.declaringClass.name} as a Method
+Cannot replace the hook on 
+Cannot report the hot reload outcome
+Cannot resolve the legacy API prefixes
+Cannot resolve the override of 
+Cannot set value of 'static final' 
+Chain
+Class 
+Class does not extend XposedModule, skipping.
+Class name greater than maximum length %,d
+Class name is empty
+ClassNotFoundError
+ClassPathURLConnection
+Companion
+Config file not found in assets
+ConfigProvider query fallback failed: 
+Constructor
+Constructor.newInstance cannot be hooked: Vector reflects through it the same way it does Method.invoke, so a hook here would recurse.
+ContextInfo
+ContextInfo(packageName=
+CopyOnWriteSortedSet
+Could not determine package name for 
+Could not find file name for resource id 0x
+Could not find the index in the constructor '
+Couldn't write 
+Crash log saved to Media directory
+Ctor
+CtorInvoker
+D
+D)V
+DB_NAME
+DB_VERSION
+DD
+DEBUG
+DEFAULT
+DEFAULT_COMPATIBILITY_INFO
+DESCRIPTOR
+DL
+DLL
+DO_NOTHING
+Dangling name: 
+Default
+DefaultDateTypeAdapter#DEFAULT_STYLE_FACTORY
+DefaultDateTypeAdapter(
+Delegate is already set
+Delivered XposedService to embedded module 
+Detached entry 
+DimensionReplacement
+Drawable replacements are deprecated since Xposed 2.1. Use DrawableLoader instead.
+DrawableLoader
+E
+EMPTY
+EMPTY_ARRAY
+EMPTY_INJECTED_MODULE_SERVICE
+EMPTY_LIST
+EMPTY_MAP
+END_ARRAY
+END_DOCUMENT
+END_OBJECT
+ENGLISH
+ENTRY_CREATE
+ENTRY_DELETE
+ENTRY_MODIFY
+ERROR
+EXECUTOR
+EXTRA_XML_INSTANCE_DETAILS
+Editor
+EmbeddedXposedService
+Empty list doesn't contain element at index 
+End of input
+Enhanced load failed for 
+Enhanced load successful for 
+Enhanced loading native LoadedModule before core: 
+Error 
+Error during framework initialization
+Error in log flush worker
+Error in onModuleLoaded for 
+Error in onPackageLoaded for 
+Error in onPackageReady for 
+Error in onSystemServerStarting for 
+Error when creating context
+Error when initializing IntegrApplicationServiceClient
+Every entry of 
+Exactly one upper bound must be specified
+ExceptionMode
+Expected 
+Expected ':'
+Expected 'L' after '[' for an array style string.
+Expected a 
+Expected a Class, ParameterizedType, or GenericArrayType, but <
+Expected a long but was 
+Expected an int but was 
+Expected name
+Expected receiver of type 
+Expected value
+Expecting character, got: 
+Expecting number, got: 
+Extracting embedded LoadedModule: 
+Extracting origin.apk from assets.
+F
+F)V
+FAILED
+FALSE
+FI
+FIF
+FIFL
+FIII
+FIIIF
+FILE_DATE_FORMAT
+FIRST_APP_ZYGOTE_ISOLATED_UID
+FL
+FLF
+FLL
+FRAMEWORK_API_VERSION
+FRAMEWORK_NAME
+FRAMEWORK_VERSION
+FRAMEWORK_VERSION_CODE
+FRAMEWORK_VERSION_NAME
+FULL
+F_OK
+Factory should not be used
+Factory[type=
+Factory[typeHierarchy=
+Failed making 
+Failed making constructor '
+Failed parsing '
+Failed to append host native library paths: 
+Failed to attach the process channel
+Failed to attach the process channel in process: 
+Failed to cache dynamic preference update
+Failed to cache initial preferences
+Failed to cache original signature for 
+Failed to commit changes to framework
+Failed to connect to manager: 
+Failed to delete stale libnpatch: 
+Failed to delete stale origin apk or sidecar: 
+Failed to delete: 
+Failed to disable profile completely
+Failed to disable profile: 
+Failed to extract native libraries from 
+Failed to extract original APK
+Failed to find com.android.internal.util.XmlUtils.readMapXml
+Failed to get mResDir from LoadedApk
+Failed to get profile dir
+Failed to hook 
+Failed to hook ContentResolver
+Failed to hook Intent constructors
+Failed to hook Intent.getAction
+Failed to hook Intent.setAction
+Failed to hook Intent.setComponent
+Failed to hook Intent.setPackage
+Failed to hook PackageManager.getPackageInfo
+Failed to hook startActivity/startActivityForResult
+Failed to initialize resources hook
+Failed to inject provider dex: 
+Failed to inject provider:
+Failed to install LoadedModule self path compatibility hook
+Failed to install native LoadedModule service proxy
+Failed to instantiate class 
+Failed to invoke constructor '
+Failed to invoke the method
+Failed to link to death for service in process: 
+Failed to load cached LoadedModule 
+Failed to load cached module 
+Failed to load modules from cache
+Failed to mark cached origin APK read-only: 
+Failed to mark cached origin apk read-only: 
+Failed to new a instance
+Failed to parse date [
+Failed to persist remote preferences: 
+Failed to prepare native cache for 
+Failed to read cached module ApplicationInfo: 
+Failed to read embedded LoadedModule ApplicationInfo: 
+Failed to read initial modules from manager, fallback to local cache
+Failed to register LoadedModule caller prefixes
+Failed to register LoadedModule runtime ApplicationInfo
+Failed to request remote preferences for group: 
+Failed to resolve expected origin.apk size
+Failed to resolve signature bypass level from manifest metadata
+Failed to restore hot reload process channel on reconnect
+Failed to sweep LoadedModule native cache
+Failed to sweep origin apk cache
+Failed to sync remote modules on reconnect
+Failed to update local module scope cache
+Failed to validate apk: 
+Failed to write cache stamp
+Failed to write verified sidecar for 
+Failure(
+Fatal error loading module 
+Field
+Field of type 
+Filtering already enhanced native LoadedModule: 
+Framework already attached
+Framework not attached
+Framework returns null
+Framework returns null target
+Framework returns target with null processName
+GMS redirect hooks installed
+GMS rejected call, retrying with MicroG
+GMS_ACTION_PREFIX
+GMT
+GSON
+GSON (2.14.0) cannot handle 
+GSON cannot serialize or deserialize 
+Generation
+GoogleCertificatesRslt
+HAS_IS_THEMEABLE
+HAS_THEME_CONFIG_PARAMETER
+HELPERS
+HOT_RELOAD_FAILED
+HOT_RELOAD_IN_PROGRESS
+HOT_RELOAD_PROCESS_DIED
+HOT_RELOAD_SUCCEEDED
+HOT_RELOAD_UNSUPPORTED
+Hidden API exemption in onLoad failed
+HiddenApiBypass
+Hook return type mismatch. Expected 
+Hook returned null for a primitive return type: 
+HookBuilder
+HookHandle
+Hooker
+Hooker [
+Hot reload of 
+Hot reload swap of 
+Hot reload was requested without a module
+Hot reloaded 
+HotReloadCallback
+HotReloadResult[
+HotReloadedParam
+HotReloadingParam
+I
+I)
+I)V
+ICI
+IFF
+II
+III
+IIL
+IILL
+IIZ
+IJ
+IL
+ILI
+ILII
+ILL
+ILLI
+ILLIZ
+ILLL
+ILLLI
+ILLLL
+INFO
+INSTANCE
+INSTANCES
+IN_PROGRESS
+IZ
+IdKey
+IdKey(moduleId=
+Incomplete document
+Index: 
+Infinity
+InitPackageResourcesParam
+Initialize error
+Initialize service client
+Installed LoadedModule self path compatibility hook
+Installed native LoadedModule service proxy
+Interfaces can't be instantiated! Register an InstanceCreator or a TypeAdapter for this type. Interface name: 
+Internal API not found
+Internal cache hit after lock: 
+Internal cache hit: 
+Invalid 
+Invalid EnumMap type: 
+Invalid EnumSet type: 
+Invalid attempt to bind an instance of 
+Invalid bitset value 
+Invalid bitset value type: 
+Invalid dex size for 
+Invalid entry name: 
+Invalid escape sequence
+Invalid escaped character "'" in strict mode
+Invalid hooked target state: 
+Invalid hot reload status code: 
+Invalid module package name
+Invalid number: 
+Invalid time zone indicator '
+InvocationTargetError
+Invoker
+Is a directory: 
+J
+J)V
+JD
+JJ
+JL
+JLJ
+JLL
+JLLL
+JLLLI
+JSON document was not fully consumed.
+JSON forbids NaN and infinities: 
+JSON must have only one top-level value.
+JarURLConnection has been closed
+JsonReader is closed
+JsonWriter is closed.
+KEY_AUTHOR
+KEY_BINDER
+KEY_BOOT_IMAGE
+KEY_BOOT_IMAGE_MIUI_RES
+KEY_MIN_API_VERSION
+KEY_MODULE_PACKAGE
+KEY_STATIC_SCOPE
+KEY_SYSTEM_SERVER
+KEY_TARGET_API_VERSION
+KEY_VERSION
+L
+LB
+LC
+LCC
+LD
+LEGACY
+LEGACY_API_PREFIXES$delegate
+LEGACY_API_PREFIXES_delegate$lambda$0
+LEGACY_JAVA_INIT
+LEGACY_JAVA_INIT_LIST
+LEGACY_KEY_AUTHOR
+LEGACY_KEY_DESCRIPTION
+LEGACY_KEY_MIN_API_VERSION
+LEGACY_KEY_NAME
+LEGACY_KEY_PACKAGE_NAME
+LEGACY_KEY_SCOPES
+LEGACY_KEY_STATIC_SCOPE
+LEGACY_KEY_TARGET_API_VERSION
+LEGACY_KEY_VERSION
+LEGACY_MAX_API_VERSION
+LEGACY_NATIVE_INIT
+LEGACY_NATIVE_INIT_LIST
+LF
+LI
+LIBRARY_PACKAGE_NAME
+LIB_API
+LIB_NPATCH_GRACE_MS
+LII
+LIII
+LIIII
+LIIL
+LIILL
+LIIZZ
+LIL
+LILZZ
+LITTLE_ENDIAN
+LIZZ
+LJ
+LJJ
+LJL
+LL
+LLC
+LLF
+LLI
+LLII
+LLIIJJ
+LLIL
+LLILL
+LLILZZIL
+LLJ
+LLJJ
+LLL
+LLLI
+LLLJ
+LLLL
+LLLLI
+LLLLL
+LLLLLIL
+LLLLLILL
+LLLLLL
+LLLLLLL
+LLLLLLLL
+LLLLLLZIL
+LLLLLZ
+LLLLLZIL
+LLLLLZZLL
+LLLLZ
+LLLLZLL
+LLLLZLLIL
+LLLZIL
+LLLZLL
+LLZ
+LLZL
+LOCK_POLL_INTERVAL_MS
+LOCK_TIMEOUT_MS
+LOG_QUEUE
+LOG_TAG
+LOG_TIME_FORMAT
+LS
+LZ
+LZL
+Landroid/app/Activity;
+Landroid/app/ActivityThread;
+Landroid/app/AndroidAppHelper;
+Landroid/app/AppComponentFactory;
+Landroid/app/Application;
+Landroid/app/ContextImpl;
+Landroid/app/Instrumentation;
+Landroid/app/LoadedApk;
+Landroid/app/ResourcesManager;
+Landroid/content/ComponentName;
+Landroid/content/ContentProvider;
+Landroid/content/ContentResolver;
+Landroid/content/ContentValues;
+Landroid/content/Context;
+Landroid/content/ContextWrapper;
+Landroid/content/Intent;
+Landroid/content/ServiceConnection;
+Landroid/content/SharedPreferences$Editor;
+Landroid/content/SharedPreferences$OnSharedPreferenceChangeListener;
+Landroid/content/SharedPreferences;
+Landroid/content/pm/ActivityInfo;
+Landroid/content/pm/ApplicationInfo;
+Landroid/content/pm/PackageInfo;
+Landroid/content/pm/PackageManager$NameNotFoundException;
+Landroid/content/pm/PackageManager;
+Landroid/content/pm/PackageParser$PackageLite;
+Landroid/content/pm/PackageParser$PackageParserException;
+Landroid/content/pm/PackageParser;
+Landroid/content/pm/PermissionInfo;
+Landroid/content/pm/ResolveInfo;
+Landroid/content/pm/Signature;
+Landroid/content/pm/SigningInfo;
+Landroid/content/res/AssetManager;
+Landroid/content/res/ColorStateList;
+Landroid/content/res/CompatibilityInfo;
+Landroid/content/res/Configuration;
+Landroid/content/res/Resources$NotFoundException;
+Landroid/content/res/Resources$Theme;
+Landroid/content/res/Resources;
+Landroid/content/res/ResourcesImpl;
+Landroid/content/res/ResourcesKey;
+Landroid/content/res/TypedArray;
+Landroid/content/res/XModuleResources;
+Landroid/content/res/XResForwarder;
+Landroid/content/res/XResources$1;
+Landroid/content/res/XResources$2;
+Landroid/content/res/XResources$DimensionReplacement;
+Landroid/content/res/XResources$DrawableLoader;
+Landroid/content/res/XResources$ResourceNames;
+Landroid/content/res/XResources$XMLInstanceDetails;
+Landroid/content/res/XResources$XTypedArray;
+Landroid/content/res/XResources;
+Landroid/content/res/XmlResourceParser;
+Landroid/database/Cursor;
+Landroid/database/sqlite/SQLiteDatabase$CursorFactory;
+Landroid/database/sqlite/SQLiteDatabase;
+Landroid/database/sqlite/SQLiteOpenHelper;
+Landroid/graphics/Movie;
+Landroid/graphics/Typeface;
+Landroid/graphics/drawable/ColorDrawable;
+Landroid/graphics/drawable/Drawable;
+Landroid/net/Uri$Builder;
+Landroid/net/Uri;
+Landroid/os/BadParcelableException;
+Landroid/os/Binder;
+Landroid/os/Build$VERSION;
+Landroid/os/Build;
+Landroid/os/Bundle;
+Landroid/os/Environment;
+Landroid/os/Handler;
+Landroid/os/HandlerThread;
+Landroid/os/IBinder$DeathRecipient;
+Landroid/os/IBinder;
+Landroid/os/IInterface;
+Landroid/os/Looper;
+Landroid/os/Parcel;
+Landroid/os/ParcelFileDescriptor;
+Landroid/os/Parcelable$Creator;
+Landroid/os/Parcelable$Creator<
+Landroid/os/Parcelable;
+Landroid/os/Process;
+Landroid/os/RemoteException;
+Landroid/os/ServiceManager;
+Landroid/os/SharedMemory;
+Landroid/os/StrictMode$ThreadPolicy;
+Landroid/os/StrictMode;
+Landroid/os/SystemClock;
+Landroid/os/SystemProperties;
+Landroid/os/UserHandle;
+Landroid/system/ErrnoException;
+Landroid/system/Os;
+Landroid/system/OsConstants;
+Landroid/text/TextUtils;
+Landroid/util/ArrayMap;
+Landroid/util/ArraySet;
+Landroid/util/AttributeSet;
+Landroid/util/Base64;
+Landroid/util/DisplayMetrics;
+Landroid/util/Log;
+Landroid/util/LogPrinter;
+Landroid/util/SparseArray;
+Landroid/util/SparseArray<
+Landroid/util/TypedValue;
+Landroid/view/LayoutInflater;
+Landroid/view/View;
+Landroid/view/ViewGroup;
+Landroid/widget/Toast;
+Late system server injection: dispatching onSystemServerStarting after system server has already started; critical services are live
+Late system server injection: no current ActivityThread, modules cannot be loaded
+LayoutInflatedParam
+Lazily connected remote service via Provider bridge for 
+Lazy value not initialized yet.
+Ldalvik/annotation/AnnotationDefault;
+Ldalvik/annotation/EnclosingClass;
+Ldalvik/annotation/EnclosingMethod;
+Ldalvik/annotation/InnerClass;
+Ldalvik/annotation/MemberClasses;
+Ldalvik/annotation/Signature;
+Ldalvik/annotation/optimization/FastNative;
+Ldalvik/system/BaseDexClassLoader;
+Ldalvik/system/DexFile;
+Ldalvik/system/PathClassLoader;
+Ldalvik/system/VMRuntime;
+Lde/robv/android/xposed/IXposedHookCmdInit$StartupParam;
+Lde/robv/android/xposed/IXposedHookCmdInit;
+Lde/robv/android/xposed/IXposedHookInitPackageResources$Wrapper;
+Lde/robv/android/xposed/IXposedHookInitPackageResources;
+Lde/robv/android/xposed/IXposedHookLoadPackage$Wrapper;
+Lde/robv/android/xposed/IXposedHookLoadPackage;
+Lde/robv/android/xposed/IXposedHookZygoteInit$StartupParam;
+Lde/robv/android/xposed/IXposedHookZygoteInit;
+Lde/robv/android/xposed/IXposedMod;
+Lde/robv/android/xposed/SELinuxHelper;
+Lde/robv/android/xposed/XC_MethodHook$MethodHookParam;
+Lde/robv/android/xposed/XC_MethodHook$MethodHookParam<
+Lde/robv/android/xposed/XC_MethodHook$Unhook;
+Lde/robv/android/xposed/XC_MethodHook;
+Lde/robv/android/xposed/XC_MethodReplacement$1;
+Lde/robv/android/xposed/XC_MethodReplacement$2;
+Lde/robv/android/xposed/XC_MethodReplacement;
+Lde/robv/android/xposed/XSharedPreferences$1;
+Lde/robv/android/xposed/XSharedPreferences$2;
+Lde/robv/android/xposed/XSharedPreferences$PrefsData;
+Lde/robv/android/xposed/XSharedPreferences;
+Lde/robv/android/xposed/XposedBridge$CopyOnWriteSortedSet;
+Lde/robv/android/xposed/XposedBridge$CopyOnWriteSortedSet<
+Lde/robv/android/xposed/XposedBridge$LegacyApiSupport;
+Lde/robv/android/xposed/XposedBridge;
+Lde/robv/android/xposed/XposedHelpers$1;
+Lde/robv/android/xposed/XposedHelpers$ClassNotFoundError;
+Lde/robv/android/xposed/XposedHelpers$InvocationTargetError;
+Lde/robv/android/xposed/XposedHelpers$MemberCacheKey$Constructor;
+Lde/robv/android/xposed/XposedHelpers$MemberCacheKey$Field;
+Lde/robv/android/xposed/XposedHelpers$MemberCacheKey$Method;
+Lde/robv/android/xposed/XposedHelpers$MemberCacheKey;
+Lde/robv/android/xposed/XposedHelpers;
+Lde/robv/android/xposed/XposedInit$1;
+Lde/robv/android/xposed/XposedInit$2;
+Lde/robv/android/xposed/XposedInit$3;
+Lde/robv/android/xposed/XposedInit;
+Lde/robv/android/xposed/callbacks/IXUnhook;
+Lde/robv/android/xposed/callbacks/IXUnhook<
+Lde/robv/android/xposed/callbacks/XC_InitPackageResources$InitPackageResourcesParam;
+Lde/robv/android/xposed/callbacks/XC_InitPackageResources;
+Lde/robv/android/xposed/callbacks/XC_LayoutInflated$LayoutInflatedParam;
+Lde/robv/android/xposed/callbacks/XC_LayoutInflated$Unhook;
+Lde/robv/android/xposed/callbacks/XC_LayoutInflated;
+Lde/robv/android/xposed/callbacks/XC_LoadPackage$LoadPackageParam;
+Lde/robv/android/xposed/callbacks/XC_LoadPackage;
+Lde/robv/android/xposed/callbacks/XCallback$Param$SerializeWrapper;
+Lde/robv/android/xposed/callbacks/XCallback$Param;
+Lde/robv/android/xposed/callbacks/XCallback;
+Lde/robv/android/xposed/services/BaseService;
+Lde/robv/android/xposed/services/DirectAccessService;
+Lde/robv/android/xposed/services/FileResult;
+Lde/robv/android/xposed/喵喵;
+Lde/robv/android/xposed/猫喵;
+Lde/robv/android/xposed/貓喵;
+LegacyApiSupport
+LegacyPackageInfo(packageName=
+Length 
+Lio/github/libxposed/api/XposedInterface$Chain;
+Lio/github/libxposed/api/XposedInterface$CtorInvoker;
+Lio/github/libxposed/api/XposedInterface$CtorInvoker<
+Lio/github/libxposed/api/XposedInterface$ExceptionMode;
+Lio/github/libxposed/api/XposedInterface$HookBuilder;
+Lio/github/libxposed/api/XposedInterface$HookHandle;
+Lio/github/libxposed/api/XposedInterface$Hooker;
+Lio/github/libxposed/api/XposedInterface$Invoker$Type$Chain;
+Lio/github/libxposed/api/XposedInterface$Invoker$Type$Origin;
+Lio/github/libxposed/api/XposedInterface$Invoker$Type;
+Lio/github/libxposed/api/XposedInterface$Invoker;
+Lio/github/libxposed/api/XposedInterface$Invoker<
+Lio/github/libxposed/api/XposedInterface;
+Lio/github/libxposed/api/XposedInterfaceWrapper;
+Lio/github/libxposed/api/XposedModule;
+Lio/github/libxposed/api/XposedModuleInterface$HotReloadedParam;
+Lio/github/libxposed/api/XposedModuleInterface$HotReloadingParam;
+Lio/github/libxposed/api/XposedModuleInterface$ModuleLoadedParam;
+Lio/github/libxposed/api/XposedModuleInterface$PackageLoadedParam;
+Lio/github/libxposed/api/XposedModuleInterface$PackageReadyParam;
+Lio/github/libxposed/api/XposedModuleInterface$SystemServerStartingParam;
+Lio/github/libxposed/api/XposedModuleInterface;
+Lio/github/libxposed/api/error/HookFailedError;
+Lio/github/libxposed/api/error/XposedFrameworkError;
+Lio/github/libxposed/service/HookedProcess$1;
+Lio/github/libxposed/service/HookedProcess;
+Lio/github/libxposed/service/HookedTarget$State;
+Lio/github/libxposed/service/HookedTarget;
+Lio/github/libxposed/service/HotReloadResult$Status;
+Lio/github/libxposed/service/HotReloadResult;
+Lio/github/libxposed/service/IHotReloadCallback$Default;
+Lio/github/libxposed/service/IHotReloadCallback$Stub$Proxy;
+Lio/github/libxposed/service/IHotReloadCallback$Stub;
+Lio/github/libxposed/service/IHotReloadCallback;
+Lio/github/libxposed/service/IXposedScopeCallback$Default;
+Lio/github/libxposed/service/IXposedScopeCallback$Stub$Proxy;
+Lio/github/libxposed/service/IXposedScopeCallback$Stub;
+Lio/github/libxposed/service/IXposedScopeCallback;
+Lio/github/libxposed/service/IXposedService$Default;
+Lio/github/libxposed/service/IXposedService$Stub$Proxy;
+Lio/github/libxposed/service/IXposedService$Stub;
+Lio/github/libxposed/service/IXposedService$_Parcel;
+Lio/github/libxposed/service/IXposedService;
+Lio/github/libxposed/service/RemotePreferences$Editor;
+Lio/github/libxposed/service/RemotePreferences;
+Lio/github/libxposed/service/XposedProvider;
+Lio/github/libxposed/service/XposedService$1;
+Lio/github/libxposed/service/XposedService$HotReloadCallback;
+Lio/github/libxposed/service/XposedService$OnScopeEventListener$1;
+Lio/github/libxposed/service/XposedService$OnScopeEventListener;
+Lio/github/libxposed/service/XposedService$ServiceException;
+Lio/github/libxposed/service/XposedService;
+Lio/github/libxposed/service/XposedServiceHelper$OnServiceListener;
+Lio/github/libxposed/service/XposedServiceHelper;
+List has more than one element.
+List is empty.
+Ljava/io/BufferedInputStream;
+Ljava/io/BufferedReader;
+Ljava/io/BufferedWriter;
+Ljava/io/ByteArrayInputStream;
+Ljava/io/ByteArrayOutputStream;
+Ljava/io/Closeable;
+Ljava/io/EOFException;
+Ljava/io/File;
+Ljava/io/FileDescriptor;
+Ljava/io/FileInputStream;
+Ljava/io/FileNotFoundException;
+Ljava/io/FileOutputStream;
+Ljava/io/FilenameFilter;
+Ljava/io/FilterInputStream;
+Ljava/io/Flushable;
+Ljava/io/IOException;
+Ljava/io/InputStream;
+Ljava/io/InputStreamReader;
+Ljava/io/ObjectInputStream;
+Ljava/io/ObjectOutputStream;
+Ljava/io/ObjectStreamClass;
+Ljava/io/OutputStream;
+Ljava/io/OutputStreamWriter;
+Ljava/io/PrintStream;
+Ljava/io/PrintWriter;
+Ljava/io/Reader;
+Ljava/io/Serializable;
+Ljava/io/StringWriter;
+Ljava/io/Writer;
+Ljava/lang/Appendable;
+Ljava/lang/ArithmeticException;
+Ljava/lang/ArrayIndexOutOfBoundsException;
+Ljava/lang/AssertionError;
+Ljava/lang/Boolean;
+Ljava/lang/Byte;
+Ljava/lang/CharSequence;
+Ljava/lang/Character;
+Ljava/lang/Class;
+Ljava/lang/Class<
+Ljava/lang/ClassCastException;
+Ljava/lang/ClassLoader;
+Ljava/lang/ClassNotFoundException;
+Ljava/lang/CloneNotSupportedException;
+Ljava/lang/Cloneable;
+Ljava/lang/Comparable;
+Ljava/lang/Comparable<
+Ljava/lang/Deprecated;
+Ljava/lang/Double;
+Ljava/lang/Enum;
+Ljava/lang/Enum<
+Ljava/lang/Error;
+Ljava/lang/Exception;
+Ljava/lang/ExceptionInInitializerError;
+Ljava/lang/Float;
+Ljava/lang/IllegalAccessError;
+Ljava/lang/IllegalAccessException;
+Ljava/lang/IllegalArgumentException;
+Ljava/lang/IllegalStateException;
+Ljava/lang/IndexOutOfBoundsException;
+Ljava/lang/InstantiationError;
+Ljava/lang/InstantiationException;
+Ljava/lang/Integer;
+Ljava/lang/InterruptedException;
+Ljava/lang/Iterable;
+Ljava/lang/LinkageError;
+Ljava/lang/Long;
+Ljava/lang/Math;
+Ljava/lang/NoSuchFieldError;
+Ljava/lang/NoSuchFieldException;
+Ljava/lang/NoSuchMethodError;
+Ljava/lang/NoSuchMethodException;
+Ljava/lang/NullPointerException;
+Ljava/lang/Number;
+Ljava/lang/NumberFormatException;
+Ljava/lang/Object;
+Ljava/lang/OutOfMemoryError;
+Ljava/lang/ReflectiveOperationException;
+Ljava/lang/Runnable;
+Ljava/lang/Runtime;
+Ljava/lang/RuntimeException;
+Ljava/lang/SecurityException;
+Ljava/lang/Short;
+Ljava/lang/StackTraceElement;
+Ljava/lang/String;
+Ljava/lang/StringBuffer;
+Ljava/lang/StringBuilder;
+Ljava/lang/System;
+Ljava/lang/Thread$UncaughtExceptionHandler;
+Ljava/lang/Thread;
+Ljava/lang/ThreadLocal;
+Ljava/lang/ThreadLocal<
+Ljava/lang/Throwable;
+Ljava/lang/UnsupportedOperationException;
+Ljava/lang/Void;
+Ljava/lang/annotation/Annotation;
+Ljava/lang/annotation/Retention;
+Ljava/lang/annotation/RetentionPolicy;
+Ljava/lang/invoke/MethodHandle;
+Ljava/lang/invoke/MethodHandleInfo;
+Ljava/lang/invoke/MethodHandles$Lookup;
+Ljava/lang/invoke/MethodHandles;
+Ljava/lang/invoke/MethodType;
+Ljava/lang/ref/Reference;
+Ljava/lang/ref/WeakReference;
+Ljava/lang/ref/WeakReference<
+Ljava/lang/reflect/AccessibleObject;
+Ljava/lang/reflect/Array;
+Ljava/lang/reflect/Constructor;
+Ljava/lang/reflect/Constructor<
+Ljava/lang/reflect/Executable;
+Ljava/lang/reflect/Field;
+Ljava/lang/reflect/GenericArrayType;
+Ljava/lang/reflect/GenericDeclaration;
+Ljava/lang/reflect/InvocationTargetException;
+Ljava/lang/reflect/Member;
+Ljava/lang/reflect/Method;
+Ljava/lang/reflect/Modifier;
+Ljava/lang/reflect/ParameterizedType;
+Ljava/lang/reflect/Proxy;
+Ljava/lang/reflect/Type;
+Ljava/lang/reflect/TypeVariable;
+Ljava/lang/reflect/WildcardType;
+Ljava/math/BigDecimal;
+Ljava/math/BigInteger;
+Ljava/net/InetAddress;
+Ljava/net/JarURLConnection;
+Ljava/net/MalformedURLException;
+Ljava/net/URI;
+Ljava/net/URISyntaxException;
+Ljava/net/URL;
+Ljava/net/URLConnection;
+Ljava/net/URLStreamHandler;
+Ljava/nio/Buffer;
+Ljava/nio/ByteBuffer;
+Ljava/nio/ByteOrder;
+Ljava/nio/IntBuffer;
+Ljava/nio/channels/Channel;
+Ljava/nio/channels/Channels;
+Ljava/nio/channels/FileChannel;
+Ljava/nio/channels/FileLock;
+Ljava/nio/channels/ReadableByteChannel;
+Ljava/nio/channels/spi/AbstractInterruptibleChannel;
+Ljava/nio/charset/Charset;
+Ljava/nio/charset/StandardCharsets;
+Ljava/nio/file/AccessDeniedException;
+Ljava/nio/file/AtomicMoveNotSupportedException;
+Ljava/nio/file/ClosedWatchServiceException;
+Ljava/nio/file/DirectoryStream;
+Ljava/nio/file/FileSystem;
+Ljava/nio/file/FileVisitResult;
+Ljava/nio/file/FileVisitor;
+Ljava/nio/file/Files;
+Ljava/nio/file/Path;
+Ljava/nio/file/Paths;
+Ljava/nio/file/SimpleFileVisitor;
+Ljava/nio/file/SimpleFileVisitor<
+Ljava/nio/file/StandardCopyOption;
+Ljava/nio/file/StandardOpenOption;
+Ljava/nio/file/StandardWatchEventKinds;
+Ljava/nio/file/WatchEvent$Kind;
+Ljava/nio/file/WatchEvent;
+Ljava/nio/file/WatchKey;
+Ljava/nio/file/WatchService;
+Ljava/nio/file/Watchable;
+Ljava/nio/file/attribute/BasicFileAttributes;
+Ljava/nio/file/attribute/FileTime;
+Ljava/security/MessageDigest;
+Ljava/security/NoSuchAlgorithmException;
+Ljava/sql/Date;
+Ljava/sql/Time;
+Ljava/sql/Timestamp;
+Ljava/text/DateFormat;
+Ljava/text/ParseException;
+Ljava/text/ParsePosition;
+Ljava/text/SimpleDateFormat;
+Ljava/time/Duration;
+Ljava/time/Instant;
+Ljava/time/LocalDate;
+Ljava/time/LocalDateTime;
+Ljava/time/LocalTime;
+Ljava/time/MonthDay;
+Ljava/time/OffsetDateTime;
+Ljava/time/OffsetTime;
+Ljava/time/Period;
+Ljava/time/Year;
+Ljava/time/YearMonth;
+Ljava/time/ZoneId;
+Ljava/time/ZoneOffset;
+Ljava/time/ZonedDateTime;
+Ljava/util/AbstractCollection;
+Ljava/util/AbstractMap;
+Ljava/util/AbstractSet;
+Ljava/util/ArrayDeque;
+Ljava/util/ArrayList;
+Ljava/util/Arrays;
+Ljava/util/BitSet;
+Ljava/util/Calendar;
+Ljava/util/Collection;
+Ljava/util/Collections;
+Ljava/util/Comparator;
+Ljava/util/ConcurrentModificationException;
+Ljava/util/Currency;
+Ljava/util/Date;
+Ljava/util/EnumMap;
+Ljava/util/EnumSet;
+Ljava/util/Enumeration;
+Ljava/util/Enumeration<
+Ljava/util/GregorianCalendar;
+Ljava/util/HashMap;
+Ljava/util/HashMap<
+Ljava/util/HashSet;
+Ljava/util/HashSet<
+Ljava/util/Iterator;
+Ljava/util/LinkedHashMap;
+Ljava/util/LinkedHashSet;
+Ljava/util/LinkedList;
+Ljava/util/LinkedList<
+Ljava/util/List;
+Ljava/util/List<
+Ljava/util/ListIterator;
+Ljava/util/Locale;
+Ljava/util/Map$Entry;
+Ljava/util/Map;
+Ljava/util/Map<
+Ljava/util/NoSuchElementException;
+Ljava/util/Objects;
+Ljava/util/Optional;
+Ljava/util/Optional<
+Ljava/util/Properties;
+Ljava/util/Queue;
+Ljava/util/RandomAccess;
+Ljava/util/Set;
+Ljava/util/Set<
+Ljava/util/Stack;
+Ljava/util/StringTokenizer;
+Ljava/util/TimeZone;
+Ljava/util/TreeMap;
+Ljava/util/TreeSet;
+Ljava/util/UUID;
+Ljava/util/WeakHashMap;
+Ljava/util/WeakHashMap<
+Ljava/util/concurrent/BlockingQueue;
+Ljava/util/concurrent/BlockingQueue<
+Ljava/util/concurrent/Callable;
+Ljava/util/concurrent/ConcurrentHashMap$KeySetView;
+Ljava/util/concurrent/ConcurrentHashMap;
+Ljava/util/concurrent/ConcurrentHashMap<
+Ljava/util/concurrent/ConcurrentMap;
+Ljava/util/concurrent/ConcurrentSkipListMap;
+Ljava/util/concurrent/CopyOnWriteArraySet;
+Ljava/util/concurrent/CopyOnWriteArraySet<
+Ljava/util/concurrent/CountDownLatch;
+Ljava/util/concurrent/ExecutionException;
+Ljava/util/concurrent/Executor;
+Ljava/util/concurrent/ExecutorService;
+Ljava/util/concurrent/Executors;
+Ljava/util/concurrent/FutureTask;
+Ljava/util/concurrent/LinkedBlockingQueue;
+Ljava/util/concurrent/ThreadFactory;
+Ljava/util/concurrent/TimeUnit;
+Ljava/util/concurrent/TimeoutException;
+Ljava/util/concurrent/atomic/AtomicBoolean;
+Ljava/util/concurrent/atomic/AtomicInteger;
+Ljava/util/concurrent/atomic/AtomicIntegerArray;
+Ljava/util/concurrent/atomic/AtomicLong;
+Ljava/util/concurrent/atomic/AtomicLongArray;
+Ljava/util/concurrent/locks/ReentrantLock;
+Ljava/util/function/BiConsumer;
+Ljava/util/function/Consumer;
+Ljava/util/function/Function;
+Ljava/util/function/Predicate;
+Ljava/util/function/Supplier;
+Ljava/util/jar/JarFile;
+Ljava/util/regex/Matcher;
+Ljava/util/regex/Pattern;
+Ljava/util/stream/Collector;
+Ljava/util/stream/Collectors;
+Ljava/util/stream/Stream;
+Ljava/util/zip/ZipEntry;
+Ljava/util/zip/ZipFile;
+Load modules
+LoadPackageParam
+Loaded cached LoadedModule 
+Loaded cached module 
+Loaded module 
+Loaded patch config for 
+LoadedApk source mode=cache, installedApkPath=
+LoadedApkCreateCLHooker failed in post-proceed phase
+LoadedModule APK is unavailable: 
+Loading class 
+Loading legacy module 
+Loading module 
+Loading modules from local cache: 
+Local module snapshot is stale, adopting provider scope: 
+Lorg/json/JSONArray;
+Lorg/json/JSONObject;
+Lorg/lsposed/lspd/nativebridge/FunPatch;
+Lorg/lsposed/lspd/nativebridge/SigBypass;
+Lorg/matrix/vector/Startup;
+Lorg/matrix/vector/daemonservice/BuildConfig;
+Lorg/matrix/vector/daemonservice/R;
+Lorg/matrix/vector/impl/BuildConfig;
+Lorg/matrix/vector/impl/LegacyDispatchGate;
+Lorg/matrix/vector/impl/PackageReadyParamImplP;
+Lorg/matrix/vector/impl/VectorContext;
+Lorg/matrix/vector/impl/VectorContextKt;
+Lorg/matrix/vector/impl/VectorLifecycleManager$dispatchPackageLoaded$param$1;
+Lorg/matrix/vector/impl/VectorLifecycleManager$dispatchPackageReady$param$1;
+Lorg/matrix/vector/impl/VectorLifecycleManager$dispatchSystemServerStarting$param$1;
+Lorg/matrix/vector/impl/VectorLifecycleManager;
+Lorg/matrix/vector/impl/VectorLogBridge$Sink;
+Lorg/matrix/vector/impl/VectorLogBridge;
+Lorg/matrix/vector/impl/VectorRemotePreferences$callback$1;
+Lorg/matrix/vector/impl/VectorRemotePreferences;
+Lorg/matrix/vector/impl/VectorRemotePreferencesKt;
+Lorg/matrix/vector/impl/core/TargetExecutable;
+Lorg/matrix/vector/impl/core/VectorDeopter;
+Lorg/matrix/vector/impl/core/VectorInlinedCallers;
+Lorg/matrix/vector/impl/core/VectorModuleManager$Generation;
+Lorg/matrix/vector/impl/core/VectorModuleManager$loadModule$param$1;
+Lorg/matrix/vector/impl/core/VectorModuleManager$runHotReload$reloadedParam$1;
+Lorg/matrix/vector/impl/core/VectorModuleManager$runHotReload$reloadingParam$1;
+Lorg/matrix/vector/impl/core/VectorModuleManager;
+Lorg/matrix/vector/impl/core/VectorProcessChannel;
+Lorg/matrix/vector/impl/core/VectorProcessChannelKt;
+Lorg/matrix/vector/impl/core/VectorServiceClient;
+Lorg/matrix/vector/impl/core/VectorStartup;
+Lorg/matrix/vector/impl/di/LegacyFrameworkDelegate;
+Lorg/matrix/vector/impl/di/LegacyPackageInfo;
+Lorg/matrix/vector/impl/di/OriginalInvoker;
+Lorg/matrix/vector/impl/di/VectorBootstrap;
+Lorg/matrix/vector/impl/hookers/AppAttachHooker;
+Lorg/matrix/vector/impl/hookers/CrashDumpHooker;
+Lorg/matrix/vector/impl/hookers/DexTrustHooker;
+Lorg/matrix/vector/impl/hookers/HandleSystemServerProcessHooker$Callback;
+Lorg/matrix/vector/impl/hookers/HandleSystemServerProcessHooker;
+Lorg/matrix/vector/impl/hookers/LoadedApkCreateAppFactoryHooker;
+Lorg/matrix/vector/impl/hookers/LoadedApkCreateCLHooker;
+Lorg/matrix/vector/impl/hookers/LoadedApkCtorHooker;
+Lorg/matrix/vector/impl/hookers/LoadedApkHookersKt;
+Lorg/matrix/vector/impl/hookers/LoadedApkTracker;
+Lorg/matrix/vector/impl/hookers/PackageContextHelper$ContextInfo;
+Lorg/matrix/vector/impl/hookers/PackageContextHelper;
+Lorg/matrix/vector/impl/hookers/StartBootstrapServicesHooker;
+Lorg/matrix/vector/impl/hookers/喵喵;
+Lorg/matrix/vector/impl/hooks/BaseInvoker;
+Lorg/matrix/vector/impl/hooks/BaseInvoker<
+Lorg/matrix/vector/impl/hooks/InvokerEntry$Ctor;
+Lorg/matrix/vector/impl/hooks/InvokerEntry$Ctor<
+Lorg/matrix/vector/impl/hooks/InvokerEntry;
+Lorg/matrix/vector/impl/hooks/InvokerEntry<
+Lorg/matrix/vector/impl/hooks/VectorChain;
+Lorg/matrix/vector/impl/hooks/VectorCtorInvoker;
+Lorg/matrix/vector/impl/hooks/VectorHookBuilder$Companion;
+Lorg/matrix/vector/impl/hooks/VectorHookBuilder;
+Lorg/matrix/vector/impl/hooks/VectorHookHandle;
+Lorg/matrix/vector/impl/hooks/VectorHookRecord;
+Lorg/matrix/vector/impl/hooks/VectorHookRegistry$IdKey;
+Lorg/matrix/vector/impl/hooks/VectorHookRegistry;
+Lorg/matrix/vector/impl/hooks/VectorInvocation;
+Lorg/matrix/vector/impl/hooks/VectorLegacyCallback;
+Lorg/matrix/vector/impl/hooks/VectorLegacyCallback<
+Lorg/matrix/vector/impl/hooks/VectorMethodInvoker$Resolution;
+Lorg/matrix/vector/impl/hooks/VectorMethodInvoker;
+Lorg/matrix/vector/impl/hooks/VectorNativeHooker;
+Lorg/matrix/vector/impl/utils/VectorMetaDataReader$1$1$1;
+Lorg/matrix/vector/impl/utils/VectorMetaDataReader$ApplicationTagVisitor;
+Lorg/matrix/vector/impl/utils/VectorMetaDataReader$Companion;
+Lorg/matrix/vector/impl/utils/VectorMetaDataReader$ManifestTagVisitor;
+Lorg/matrix/vector/impl/utils/VectorMetaDataReader$MetaDataVisitor;
+Lorg/matrix/vector/impl/utils/VectorMetaDataReader;
+Lorg/matrix/vector/impl/utils/VectorModuleClassLoader$Companion;
+Lorg/matrix/vector/impl/utils/VectorModuleClassLoader;
+Lorg/matrix/vector/impl/utils/VectorURLStreamHandler$ClassPathURLConnection$getInputStream$1;
+Lorg/matrix/vector/impl/utils/VectorURLStreamHandler$ClassPathURLConnection;
+Lorg/matrix/vector/impl/utils/VectorURLStreamHandler;
+Lorg/matrix/vector/ipc/HotReloadOutcome$1;
+Lorg/matrix/vector/ipc/HotReloadOutcome;
+Lorg/matrix/vector/ipc/IFrameworkService$Default;
+Lorg/matrix/vector/ipc/IFrameworkService$Stub$Proxy;
+Lorg/matrix/vector/ipc/IFrameworkService$Stub;
+Lorg/matrix/vector/ipc/IFrameworkService$_Parcel;
+Lorg/matrix/vector/ipc/IFrameworkService;
+Lorg/matrix/vector/ipc/IHotReloadOutcomeReceiver$Default;
+Lorg/matrix/vector/ipc/IHotReloadOutcomeReceiver$Stub$Proxy;
+Lorg/matrix/vector/ipc/IHotReloadOutcomeReceiver$Stub;
+Lorg/matrix/vector/ipc/IHotReloadOutcomeReceiver$_Parcel;
+Lorg/matrix/vector/ipc/IHotReloadOutcomeReceiver;
+Lorg/matrix/vector/ipc/IModuleService$Default;
+Lorg/matrix/vector/ipc/IModuleService$Stub$Proxy;
+Lorg/matrix/vector/ipc/IModuleService$Stub;
+Lorg/matrix/vector/ipc/IModuleService$_Parcel;
+Lorg/matrix/vector/ipc/IModuleService;
+Lorg/matrix/vector/ipc/IProcessChannel$Default;
+Lorg/matrix/vector/ipc/IProcessChannel$Stub$Proxy;
+Lorg/matrix/vector/ipc/IProcessChannel$Stub;
+Lorg/matrix/vector/ipc/IProcessChannel$_Parcel;
+Lorg/matrix/vector/ipc/IProcessChannel;
+Lorg/matrix/vector/ipc/IRemotePreferenceCallback$Default;
+Lorg/matrix/vector/ipc/IRemotePreferenceCallback$Stub$Proxy;
+Lorg/matrix/vector/ipc/IRemotePreferenceCallback$Stub;
+Lorg/matrix/vector/ipc/IRemotePreferenceCallback$_Parcel;
+Lorg/matrix/vector/ipc/IRemotePreferenceCallback;
+Lorg/matrix/vector/ipc/IVectorDaemon$Default;
+Lorg/matrix/vector/ipc/IVectorDaemon$Stub$Proxy;
+Lorg/matrix/vector/ipc/IVectorDaemon$Stub;
+Lorg/matrix/vector/ipc/IVectorDaemon;
+Lorg/matrix/vector/ipc/LoadedModule$1;
+Lorg/matrix/vector/ipc/LoadedModule$_Parcel;
+Lorg/matrix/vector/ipc/LoadedModule;
+Lorg/matrix/vector/ipc/ModuleCode$1;
+Lorg/matrix/vector/ipc/ModuleCode$_Parcel;
+Lorg/matrix/vector/ipc/ModuleCode;
+Lorg/matrix/vector/legacy/BuildConfig;
+Lorg/matrix/vector/legacy/LegacyDelegateImpl$1;
+Lorg/matrix/vector/legacy/LegacyDelegateImpl$2;
+Lorg/matrix/vector/legacy/LegacyDelegateImpl$ResourceProxy;
+Lorg/matrix/vector/legacy/LegacyDelegateImpl;
+Lorg/matrix/vector/nativebridge/HookBridge;
+Lorg/matrix/vector/nativebridge/NativeAPI;
+Lorg/matrix/vector/nativebridge/ResourcesHook;
+Lorg/matrix/vector/util/Log;
+Lorg/matrix/vector/util/Utils;
+Lorg/xmlpull/v1/XmlPullParser;
+Lorg/xmlpull/v1/XmlPullParserException;
+Lossy conversion from 
+Lsun/misc/Unsafe;
+Lsun/net/www/protocol/jar/Handler;
+Ltop/nkbe/npatch/loader/BuildConfig;
+Ltop/nkbe/npatch/loader/CacheCleaner;
+Ltop/nkbe/npatch/loader/GmsRedirector$1;
+Ltop/nkbe/npatch/loader/GmsRedirector$2;
+Ltop/nkbe/npatch/loader/GmsRedirector$3;
+Ltop/nkbe/npatch/loader/GmsRedirector$4;
+Ltop/nkbe/npatch/loader/GmsRedirector$5;
+Ltop/nkbe/npatch/loader/GmsRedirector$6;
+Ltop/nkbe/npatch/loader/GmsRedirector$7;
+Ltop/nkbe/npatch/loader/GmsRedirector$8;
+Ltop/nkbe/npatch/loader/GmsRedirector$9;
+Ltop/nkbe/npatch/loader/GmsRedirector;
+Ltop/nkbe/npatch/loader/LSPApplication;
+Ltop/nkbe/npatch/loader/LSPLoader$1;
+Ltop/nkbe/npatch/loader/LSPLoader$2;
+Ltop/nkbe/npatch/loader/LSPLoader$3;
+Ltop/nkbe/npatch/loader/LSPLoader$4;
+Ltop/nkbe/npatch/loader/LSPLoader$5;
+Ltop/nkbe/npatch/loader/LSPLoader$NativeModuleFilteringService;
+Ltop/nkbe/npatch/loader/LSPLoader;
+Ltop/nkbe/npatch/loader/ModuleNativeCache;
+Ltop/nkbe/npatch/loader/OriginApkHelper;
+Ltop/nkbe/npatch/loader/R;
+Ltop/nkbe/npatch/loader/SigBypass$10;
+Ltop/nkbe/npatch/loader/SigBypass$11;
+Ltop/nkbe/npatch/loader/SigBypass$12;
+Ltop/nkbe/npatch/loader/SigBypass$13;
+Ltop/nkbe/npatch/loader/SigBypass$1;
+Ltop/nkbe/npatch/loader/SigBypass$2;
+Ltop/nkbe/npatch/loader/SigBypass$3;
+Ltop/nkbe/npatch/loader/SigBypass$4;
+Ltop/nkbe/npatch/loader/SigBypass$5;
+Ltop/nkbe/npatch/loader/SigBypass$6;
+Ltop/nkbe/npatch/loader/SigBypass$7;
+Ltop/nkbe/npatch/loader/SigBypass$8;
+Ltop/nkbe/npatch/loader/SigBypass$9;
+Ltop/nkbe/npatch/loader/SigBypass$CallerContext;
+Ltop/nkbe/npatch/loader/SigBypass;
+Ltop/nkbe/npatch/loader/XposedLogPrinter;
+Ltop/nkbe/npatch/loader/modern/ModuleMetadata;
+Ltop/nkbe/npatch/loader/modern/ModuleMetadataParser;
+Ltop/nkbe/npatch/loader/modern/ModulePipeline;
+Ltop/nkbe/npatch/loader/modern/VersionRouter;
+Ltop/nkbe/npatch/loader/util/FileUtils$1;
+Ltop/nkbe/npatch/loader/util/FileUtils;
+Ltop/nkbe/npatch/loader/util/XLog;
+Ltop/nkbe/npatch/loader/喵喵;
+Ltop/nkbe/npatch/service/EmbeddedXposedService;
+Ltop/nkbe/npatch/service/FallbackModuleServiceWrapper$1;
+Ltop/nkbe/npatch/service/FallbackModuleServiceWrapper;
+Ltop/nkbe/npatch/service/IntegrApplicationService;
+Ltop/nkbe/npatch/service/NPatchProcessChannel;
+Ltop/nkbe/npatch/service/NeoLocalApplicationService$ProviderResult;
+Ltop/nkbe/npatch/service/NeoLocalApplicationService;
+Ltop/nkbe/npatch/service/RemoteApplicationService$1;
+Ltop/nkbe/npatch/service/RemoteApplicationService;
+Ltop/nkbe/npatch/service/喵喵;
+Ltop/nkbe/npatch/service/貓喵;
+Ltop/nkbe/npatch/share/LSPConfig;
+Ltop/nkbe/npatch/share/PatchConfig;
+Ltop/nkbe/npatch/util/LocalInjectedModuleService;
+Ltop/nkbe/npatch/util/ManagerRemoteServiceBridge;
+Ltop/nkbe/npatch/util/ModuleLoader;
+Ltop/nkbe/npatch/util/NPatchRemoteStore;
+Lxposed/dummy/XResourcesSuperClass;
+Lxposed/dummy/XTypedArraySuperClass;
+L喵喵;
+L喵喵喵;
+L喵喵喵喵;
+L喵喵喵喵喵;
+L喵喵喵喵喵喵;
+L喵喵喵喵喵喵喵;
+L喵喵喵喵喵喵猫;
+L喵喵喵喵喵喵貓;
+L喵喵喵喵喵猫;
+L喵喵喵喵喵猫喵;
+L喵喵喵喵喵貓;
+L喵喵喵喵喵貓喵;
+L喵喵喵喵猫;
+L喵喵喵喵猫喵;
+L喵喵喵喵猫喵喵;
+L喵喵喵喵猫猫;
+L喵喵喵喵猫貓;
+L喵喵喵喵貓;
+L喵喵喵喵貓喵;
+L喵喵喵喵貓喵喵;
+L喵喵喵喵貓猫;
+L喵喵喵喵貓貓;
+L喵喵喵猫;
+L喵喵喵猫喵$喵喵;
+L喵喵喵猫喵$貓喵;
+L喵喵喵猫喵;
+L喵喵喵猫喵喵;
+L喵喵喵猫喵喵喵;
+L喵喵喵猫喵猫;
+L喵喵喵猫喵貓;
+L喵喵喵猫猫;
+L喵喵喵猫猫喵;
+L喵喵喵猫貓;
+L喵喵喵猫貓喵;
+L喵喵喵貓;
+L喵喵喵貓喵;
+L喵喵喵貓喵喵;
+L喵喵喵貓喵喵喵;
+L喵喵喵貓喵猫;
+L喵喵喵貓喵貓;
+L喵喵喵貓猫;
+L喵喵喵貓猫喵;
+L喵喵喵貓貓;
+L喵喵喵貓貓喵;
+L喵喵猫;
+L喵喵猫喵;
+L喵喵猫喵喵;
+L喵喵猫喵喵喵;
+L喵喵猫喵喵喵喵;
+L喵喵猫喵喵猫;
+L喵喵猫喵喵貓;
+L喵喵猫喵猫;
+L喵喵猫喵猫喵;
+L喵喵猫喵貓;
+L喵喵猫喵貓喵;
+L喵喵猫猫;
+L喵喵猫猫喵;
+L喵喵猫猫喵喵;
+L喵喵猫貓;
+L喵喵猫貓喵;
+L喵喵猫貓喵喵;
+L喵喵貓;
+L喵喵貓喵;
+L喵喵貓喵喵;
+L喵喵貓喵喵喵;
+L喵喵貓喵喵喵喵;
+L喵喵貓喵喵猫;
+L喵喵貓喵喵貓;
+L喵喵貓喵猫;
+L喵喵貓喵猫喵;
+L喵喵貓喵貓;
+L喵喵貓喵貓喵;
+L喵喵貓猫;
+L喵喵貓猫喵;
+L喵喵貓猫喵喵;
+L喵喵貓貓;
+L喵喵貓貓喵;
+L喵喵貓貓喵喵;
+L喵猫;
+L喵猫喵;
+L喵猫喵喵;
+L喵猫喵喵喵;
+L喵猫喵喵喵喵;
+L喵猫喵喵喵喵喵;
+L喵猫喵喵喵猫;
+L喵猫喵喵喵貓;
+L喵猫喵喵猫;
+L喵猫喵喵猫喵;
+L喵猫喵喵貓;
+L喵猫喵喵貓喵;
+L喵猫喵猫;
+L喵猫喵猫喵;
+L喵猫喵猫喵喵;
+L喵猫喵貓;
+L喵猫喵貓喵;
+L喵猫喵貓喵喵;
+L喵猫猫;
+L喵猫猫喵;
+L喵猫猫喵喵;
+L喵猫猫喵喵喵;
+L喵猫貓;
+L喵猫貓喵;
+L喵猫貓喵喵;
+L喵猫貓喵喵喵;
+L喵貓;
+L喵貓喵;
+L喵貓喵喵;
+L喵貓喵喵喵;
+L喵貓喵喵喵喵;
+L喵貓喵喵喵喵喵;
+L喵貓喵喵喵猫;
+L喵貓喵喵喵貓;
+L喵貓喵喵猫;
+L喵貓喵喵猫喵;
+L喵貓喵喵貓;
+L喵貓喵喵貓喵;
+L喵貓喵猫;
+L喵貓喵猫喵;
+L喵貓喵猫喵喵;
+L喵貓喵貓;
+L喵貓喵貓喵;
+L喵貓喵貓喵喵;
+L喵貓猫;
+L喵貓猫喵;
+L喵貓猫喵喵;
+L喵貓猫喵喵喵;
+L喵貓貓;
+L喵貓貓喵;
+L喵貓貓喵喵;
+L喵貓貓喵喵喵;
+L猫喵;
+L猫喵喵;
+L猫喵喵喵;
+L猫喵喵喵喵;
+L猫喵喵喵喵喵;
+L猫喵喵喵喵喵喵;
+L猫喵喵喵喵猫;
+L猫喵喵喵喵貓;
+L猫喵喵喵猫;
+L猫喵喵喵猫喵;
+L猫喵喵喵貓;
+L猫喵喵喵貓喵$喵喵;
+L猫喵喵喵貓喵;
+L猫喵喵猫;
+L猫喵喵猫喵;
+L猫喵喵猫喵喵;
+L猫喵喵貓;
+L猫喵喵貓喵;
+L猫喵喵貓喵喵;
+L猫喵猫;
+L猫喵猫喵;
+L猫喵猫喵喵;
+L猫喵猫喵喵喵;
+L猫喵貓;
+L猫喵貓喵;
+L猫喵貓喵喵;
+L猫喵貓喵喵喵;
+L猫猫;
+L猫猫喵;
+L猫猫喵喵;
+L猫猫喵喵喵;
+L猫猫喵喵喵喵;
+L猫貓;
+L猫貓喵;
+L猫貓喵喵;
+L猫貓喵喵喵;
+L猫貓喵喵喵喵;
+L猫貓喵喵喵喵喵;
+L貓喵;
+L貓喵喵;
+L貓喵喵喵;
+L貓喵喵喵喵;
+L貓喵喵喵喵喵;
+L貓喵喵喵喵喵喵;
+L貓喵喵喵喵猫;
+L貓喵喵喵喵貓;
+L貓喵喵喵猫;
+L貓喵喵喵猫喵$喵喵;
+L貓喵喵喵猫喵;
+L貓喵喵喵貓;
+L貓喵喵喵貓喵;
+L貓喵喵猫;
+L貓喵喵猫喵;
+L貓喵喵猫喵喵;
+L貓喵喵貓;
+L貓喵喵貓喵;
+L貓喵喵貓喵喵;
+L貓喵猫;
+L貓喵猫喵;
+L貓喵猫喵喵;
+L貓喵猫喵喵喵;
+L貓喵貓;
+L貓喵貓喵;
+L貓喵貓喵喵;
+L貓喵貓喵喵喵;
+L貓猫;
+L貓猫喵;
+L貓猫喵喵;
+L貓猫喵喵喵;
+L貓猫喵喵喵喵;
+L貓猫喵喵喵喵喵;
+L貓貓;
+L貓貓喵;
+L貓貓喵喵;
+L貓貓喵喵喵;
+L貓貓喵喵喵喵;
+L貓貓喵喵喵喵喵;
+MAIN_HANDLER
+MAX_BACKGROUND_WAIT_MS
+MAX_QUEUE_CAPACITY
+MD5
+META-INF/xposed/java_init.list
+META-INF/xposed/module.prop
+META-INF/xposed/native_init.list
+META-INF/xposed/scope.list
+METHOD_GET_INJECTED_SERVICE
+MICROG_PACKAGES
+MILLISECONDS
+MMM d, yyyy
+MMM d, yyyy h:mm:ss a
+MODERN
+MODERN_JAVA_INIT
+MODERN_JAVA_INIT_LIST
+MODERN_MODULE_PROP
+MODERN_NATIVE_INIT
+MODERN_NATIVE_INIT_LIST
+MODERN_SCOPE_LIST
+MODERN_TARGET_API_VERSION
+MODULE_SERVICE
+Malformed Unicode escape \u
+Malformed array name: 
+Manager binder connected and registered successfully
+Manager binder connection setup failed
+Manager binding died
+Manager connected within startup deadline
+Manager does not support caller registration
+Manager not ready in time; starting with local cached modules
+Manager returned a dead binder
+Manager returned a null binding
+Manager service disconnected
+Manager unavailable while attempting to 
+ManifestTagVisitor
+Max background wait reached (5m), unbinding manager connection
+MemberCacheKey
+MetaDataVisitor
+Method
+Method.invoke cannot be hooked: Vector calls it to run the original of every hooked method, so a hook here would call itself forever.
+MethodHookParam
+Mismatching time zone indicator: 
+Missing 
+Missing id or totalSeconds field; at path 
+ModuleLoadedParam
+Modules initialized
+More than one parameter of type 
+Must specify owner type for 
+NAME
+NATIVE_CACHE_COMPLETE
+NO_ARGS
+NPatch
+NPatch Manager rejected the injected remote service request
+NPatch bootstrap completed
+NPatch-ApkHelper
+NPatch-Cache
+NPatch-FallbackWrapper
+NPatch-GmsRedirect
+NPatch-Guard
+NPatch-HotReload
+NPatch-Loader
+NPatch-LogFlusher
+NPatch-LogWriter
+NPatch-ManagerBind
+NPatch-ManagerBindCb
+NPatch-NativeCache
+NPatch-ProviderQuery
+NPatch-SigBypass
+NPatch-Sweep
+NPatchCrash
+NPatchLegacyBridge
+NPatchRemoteStore
+NULL
+NUMBER
+NaN
+NativeModuleFilteringService
+NeoLocal-Provider
+NeoLocal: Cannot reach Manager Provider.
+NeoLocal: Failed to load 
+NeoLocal: Failed to load from cache
+NeoLocal: Failed to read cached LoadedModule ApplicationInfo: 
+NeoLocal: Failed to update local modules cache
+NeoLocal: Loaded LoadedModule 
+NeoLocal: Loading from cache: 
+NeoLocal: Manager Provider query blocked by system permission or ROM autostart/association launch policy
+NeoLocal: Manager Provider query failed
+NeoLocal: Manager Provider query interrupted
+NeoLocal: Manager Provider timed out, using cache
+NeoLocal: Manager remote store unavailable for 
+NeoLocal: Provider unavailable, falling back to local cache.
+NeoLocal: Skipping unsupported LoadedModule 
+NeoLocal: Skipping unsupported cached LoadedModule 
+NeoLocal: Updated local modules cache: 
+NeoLocal: WARNING: Running in offline fallback mode. Module remote preferences and scope configurations are NOT synced and will be empty!
+Nesting limit 255 reached
+Nesting problem.
+No MicroG/GmsCore found! GMS redirect disabled.
+No attached entry of 
+No entry class of 
+No leading digits: 
+No new generation of 
+No parameter of type 
+No such file or directory: 
+No time zone indicator
+NullSafeTypeAdapter[
+Number has unsupported scale: 
+Number string too large: 
+Numeric values must be finite, but was 
+ORIGIN
+OVERFLOW
+O_RDONLY
+Object.getClass cannot be hooked: Vector's dispatch calls it entering every hooked method, so a hook here would call itself forever.
+Offset 
+OnScopeEventListener
+OnServiceListener
+Only absolute filenames are allowed: 
+Only combinations of \n and \r are allowed in newline.
+Only combinations of spaces and tabs are allowed in indent.
+Only methods and constructors can be deoptimized: 
+Only methods and constructors can be hooked, not 
+Operation is not supported for read-only collection
+Origin
+Original APK not found in assets
+Original APK unavailable, native signature bypass disabled
+Original AppComponentFactory not found in 
+Original app declared no AppComponentFactory; clearing the stub
+Overflow in the size of parcelable
+PASSTHROUGH
+PER_USER_RANGE
+PRIORITY_DEFAULT
+PRIORITY_HIGHEST
+PRIORITY_LOWEST
+PROCESS_DIED
+PROP_CAP_REMOTE
+PROP_CAP_SYSTEM
+PROP_RT_API_PROTECTION
+PROTECTIVE
+PROT_READ
+PROVIDER_TIMEOUT_SEC
+PROVIDER_TIMEOUT_SECONDS
+PROVIDER_URI
+PackageLoadedParam
+PackageReadyParam
+Param
+Parcelable too small
+Permission denied: 
+Please begin an object before writing a name.
+PrefsData
+Prepared LoadedModule native cache: 
+Prepared native libraries for 
+Primitive is neither a number nor a string
+Primitive type is not allowed
+Provider scope query failed, keeping local snapshot: 
+ProviderResult
+Proxy
+READY_FILE
+REAL_GMS
+REGISTER_CLIENT_PACKAGE
+RELOADING
+REPLACE_EXISTING
+ROOT
+RUNTIME
+R_OK
+Read only implementation
+Records are not supported on this JVM, this method should not be called
+Redirecting GMS action: 
+Redirecting action in setAction: 
+Refusing a hot reload request from uid 
+Remote Manager Service died for 
+Remote preference diff is null
+Remote preferences IPC failure
+Remote service binder was passed to another UID
+RemotePreferences
+Replace signature info for `
+Replacement of resource ID #0x
+Required value was null.
+Requires Xposed service API 
+Resolution
+ResourceNames
+ResourceProxy
+Restored original AppComponentFactory: 
+Restoring original action for getAction: 
+Routing CHOOSE_ACCOUNT directly to the system account picker
+S
+S)V
+SDK_INT
+SECONDS
+SEND_BINDER
+SHA-256
+SL
+SLL
+SNAPSHOT_CONNECTION_TIMEOUT_MS
+STALE
+STAMP_FILE_NAME
+STRING
+SUCCEEDED
+SUPPORTED_32_BIT_ABIS
+SUPPORTED_64_BIT_ABIS
+SYSTEM_ACCOUNT_PICKER
+SYSTEM_NATIVE_LIBRARY_DIRS
+Saved instance state contains 
+Seccomp enabled
+Seccomp failed to init
+Seccomp skipped on non-arm64 runtime ABI
+SendBinder
+SerializeWrapper
+ServiceException
+Signature bypass level: 
+Sink
+Skip isolated process
+Skipping LoadedModule (entry not found in APK): 
+Skipping deopt for 
+Skipping unsupported cached module 
+Skipping unsupported or unreadable embedded LoadedModule: 
+StartupParam
+State
+Static initializer lookup failed for 
+Status
+Stealth: GOT refresh failed after loading a native library
+Stealth: GOT refresh reported no updated mappings
+Stealth: bhook GOT/PLT redirect enabled
+Stealth: bhook registration failed
+Stealth: late-loaded native libraries cannot trigger a GOT refresh
+Stealth: original APK unavailable, GOT redirect disabled
+Step is zero.
+Step must be greater than Int.MIN_VALUE to avoid overflow on negation.
+Step must be non-zero.
+String contains non-ASCII characters: 
+String created by 
+Stub
+Success update LoadedModule scope from Manager
+Successfully synced remote modules and services after reconnection
+Super calls with default arguments not supported in this target, function: proceedInvocation
+Svc redirect enabled
+Svc redirect failed to init
+Svc redirect skipped on non-arm64 runtime ABI
+Svc redirect skipped: original APK unavailable
+Switched remote service for 
+Synced dynamic preference update for group: 
+Synced initial preference snapshot for group: 
+SystemServerStartingParam
+TABLE
+TAG
+TARGET_STATE_FAILED
+TARGET_STATE_RELOADING
+TARGET_STATE_STALE
+TARGET_STATE_UP_TO_DATE
+TRANSACTION_attachProcess
+TRANSACTION_attachProcessChannel
+TRANSACTION_deleteRemoteFile
+TRANSACTION_deleteRemotePreferences
+TRANSACTION_dispatchSystemServerContext
+TRANSACTION_getApiVersion
+TRANSACTION_getFrameworkName
+TRANSACTION_getFrameworkProperties
+TRANSACTION_getFrameworkVersion
+TRANSACTION_getFrameworkVersionCode
+TRANSACTION_getLegacyModules
+TRANSACTION_getModules
+TRANSACTION_getPrefsPath
+TRANSACTION_getRemoteFileNames
+TRANSACTION_getRunningTargets
+TRANSACTION_getScope
+TRANSACTION_hotReload
+TRANSACTION_hotReloadModule
+TRANSACTION_isLogMuted
+TRANSACTION_listRemoteFiles
+TRANSACTION_onHotReloadResult
+TRANSACTION_onOutcome
+TRANSACTION_onRemotePreferencesChanged
+TRANSACTION_onScopeRequestApproved
+TRANSACTION_onScopeRequestFailed
+TRANSACTION_openManagerApk
+TRANSACTION_openRemoteFile
+TRANSACTION_preStartManager
+TRANSACTION_removeScope
+TRANSACTION_requestManagerService
+TRANSACTION_requestRemotePreferences
+TRANSACTION_requestScope
+TRANSACTION_updateRemotePreferences
+TRUE
+TRUNCATE_EXISTING
+TT;
+TT;>;
+TT;>;)
+TT;>;)TT;
+TT;>;)V
+TT;>;>;
+TT;>;I)V
+TT;>;Z)V
+TT;>;[
+TT;I)V
+TT;TU;>;
+TT;TU;>;U:
+TT;TU;>;Z
+TU;
+TU;>;[
+TV;>;[
+TYPE
+TYPE_FIRST_INT
+TYPE_INT_BOOLEAN
+TYPE_INT_HEX
+TYPE_REFERENCE
+TYPE_STRING
+TargetExecutable(className=
+The Xposed API classes are compiled into 
+The requested result is too large for a String.
+This function has a reified type parameter and thus can only be inlined at compilation time, not called directly.
+This hook does not belong to a module
+This hook handle is no longer valid
+This method can only be called during getTopLevelResources()
+This module generation has been retired by a hot reload and cannot register hooks
+This object was not created for use with callAll
+Too big for an int: 
+Type
+Type adapter '
+UNSUPPORTED
+UP_TO_DATE
+URL=
+US
+UTC
+UTF-16LE
+UTF-8
+UTF_8
+Unable to create instance of 
+Unable to create native staging directory: 
+Unable to delete stale cache entry: 
+Unable to publish native cache: 
+Unable to publish native library: 
+Unable to register module native library roots
+Uncaught exception in 
+Unescaped control characters (\u0000-\u001F) are not allowed in strict mode
+Unexpected EOF while reading 
+Unexpected IllegalAccessException occurred (Gson 2.14.0). Certain ReflectionAccessFilter features require Java >= 9 to work correctly. If you are not using ReflectionAccessFilter, report this to the Gson maintainers.
+Unexpected ReflectiveOperationException occurred (Gson 2.14.0). To support Java records, reflection is utilized to read out information about records. All these invocations happens after it is established that records exist in the JVM. This exception is unexpected behavior.
+Unexpected resource path "
+Unexpected token: 
+Unexpected value
+Unexpected value type: 
+Unhook
+Unknown scope value: 
+UnsafeAllocator is used for non-instantiable type: 
+Unsupported Xposed LoadedModule API or missing init entries: 
+Unterminated array
+Unterminated comment
+Unterminated escape sequence
+Unterminated object
+Unterminated string
+Updated local module scope cache: 
+Use JsonReader.setStrictness(Strictness.LENIENT) to accept malformed JSON
+Use manager: 
+Using Integrated Service (Embedded Modules Found)
+Using NeoLocal Service (Cached Config)
+Using local fallback for openRemoteFile: 
+Using local fallback for requestRemotePreferences: 
+V
+VB
+VC
+VERBOSE
+VERIFIED_SUFFIX
+VERSION_CODE
+VERSION_NAME
+VFI
+VI
+VIB
+VII
+VIIC
+VIII
+VIIIIII
+VIILZ
+VIIZZ
+VIJ
+VIL
+VILL
+VILLL
+VILLLI
+VILZ
+VIZZ
+VJ
+VJB
+VJIILLJ
+VJJ
+VJLL
+VL
+VLB
+VLC
+VLD
+VLF
+VLFZL
+VLI
+VLII
+VLIIL
+VLIIZLLLLLLLL
+VLIL
+VLILII
+VLILL
+VLILLL
+VLILLLIL
+VLIZ
+VLJ
+VLJJ
+VLL
+VLLB
+VLLC
+VLLD
+VLLF
+VLLI
+VLLIIL
+VLLILL
+VLLJ
+VLLL
+VLLLB
+VLLLI
+VLLLL
+VLLLLB
+VLLLLI
+VLLLLIL
+VLLLLL
+VLLLLZ
+VLLLLZL
+VLLLZ
+VLLLZL
+VLLLZZ
+VLLS
+VLLZ
+VLLZIL
+VLLZL
+VLLZLL
+VLLZLLL
+VLLZZ
+VLS
+VLZ
+VLZLL
+VZ
+VZL
+VZLLL
+VZLLLL
+VZZ
+VZZZIILLZZLZZ
+VZZZIILLZZLZZZ
+VZZZIILLZZLZZZZI
+Vector
+VectorBootstrap is already initialized!
+VectorContext
+VectorDeopter
+VectorLifecycle
+VectorModuleClassLoader
+VectorModuleClassLoader[module=
+VectorModuleManager
+VectorProcessChannel
+VectorServiceClient
+VectorServiceClient service is not ready for LoadedModule path compatibility
+VectorServiceClient service is not ready for native LoadedModule proxy
+W
+WARN
+WORKER_STARTED
+WRITE
+W_OK
+When lower bound is specified, upper bound must be Object
+Wrapper
+Wrong number of arguments; expected 
+XMLInstanceDetails
+XPOSED_BRIDGE_VERSION
+XResources.setPackageNameForResDir not available
+XSharedPreferences
+XSharedPreferences-Daemon
+XSharedPreferences-load
+XTypedArray
+X_OK
+Xposed service error
+XposedProvider
+XposedService delivery failed for 
+XposedServiceHelper
+Z
+Z)
+Z)V
+ZC
+ZD
+ZERO
+ZI
+ZIL
+ZILII
+ZILLI
+ZIP_SEPARATOR
+ZIZ
+ZJL
+ZL
+ZLI
+ZLIC
+ZLILL
+ZLJ
+ZLL
+ZLLI
+ZLLIIZ
+ZLLL
+ZLLLI
+ZLLLL
+ZLLLZ
+ZLZ
+ZLZL
+ZZ
+ZZILII
+ZZLL
+ZZLLIL
+ZZLLLI
+ZZZ
+[
+[
+]*
+[ 	]*
+[._]
+[A-Za-z0-9_]+(?:\.[A-Za-z0-9_]+)+
+[B
+[B>;
+[C
+[C[
+[I
+[J
+[Landroid/content/pm/ActivityInfo;
+[Landroid/content/pm/PackageInfo;
+[Landroid/content/pm/Signature;
+[Lde/robv/android/xposed/callbacks/XCallback;
+[Lio/github/libxposed/api/XposedInterface$ExceptionMode;
+[Lio/github/libxposed/service/HookedProcess;
+[Lio/github/libxposed/service/HookedTarget$State;
+[Lio/github/libxposed/service/HotReloadResult$Status;
+[Ljava/io/File;
+[Ljava/lang/CharSequence;
+[Ljava/lang/Class;
+[Ljava/lang/Comparable;
+[Ljava/lang/Long;
+[Ljava/lang/Object;
+[Ljava/lang/StackTraceElement;
+[Ljava/lang/String;
+[Ljava/lang/reflect/AccessibleObject;
+[Ljava/lang/reflect/Constructor;
+[Ljava/lang/reflect/Field;
+[Ljava/lang/reflect/Method;
+[Ljava/lang/reflect/Type;
+[Ljava/lang/reflect/TypeVariable;
+[Ljava/nio/ByteBuffer;
+[Ljava/nio/file/CopyOption;
+[Ljava/nio/file/LinkOption;
+[Ljava/nio/file/OpenOption;
+[Ljava/nio/file/WatchEvent$Kind;
+[Ljava/nio/file/attribute/FileAttribute;
+[Lorg/matrix/vector/impl/core/TargetExecutable;
+[Lorg/matrix/vector/impl/hooks/VectorHookRecord;
+[Lorg/matrix/vector/ipc/HotReloadOutcome;
+[Lorg/matrix/vector/ipc/LoadedModule;
+[Lorg/matrix/vector/ipc/ModuleCode;
+[Ltop/nkbe/npatch/loader/modern/ModulePipeline;
+[L喵喵貓喵猫;
+[L喵喵貓貓喵;
+[L喵貓喵喵喵猫;
+[[Ljava/lang/Object;
+[\s,;]+
+[]
+[^A-Za-z0-9._-]
+[^A-Za-z0-9_.-]
+\"
+\\
+\b
+\f
+\n
+\p{InCombiningDiacriticalMarks}+
+\r
+\t
+\u%04x
+\u0026
+\u0027
+\u003c
+\u003d
+\u003e
+\u2028
+\u2029
+]
+] 
+] crashed after proceed. Restoring state.
+] crashed before proceed. Skipping.
+]: 
+][
+_
+_Parcel
+_preferences
+` (method 1)
+` (method 2)
+`group`
+`key`
+a
+a boolean
+a double
+a long
+a name
+a string
+abs
+accept
+access$getArtMethodField
+access$getArtMethodSize
+access$getBytesFromInputStream
+access$getConnectionJarFile$p
+access$getJarFile$p
+access$getLEGACY_API_PREFIXES
+access$getLEGACY_API_PREFIXES$delegate$cp
+access$getListeners$p
+access$getMap$p
+access$rejectOldGenerationState
+access$setClosed$p
+access$splitPaths
+access$strideOf
+accessFlags
+acquireContentProviderClient
+acquireProvider
+acquireUnstableContentProviderClient
+acquireUnstableProvider
+activate
+activeApks
+activeModules
+activeRemoteService
+activeSigBypassLevel
+activities
+activity
+activityInfo
+activityResources
+activityThread
+activityThreadClass$delegate
+activityThreadClass_delegate$lambda$0
+adapter-not-null-safe
+add
+addActiveResource
+addAll
+addAssetPath
+addLast
+addNativePath
+addResource
+addSuppressed
+additionalFields
+afterHookedMethod
+allocateInstance
+allocateObject
+allowThreadDiskReads
+allowedUid
+alternate
+an int
+android
+android.app.ActivityThread
+android.app.ActivityThread$ActivityClientRecord
+android.app.ActivityThread$ApplicationThread
+android.app.ApplicationPackageManager
+android.app.ContextImpl
+android.app.Instrumentation
+android.app.LoadedApk
+android.app.ResourcesManager
+android.app.ResourcesManager$ActivityResource
+android.content.ContextWrapper
+android.content.pm.PackageParser
+android.content.pm.parsing.
+android.content.res.MiuiResources
+android.content.res.Resources
+android.content.res.ResourcesKey
+android.content.res.XResources
+android.miui.ResourcesManager
+android.os.Build$VERSION
+android.util.apk.
+android/.accounts.ChooseTypeAndAccountActivity
+apkFile
+apkPath
+apkPathAccessorsHooked
+app.revanced.android.gms
+appApkHasClass
+appComponentFactory
+appId
+appInfo
+appLoadedApk
+append
+appendHostNativeLibraryPaths
+appendQueryParameter
+application
+applicationInfo
+applicationInfoConstructorHooked
+applicationScale
+apply
+applyDimension
+applyLocalCachedModules
+applyPrefsDiff
+args
+arm64-v8a
+array
+arraycopy
+artFieldOrMethod
+artMethod
+artMethodField$delegate
+artMethodField_delegate$lambda$0
+artMethodSize$delegate
+artMethodSize_delegate$lambda$0
+asBinder
+asIntBuffer
+asInterface
+asList
+asSyntheticMethod
+assetAsByteArray
+assets/native_init
+assets/npatch/config.json
+assets/npatch/modules/
+assets/npatch/mtprovider.dex
+assets/npatch/origin.apk
+assets/xposed_init
+attach
+attachFramework
+attachInterface
+attachProcess
+attachProcessChannel
+attr
+attrName
+attrValue
+author
+authority
+autoHotReload
+await
+awaitLoadedLocked
+b
+base
+baseCodePath
+baseResourcePath
+beforeHookedMethod
+beforeIdx
+beginTransaction
+bindCallbackLooper
+bindService
+bindServiceAsUser
+bindServiceCompat
+bindServiceCompat failed immediately
+bind_timeout
+binder
+binder received: 
+binderDied
+binding_died
+blockLegacyApi
+booleanValue
+boot_image
+boot_image_miui_res
+bootstrap
+bootstrapXposed
+build
+buildCommitBundle
+buildDummyClassLoader
+buildGeneration
+buildGeneration$lambda$2$0
+buildLibrarySearchPath
+buildNativeInitCandidates
+buildNativeLibraryStamp
+buildRuntimeApplicationInfo
+buildUpon
+byModule
+byteValue
+c2dmRedirectMap
+cache
+cache/code_cache
+cache/code_cache/
+cache/native/host
+cache/native/host/
+cache/npatch
+cacheModuleScope
+cachedLegacyModuleScope
+cachedModuleScope
+cachedSpreadInvoker
+call
+callAfterHookedMethod
+callAll
+callBeforeHookedMethod
+callMethod
+callStaticMethod
+callback
+callback should not be null!
+callback$lambda$0
+callback$lambda$0$0
+callbackSnapshot
+callbacks
+callers
+callingUserId
+canBeOverridden
+canExecute
+canRead
+canWrite
+cancel
+ceil
+charAt
+charCount
+charValue
+checkCallerContext
+checkFileAccess
+checkFileExists
+checkMode
+checkReceiver
+child
+chmod
+claim
+claimId
+classFlags
+classLoader
+className
+classSize
+classes
+classes.dex
+clazz
+cleanupOrphanTempFiles
+clear
+clearMapFieldQuietly
+clearPackageInfoCreatorCaches
+clinitThreadId
+clone
+cloneSignatures
+cloneToXResources
+close
+closeAll
+closePreloadedDexes
+code
+codePointBefore
+code_cache
+coerce
+coerceArguments
+collect
+com.android.internal.os.ZygoteInit
+com.android.internal.util.XmlUtils
+com.android.server.SystemServer
+com.android.server.SystemServer.startBootstrapServices not found
+com.google.android.c2dm.intent.RECEIVE
+com.google.android.c2dm.intent.REGISTER
+com.google.android.c2dm.intent.REGISTRATION
+com.google.android.c2dm.intent.UNREGISTER
+com.google.android.gms
+com.google.android.gms.
+com.google.android.gms.chimera
+com.google.android.gms.common.account.CHOOSE_ACCOUNT
+com.google.android.gsf
+commit
+compare
+compareAndSet
+compareTo
+compatInfo
+compile
+component1
+component2
+component3
+component4
+component5
+componentType
+computeIfAbsent
+computeStamp
+concat
+config
+configs
+configureOutputLogging
+connect
+connected
+connection
+connectionJarFile
+constructor '
+constructorCache
+contains
+containsAll
+containsKey
+content
+content.length: 
+content/unknown
+content://top.nkbe.npatch.manager.provider.config/config
+content://top.nkbe.npatch.remote
+context
+copiedMethodsOffset
+copy
+copy$default
+copyApplicationInfo
+copyOf
+copyOfRange
+countDown
+crashInterceptorInstalled
+create
+createAppContext
+createAppFactory
+createDirectories
+createEnhancedModuleClassLoader
+createFromParcel
+createInstance
+createLoadedApk
+createLoadedApkWithContext
+createLoadedApkWithContext cost: 
+createLoadedApkWithContext failed
+createModuleCompatibleApplicationInfo
+createOrUpdateClassLoaderLocked
+createResources
+createResourcesForActivity
+createResourcesKey
+createStringArray
+createStringArrayList
+createTypedArrayList
+currentActivityThread
+currentApplication
+currentApplicationInfo
+currentPackageName
+currentPkgMethod$delegate
+currentPkgMethod_delegate$lambda$0
+currentProcMethod$delegate
+currentProcMethod_delegate$lambda$0
+currentProcessName
+currentThread
+currentTimeMillis
+d
+dalvik.system.DexFile
+dalvik.system.DexPathList$Element
+dalvik.system.VMRuntime
+data
+data/
+dataDir
+dataPosition
+date
+dateTime
+day
+dayOfMonth
+days
+dbHelper
+de.robv.android.xposed.
+debuggable
+declaredOverrideIn
+declaringClass
+declaringClassOfOverriddenMethod
+decode
+decrementAndGet
+decrementMethodDepth
+defaultClassLoader
+defaultExceptionMode
+definedBy
+delegate
+delete
+deleteFile
+deleteFolderIfExists
+deleteIfExists
+deleteModulePrefs
+deleteModulePrefs error for 
+deletePreferences
+deleteRecursive
+deleteRemoteFile
+deleteRemotePreferences
+deoptBootMethods
+deoptMethods
+deoptResourceMethods
+deoptSystemServerMethods
+deoptimize
+deoptimizeMethod
+describe
+describeContents
+description
+deserialize
+detach
+determinePipeline
+dexCache
+dexClassDefIndex
+dexElements
+dexTypeIndex
+digest
+digit
+disableOpenatHook
+disableProfile
+disableResources
+discoverNativeLibraries
+dispatchPackageLoaded
+dispatchPackageLoadedIfNeeded
+dispatchPackageReady
+dispatchPackageReady 
+dispatchSystemServerContext
+dispatchSystemServerLoaded
+dispatchSystemServerStarting
+dispatchUncaughtException
+dispatched
+doCommit
+doSigBypass
+doUpdate
+doubleToLongBits
+doubleValue
+downstreamResult
+downstreamThrowable
+drainLogLoop
+drainTo
+dummyClassLoader
+duplicate key: 
+dynamicModuleServices
+e
+edit
+effectiveHookLevel
+elapsedRealtime
+elements
+empty
+enableGotRedirect
+enableLog
+enableOpenatHook
+enableOpenatHookMinimal
+enableSeccompV2Redirect
+enableStealthSignatureBypass
+enableSvcRedirect
+encode
+end
+endTransaction
+endsWith
+enforceCaller
+enforceInterface
+enforceReadOnly
+enforceReadOnlyCache
+enhancedLoadedModules
+ensureAbsolutePath
+ensureAttached
+ensureNotFrozen
+ensureWorkerStarted
+entries
+entryRefs
+entrySet
+enumeration
+equals
+equalsIgnoreCase
+err
+exceptionMode
+exceptionPassthrough
+execSQL
+executable
+execute
+executeDownstream
+exemptHiddenApi
+exists
+exit
+extData
+extra
+extractIntPart
+extractNativeLibrariesForAbi
+extractOriginalApk
+extractPreferredAbi
+extras
+fail to compare signature certificate
+fail to construct original signature for 
+fail to hook APK path accessors
+fail to hook ApplicationInfo(Parcel); path spoof disabled
+fail to hook PackageInfo(Parcel); IPC signature replacement disabled
+fail to hook PackageParser.generatePackageInfo
+fail to hook concrete getApplicationInfo methods
+fail to hook concrete getPackageInfo methods
+fail to hook getApplicationInfo
+fail to hook getPackageInfo
+fail to hook hasSigningCertificate
+fail to hook java.io.File path accessors
+fail to inspect APK protector
+fail to reinforce signingInfo for 
+fail to replace PackageInfo.CREATOR
+fail to replace getPackageArchiveInfo
+failed
+failed$default
+false
+field '
+fieldCache
+fileUri
+fill
+filter
+finalize
+findAndHookConstructor
+findAndHookMethod
+findClass
+findClassIfExists
+findConstructorBestMatch
+findConstructorExact
+findConstructorExactIfExists
+findField
+findFieldIfExists
+findFieldRecursiveImpl
+findFirstFieldByExactType
+findId
+findInstalledMicroG
+findLibrary
+findLoadedClass
+findMethodBestMatch
+findMethodExact
+findMethodExactIfExists
+findMethodsByExactParameters
+findResource
+findResources
+findRuntimeAppInfo
+findStaticInitializer
+firstNonEmpty
+fix loadedapk from ActivityClientRecord
+flags
+floatValue
+flush
+forDigit
+forEach
+forName
+forget
+format
+freeze
+from
+fromIndex: 
+fromString
+frozen
+fullName
+fwd
+generatePackageInfo
+generationChanged
+generations
+get
+get legacy modules
+get modules
+get preferences path
+getAbsoluteFile
+getAbsolutePath
+getAction
+getActiveApks
+getActiveModuleApkPaths
+getActiveModules
+getActiveRemote
+getActivityThreadClass
+getActualTypeArguments
+getAdditionalInstanceField
+getAdditionalStaticField
+getAll
+getAnimation
+getAnnotation
+getApiVersion
+getApkContentsSigners
+getAppComponentFactory
+getAppDataFileService
+getAppInfo
+getApplicationContext
+getApplicationInfo
+getApplicationInfoAsUser
+getApplicationInfoHooked
+getArg
+getArgs
+getArtMethodField
+getArtMethodSize
+getAssets
+getAttrName
+getAttrValue
+getAuthor
+getAuthority
+getBinder
+getBlob
+getBoolean
+getBooleanField
+getByName
+getByte
+getByteField
+getBytes
+getBytesFromInputStream
+getCacheDir
+getCachedModuleScope
+getCallback
+getCallingUid
+getCanonicalFile
+getCanonicalName
+getCanonicalPath
+getCause
+getChar
+getCharField
+getChildAt
+getChildCount
+getClass
+getClassLoader
+getClassName
+getClassesAsArray
+getColor
+getColorStateList
+getColumnIndex
+getComponent
+getComponentType
+getConfiguration
+getConstructor
+getConstructorId
+getContentLength
+getContentResolver
+getContentType
+getContext
+getContextClassLoader
+getCrc
+getCurrentPkgMethod
+getCurrentProcMethod
+getDataDirectory
+getDataProfilesDePackageDirectory
+getDateTimeInstance
+getDeclaredConstructor
+getDeclaredConstructors
+getDeclaredField
+getDeclaredFields
+getDeclaredMethod
+getDeclaredMethods
+getDeclaringClass
+getDefault
+getDefaultClassLoader
+getDefaultSharedPreferencesForPackage
+getDefaultUncaughtExceptionHandler
+getDelegate
+getDescription
+getDimension
+getDimensionPixelOffset
+getDimensionPixelSize
+getDisplayMetrics
+getDouble
+getDoubleField
+getDownstreamResult$xposed
+getDownstreamThrowable$xposed
+getDrawable
+getDrawableForDensity
+getEntry
+getEntryName
+getEntryUrlOrNull
+getExceptionMode
+getExecutable
+getExternalStorageDirectory
+getExtra
+getExtras
+getFD
+getFakeResId
+getField
+getFieldValue
+getFile
+getFileInputStream
+getFileModificationTime
+getFileSize
+getFileSystem
+getFilesDir
+getFirstParameterIndexByType
+getFloat
+getFloatField
+getFont
+getFraction
+getFrameworkName
+getFrameworkProperties
+getFrameworkVersion
+getFrameworkVersionCode
+getGenericComponentType
+getGenericDeclaration
+getGenericInterfaces
+getGenericSuperclass
+getGenericType
+getHookedMethod
+getHooker
+getID
+getId
+getIdentifier
+getIndex
+getInjectedRemoteService
+getInputStream
+getInstance
+getInt
+getIntArray
+getIntField
+getInteger
+getInterfaceDescriptor
+getInterfaces
+getInvoker
+getJSONObject
+getJarFile
+getJavaInitList
+getKey
+getLEGACY_API_PREFIXES
+getLastModifiedTime
+getLayout
+getLayoutDimension
+getLegacyModules
+getLegacyPackageName
+getLength
+getLoadedModules
+getLoadedVersionCode
+getLong
+getLongField
+getLooper
+getLowerBounds
+getMD5Sum
+getMainLooper
+getMessage
+getMetaData
+getMethod
+getMethodDepth
+getMethodDepthCounter
+getMethodName
+getMethods
+getMinApiVersion
+getModifiers
+getModuleApplicationInfo
+getModuleClassLoader
+getModuleId
+getModulePrefs
+getModulePrefs error for 
+getModulePrefs fallback to user 0 error for 
+getModules
+getMovie
+getName
+getNativeInitList
+getObjectExtra
+getObjectField
+getOldHookHandles
+getOrCreateActivityResourcesStructLocked
+getOrCreateResources
+getOrDefault
+getOriginalApkCrc
+getOriginalSignatures
+getOwnerType
+getPackage
+getPackageArchiveInfo
+getPackageCodePath
+getPackageInfo
+getPackageInfoAsUser
+getPackageInfoHooked
+getPackageInfoNoCheck
+getPackageManager
+getPackageName
+getPackageNameDuringConstruction
+getPackageResourcePath
+getParameterClasses
+getParameterCount
+getParameterIndexByType
+getParameterTypes
+getParametersString
+getParams
+getParent
+getParentFile
+getPath
+getPermissionInfo
+getPid
+getPipeline
+getPreferencesDir
+getPrefsPath
+getPriority
+getProceedCalled$xposed
+getProcessName
+getProperty
+getQuantityText
+getRawType
+getReadableDatabase
+getReceiverClass
+getRecord$xposed
+getRecordComponents
+getRemoteFileNames
+getRemotePreferences
+getReplacement
+getResDir
+getResourceAsStream
+getResourceEntryName
+getResourceId
+getResourceName
+getResourceNames
+getResourcePackageName
+getResourceTypeName
+getResources
+getResourcesForApplication
+getResourcesMap
+getResult
+getResultOrThrowable
+getReturnType
+getRunningTargets
+getRuntime
+getSavedInstanceState
+getScope
+getScopes
+getSerializable
+getSerializableCompat
+getService
+getSharedPreferences
+getSharedPreferences failed for: 
+getSharedPreferencesForPackage
+getSharedPreferencesPath
+getShort
+getShortField
+getSigningCertificateHistory
+getSimpleName
+getSize
+getSnapshot
+getStackTrace
+getStackTraceString
+getState
+getStaticBooleanField
+getStaticByteField
+getStaticCharField
+getStaticDoubleField
+getStaticFloatField
+getStaticIntField
+getStaticLongField
+getStaticObjectField
+getStaticShortField
+getString
+getStringArray
+getStringSet
+getSuperclass
+getSuppressed
+getSurroundingThis
+getSystem
+getSystemClassLoader
+getSystemContext
+getSystemResourceNames
+getSystemServerCL
+getTarget
+getTargetApiVersion
+getText
+getTextArray
+getThemeConfig
+getThemeString
+getThisObject
+getThrowable
+getTime
+getTimeZone
+getType
+getTypeName
+getTypeParameters
+getUid
+getUnsafe
+getUpperBounds
+getUser
+getValue
+getValueForDensity
+getVerifiedSidecarPath
+getVersion
+getWritableDatabase
+getXml
+getXposedVersion
+getXposedVersionCode
+getXposedVersionName
+giveUpRunnable
+gotRedirectEnabled
+gotRefreshHookInstalled
+groupCallbacks
+guessContentTypeFromName
+handle
+handleAfter
+handleBefore
+handleInitPackageResources
+handleInterceptorException
+handleKind
+handleLayoutInflated
+handleLoadPackage
+handlePatchUpgrade
+handleSystemServerProcess
+hasChanged
+hasDirectFileAccess
+hasEmbeddedModules
+hasFileChanged
+hasLegacyModule
+hasMoreElements
+hasNativeLibraries
+hasNext
+hasPrevious
+hasRemaining
+hasSigningCertificate
+hasSigningCertificateHooked
+hasThrowable
+hash
+hashCode
+hh:mm:ss a
+hideLibs
+hook
+hook$lambda$0
+hookActivityStart
+hookAllConstructors
+hookAllMethods
+hookAllMethodsQuietly
+hookApkPathAccessors
+hookApplicationInfoConstructor
+hookClassInitializer
+hookClassInitializer$lambda$0
+hookContentResolverAcquire
+hookGetApplicationInfo
+hookGetPackageInfo
+hookHasSigningCertificate
+hookIndex
+hookInitPackageResources
+hookIntentGetAction
+hookIntentResolve
+hookIntentSetAction
+hookIntentSetComponent
+hookIntentSetPackage
+hookJavaFilePathAccessors
+hookJavaIO
+hookLayout
+hookLayoutInternal
+hookLoadPackage
+hookMethod
+hookNewXSP
+hookPackageArchiveInfo
+hookPackageInfoConstructor
+hookPackageInfoCreator
+hookPackageManagerGetPackageInfo
+hookPackageParserGeneratePackageInfo
+hookResources
+hookRuntimeLibraryLoadForGotRefresh
+hookSystemWideLayout
+hooked app initialized: 
+hooker
+hooks
+host
+host.lock
+hostNativeLibraryRoots
+hostPackageName
+hot reload is unsupported for integrated modules
+hotReload
+hotReload$lambda$0
+hotReload$lambda$1
+hotReloadCallbacks
+hotReloadModule
+hotReloadModule callback error
+hour
+hourOfDay
+https://github.com/google/gson/blob/main/Troubleshooting.md#
+https://github.com/google/gson/blob/main/Troubleshooting.md#java-lang-class-unsupported
+i
+iFields
+id
+id 0 is not an allowed resource identifier
+identityHashCode
+ids
+ids >= 0x7f000000 are app specific and cannot be set for the framework
+ifTable
+includedLayouts
+incrementAndGet
+incrementMethodDepth
+indexOf
+indexOfKey
+inflate
+info
+init
+initCause
+initCmdApp
+initMiuiResource
+initModule
+initModules
+initNativeDirs
+initNativeModule
+initSystemServer
+initSystemServer$default
+initWatcherDaemon
+initXResources
+initXResourcesNative
+initXposed
+initZygote
+initialValue
+injectProvider
+inputStreamToByteArray
+insert
+insertWithOnConflict
+installCrashInterceptor
+installModuleSelfPathCompatibility
+installNativeModuleServiceProxy
+instance
+instanceOf
+intValue
+intercept
+internalProceed
+interrupt
+invoke
+invokeOriginal
+invokeOriginalMethod
+invokeOriginalSafely
+invokeSpecial
+invokeSpecialWith
+invokeWith
+io.github.libxposed.
+io.github.libxposed.service.IHotReloadCallback
+io.github.libxposed.service.IXposedScopeCallback
+io.github.libxposed.service.IXposedService
+io.github.libxposed.service.XposedServiceHelper
+is360ProtectedApk
+is64Bit
+isAbstract
+isActive
+isAlive
+isAnonymousClass
+isApkValid
+isArm64RuntimeSupported
+isArray
+isAssignableFrom
+isBinderAlive
+isBoxingCompatible
+isChooseAccountAction
+isClosed
+isConstructor
+isDigit
+isDirectory
+isDispatched
+isEmpty
+isEnum
+isEnumConstant
+isEqual
+isExact
+isFile
+isFinal
+isFirst
+isFirstApplication
+isFirstLoad
+isFirstPackage
+isInfinite
+isInstance
+isInterface
+isInterrupted
+isIsolated
+isLegacy
+isLetter
+isLive
+isLive$xposed
+isLocalClass
+isLogMuted
+isLowerCase
+isMIUI
+isModern
+isModule
+isModule;isSensitive
+isModuleCaller
+isModuleCallerForCompat
+isNaN
+isPresent
+isPrimitive
+isPrivate
+isProtected
+isProxyClass
+isPublic
+isReady
+isRecord
+isRegularFile
+isResourceHookingDisabled
+isSELinuxEnabled
+isSELinuxEnforced
+isSensitive
+isSkipped
+isStatic
+isStaticScope
+isSynthetic
+isSystemServer
+isTargetProcess
+isUnsupported
+isUpperCase
+isValid
+isVarArgs
+isWhitespace
+iterator
+j
+jar
+jarEntry
+jarFile
+jarInput
+java.lang.reflect.InaccessibleObjectException
+java.lang.reflect.RecordComponent
+java.library.path
+java.sql.Date
+java.time.
+java.util.jar.
+java.version
+javaFilePathHooked
+javaInitList
+javaIoHooked
+jiagu
+key == null
+key must not be null
+keySet
+killProcess
+kind
+kotlin.Unit
+lambda$apply$0
+lambda$applyLocalCachedModules$2
+lambda$applyLocalCachedModules$3
+lambda$asInterface$0
+lambda$configureOutputLogging$2
+lambda$createLoadedApkWithContext$3
+lambda$findConstructorBestMatch$8
+lambda$findConstructorBestMatch$9
+lambda$findConstructorExact$6
+lambda$findConstructorExact$7
+lambda$findField$0
+lambda$findField$1
+lambda$findMethodBestMatch$4
+lambda$findMethodBestMatch$5
+lambda$findMethodExact$2
+lambda$findMethodExact$3
+lambda$get$1
+lambda$getRemotePreferences$0
+lambda$hotReload$1
+lambda$installCrashInterceptor$0
+lambda$installCrashInterceptor$1
+lambda$isReady$0
+lambda$listFiles$2
+lambda$loadLegacyModules$0
+lambda$loadModules$1
+lambda$loadModulesFromProvider$0
+lambda$new$0
+lambda$onBinderReceived$0
+lambda$onBindingDied$2
+lambda$onManagerReconnected$5
+lambda$onManagerReconnected$6
+lambda$onServiceConnected$0
+lambda$onServiceDisconnected$1
+lambda$performEnhancedLoad$0
+lambda$protectModules$7
+lambda$queryProviderPackagesWithTimeout$4
+lambda$realizeLoadedApk$4
+lambda$registerCallback$3
+lambda$registerCallback$4
+lambda$registerListener$1
+lambda$scheduleGiveUp$1
+lambda$static$0
+lambda$static$1
+lambda$sweepLibNpatchCache$3
+lambda$sweepLibNpatchCache$4
+lambda$sweepLibNpatchCache$5
+lambda$sweepLibNpatchCache$6
+lambda$sweepModuleNativeCache$7
+lambda$sweepModuleNativeRoot$8
+lambda$sweepModuleNativeRoot$9
+lambda$sweepOriginApkCache$0
+lambda$sweepOriginApkCache$1
+lambda$sweepOriginApkCache$2
+lambda$wipeAll$10
+lambda$wipeAll$11
+lastCoreCapturedCrash
+lastIndexOf
+lastModified
+last_fallback_reason
+last_fallback_ts
+layout
+legacy
+legacy handleLoadPackage already dispatched, skipping duplicate: 
+legacy handleLoadPackage dispatched by framework hook: 
+legacyApiPrefixes
+legacyModules
+legacyPackageName
+length
+lib
+lib/
+libHideEnabled
+libnpatch-
+line
+linkToDeath
+list
+listFiles
+listIterator
+listRemoteFiles
+listener cannot be null
+listeners
+liveEntries
+liveHandles
+load
+load0
+loadApk
+loadApk$default
+loadApk$lambda$0
+loadApk$lambda$1
+loadApk$lambda$2
+loadApk$lambda$3
+loadApk$lambda$4
+loadApk$lambda$5
+loadClass
+loadDescription
+loadFromDiskLocked
+loadLabel
+loadLegacyModules
+loadLibrary0
+loadModule
+loadModuleByPath
+loadModules
+loadModulesFromCache
+loadModulesFromProvider
+loadOverlayValue
+loadProperties
+loadSingleModule
+loadSingleModuleByPm
+loadedModulePackages
+loadedModules
+loadedPackagesInProcess
+loadedVersionCode
+localService
+localStore
+lock
+lockOf
+lockOf$lambda$0
+lockOf$lambda$1
+locks
+log
+log$default
+logD
+logE
+logI
+logInfo
+logPrinter
+logV
+logW
+logWarn
+longValue
+lookup
+lspConfig
+mActivities
+mAppComponentFactory
+mApplicationInfo
+mBase
+mBlock
+mBoundApplication
+mCache
+mClassLoader
+mClear
+mCreators
+mDefaultClassLoader
+mDelete
+mDetachImpl
+mFile
+mFileSize
+mFilename
+mGroup
+mHash
+mIncludeCode
+mIsThemeable
+mLastModified
+mLaunchingActivities
+mListener
+mListeners
+mLoaded
+mLoadedVersionCode
+mMap
+mPackageName
+mPackages
+mParseState
+mPid
+mPrefs
+mProcessName
+mPut
+mRecycled
+mRemote
+mRemotePrefs
+mReplacementsCache
+mResDir
+mResourceImpls
+mResourceReferences
+mResourcesImpl
+mResourcesManager
+mService
+mSigningDetails
+mSize
+mSplitResDirs
+mState
+mSystem
+mTargetId
+mTmpValue
+mUid
+mUnit
+mValue
+mWatchKey
+makeApplication
+makeApplicationInner
+makeFieldWritable
+makeInheritable
+makeNativeLibrariesReadOnly
+makeText
+makeWorldReadable
+managerAvailable
+managerBackedService
+managerPackageName
+manager_call_failed_
+manager_disconnected
+map
+mapLibraryName
+mapReadOnly
+mapReadWrite
+mapToRedirectPath
+mapToVisiblePath
+markRemoteDead
+matcher
+matches
+matchesOriginalCertificate
+matchesTargetApplicationInfo
+max
+maxPriority
+member
+message
+meta-data
+metaData
+method
+method 
+method '
+method must be of type Method or Constructor
+methodCache
+methodName
+methods
+min
+minApiVersion
+minute
+mirror
+mirrorToMedia
+mismatch
+mkdirs
+modernModules
+mods
+moduleCallerPrefixes
+moduleClassNames
+moduleDirectoryName
+moduleId
+moduleLibraryNames
+modulePackageName
+modulePath
+moduleRuntimeAppInfos
+moduleSelfPathHooked
+module_pkg_name
+module_pkg_name = ?
+module_pkg_name = ? AND user_id = 0 AND `group` = ?
+module_pkg_name = ? AND user_id = ? AND `group` = ?
+module_pkg_name = ? AND user_id = ? AND `group` = ? AND `key` = ?
+modules
+modulesLoaded
+month
+months
+move
+moveToNext
+ms
+mtime
+multiply
+multiplyExact
+muted
+myPid
+myTid
+myUid
+name
+name == null
+nano
+nanos
+native
+nativeInitList
+nativeLibraryDir
+nativeLibraryDirs
+nativeOpenatEnabled
+newApplication
+newArray
+newCachedThreadPool
+newChannel
+newDirectoryStream
+newDrawable
+newDrawableForDensity
+newInstance
+newInstanceSpecial
+newInstanceSpecialWith
+newInstanceSpecialWith$lambda$0
+newInstanceWith
+newInstanceWith$lambda$0
+newKeySet
+newLine
+newPackage
+newSetFromMap
+newSingleThreadExecutor
+newThread
+newWatchService
+next
+nextElement
+nextIndex
+nextToken
+no callback defined
+no message
+nominalType
+noneOf
+not allowed
+notExists
+notifyAll
+notifyPreferenceChanges
+npatch
+npatch-hot-reload-host
+npatch-xposed-remote.db
+npatch/modules
+npatch/modules/
+npatch/remote/
+ns
+null
+null is not allowed as value for record component '
+null receiver
+nullSafe
+null_binding
+numReferenceInstanceFields
+numReferenceStaticFields
+nv
+object
+object must not be null
+objectFieldOffset
+objectSize
+objectSizeAllocFastPath
+obtain
+obtainTypedArray
+of
+ofEpochSecond
+ofInstant
+ofSeconds
+ofTotalSeconds
+offer
+offset
+onBinderReceived
+onBindingDied
+onCreate
+onDelete
+onHotReloadResult
+onHotReloaded
+onHotReloaded of 
+onHotReloading
+onHotReloading of 
+onLoad
+onManagerFailure
+onManagerReconnected
+onModuleLoaded
+onNullBinding
+onOutcome
+onPackageLoaded
+onPackageReady
+onRemotePreferencesChanged
+onScopeRequestApproved
+onScopeRequestFailed
+onScopeRequestFailed error
+onServiceBind
+onServiceConnected
+onServiceDied
+onServiceDisconnected
+onSharedPreferenceChanged
+onSystemServerLoaded
+onSystemServerStarting
+onTransact
+onUpgrade
+open
+open manager apk
+openConnection
+openDexFile
+openFile
+openInMemoryDexFile
+openInMemoryDexFiles
+openManagerApk
+openRemoteFile
+optInt
+optString
+orElseThrow
+order
+org.apache.harmony.security.
+org.lsposed.
+org.matrix.vector.
+org.matrix.vector.daemonservice
+org.matrix.vector.impl
+org.matrix.vector.ipc.IFrameworkService
+org.matrix.vector.ipc.IHotReloadOutcomeReceiver
+org.matrix.vector.ipc.IModuleService
+org.matrix.vector.ipc.IProcessChannel
+org.matrix.vector.ipc.IRemotePreferenceCallback
+org.matrix.vector.ipc.IVectorDaemon
+org.matrix.vector.legacy
+org.microg.gms
+origin
+origin.apk asset entry not found in self APK, size check disabled
+origin.apk lock timeout, proceeding without lock (degraded mode)
+origin_apk.lock
+originalSignature
+outcome
+outcome$default
+outputLog
+outputLoggingConfigured
+overridable
+override
+overrideTargetSdk
+overrideTargetSdkValue
+overrideVersionCode
+overrideVersionCodeValue
+overrides
+package
+packageArchiveInfoHooked
+packageInfo
+packageInfoConstructorHooked
+packageInfoCreatorHooked
+packageManager
+packageName
+packageNameOf
+packageParserHooked
+parallelStream
+param
+parameter type must either be specified as Class or String
+parameter type must not be null
+parameterTypes
+parameters
+params
+parent
+parse
+parseBoolean
+parseDouble
+parseFloat
+parseInclude
+parseInt
+parseLeadingInt
+parseLong
+parsePackageLite
+passthrough
+pastSigningCertificates
+path
+path must not be null
+pathList
+pathSeparator
+peek
+peekValue
+pendingProviderPath
+performEnhancedLoad
+performReadMapXml
+pid
+pipeline
+pkg
+poll
+pollEvents
+pop
+position
+post
+postDelayed
+postVisitDirectory
+preLoadedDexes
+preStartManager
+preference group
+preloaded_drawables
+prepare
+prepareNativeLibraryDir
+prepareOriginApk
+prettyMethod
+previous
+previousIndex
+previousUncaughtExceptionHandler
+primary.prof
+primitiveType
+printStackTrace
+println
+priority
+proceed
+proceedCalled
+proceedInvocation
+proceedInvocation$default
+proceedInvocation$dispatch
+proceedInvocation$lambda$0
+proceedInvocation$lambda$2
+proceedInvocation$lambda$3
+proceedInvocation$lambda$3$0
+proceedWith
+processLegacyHook
+processName
+protectModules
+provider.dex
+publicSourceDir
+push
+put
+putAll
+putBoolean
+putExtra
+putFloat
+putIfAbsent
+putInt
+putLong
+putResourceNames
+putSerializable
+putString
+putStringSet
+qihoo
+qihu
+query
+queryBroadcastReceivers
+queryLocalInterface
+queryModulesFromProvider
+queryProviderPackages
+queryProviderPackagesWithTimeout
+r8-map-id-c199bc759b654a79e8918f30062e420f0797f02c943f2320ea9e56aa332965c8
+read
+read-only implementation
+readAllBytes
+readApiVersions
+readApplicationInfo
+readBoolean
+readDescriptionFromArchive
+readDexes
+readException
+readFile
+readFromParcel
+readFully
+readInt
+readLabelFromArchive
+readLegacyList
+readLegacyMetadata
+readLegacyMinApiVersion
+readLine
+readList
+readLong
+readMapXml
+readName
+readObject
+readPackageName
+readStamp
+readString
+readStrongBinder
+readTypedObject
+realizeLoadedApk
+receiverClass
+reconcileWithProvider
+record
+recordFallbackEvent
+recordNativeEntrypoint
+recycle
+redirectAction
+redirectApkPath
+redirectAuthority
+redirectPackage
+referenceInstanceOffsets
+reflection-inaccessible
+reflection-inaccessible-to-module-gson
+refreshGotRedirect
+refusal
+refused
+regionMatches
+register
+register hot reload target
+registerCallback
+registerClientPackage
+registerListener
+registerModuleCallerPrefix
+registerModuleCallerPrefixes
+registerModuleNativeLibraryRoots
+registerModuleRuntimeAppInfos
+registerOnSharedPreferenceChangeListener
+reject
+rejectOldGenerationState
+release
+releaseId
+reload
+reloadLocks
+reloadSharedPreferencesIfNeeded
+remote file name
+remoteFilesDir
+remotePrefs
+remove
+removeAdditionalInstanceField
+removeAdditionalStaticField
+removeAll
+removeLast
+removeScope
+renameTo
+replace
+replaceAll
+replaceApplicationInfoPaths
+replaceCallback
+replaceHook
+replaceHookedMethod
+replaceModuleApplicationInfoPaths
+replacePackageInfo
+replaceSignatureArray
+replaceSigningDetails
+replaceSplitPaths
+request injected manager binder
+requestManagerService
+requestPreferences
+requestRemotePreferences
+requestScope
+requireApi
+requireFlatName
+requireModulePackage
+requireNonNull
+res
+resDir
+resNames
+reset
+resize
+resolve
+resolveExpectedOriginApkSize
+resolveOriginalAppComponentFactory
+resolvePreparedNativeDir
+resolveRemoteFile
+resolveSigBypassLevel
+resolved
+resourceInit
+resources
+restoreVisibleApplicationInfo
+restoreVisibleLoadedApkResources
+result
+retainAll
+returnConstant
+returnEarly
+returnType
+reverse
+rewriteXmlReferences
+rewriteXmlReferencesNative
+ro.miui.ui.version.name
+root
+routeChooseAccountToSystem
+run
+runChain
+runHotReload
+s
+sColorStateListCache
+sContent
+sCurrentActivityThread
+sFields
+sIncludedLayouts
+sInitPackageResourcesCallbacks
+sLatestResKey
+sLayoutCallbacks
+sLoadedPackageCallbacks
+sMethodDepth
+sPackageInfoCache
+sPairedCreators
+sReadMapXmlMethod
+sReplacements
+sReplacementsCacheMap
+sResDirLastModified
+sResDirPackageNames
+sResourceNames
+sRewrittenXmlBlocks
+sServiceAppDataFile
+sSystemReplacementsCache
+sWatcher
+sWatcherDaemon
+sWatcherKeyInstances
+sXmlInstanceDetails
+safeStorageName
+safeUnbind
+scale
+scanPublicSourceDir
+scanSourceDir
+scheduleGiveUp
+schedulePreload
+scope is set by patching in NPatch; it cannot be granted at runtime
+scopeCallbacks
+scopes
+seccompRedirectEnabled
+second
+seconds
+serialVersionUID
+serialize
+service
+set
+setAccessible
+setAction
+setAdditionalInstanceField
+setAdditionalStaticField
+setArgs
+setAttrName
+setAttrValue
+setBoolean
+setBooleanField
+setByte
+setByteField
+setCallback
+setChar
+setCharField
+setComponent
+setDaemon
+setDataPosition
+setDefaultUncaughtExceptionHandler
+setDouble
+setDoubleField
+setDownstreamResult$xposed
+setDownstreamThrowable$xposed
+setExceptionMode
+setExecutable
+setFloat
+setFloatField
+setHiddenApiExemptions
+setId
+setImpl
+setIndex
+setInt
+setIntField
+setLenient
+setLoadedApkPathArrayField
+setLoadedApkPathField
+setLogPrinter
+setLong
+setLongField
+setModuleNativeLibraryRoots
+setName
+setObjectExtra
+setObjectField
+setOriginalSignature
+setPackage
+setPackageNameForResDir
+setPathField
+setPaths
+setPriority
+setProtect
+setReadOnly
+setReadable
+setReflectivePathField
+setRemoteService
+setReplacement
+setResources
+setResult
+setSavedInstanceState
+setShort
+setShortField
+setSink
+setStaticBooleanField
+setStaticByteField
+setStaticCharField
+setStaticDoubleField
+setStaticFinalField
+setStaticFloatField
+setStaticIntField
+setStaticLongField
+setStaticObjectField
+setStaticShortField
+setSystemWideReplacement
+setTargetGmsForTest
+setThisObject
+setThreadPolicy
+setThrowable
+setTimeZone
+setTransactionSuccessful
+setTrusted
+setType
+setUseCaches
+setValue
+setWritable
+setupC2dmRedirects
+shortValue
+shorty
+shortyOf
+shouldHandleNative
+shouldNotifyCleared
+shouldSpoofPath
+show
+sigBypassLevel
+signatureCache
+signatureMisses
+signatures
+signingInfo
+singleton
+singletonList
+sink
+size
+size: 
+skip
+sleep
+snapshot
+snapshotHandles
+sneakyThrow
+sort
+sourceDir
+split
+splitNames
+splitPaths
+splitPublicSourceDirs
+splitSourceDirs
+stamp
+start
+startActivity
+startActivityForResult
+startBootstrapServices
+startClassName
+startLoadFromDisk
+startsSystemServer
+startsWith
+statFile
+state
+staticScope
+status
+status;message
+stealthModeActive
+store
+stream
+stream: 
+streamContainsBytes
+strideOf
+string
+stringValue
+stubLoadedApk
+stub_360
+subList
+subSequence
+substring
+sun.misc.Unsafe
+sun.security.pkcs.
+sun.security.util.
+superClass
+svcRedirectEnabled
+swapLocked$xposed
+sweepLegacyHostNativeCache
+sweepLegacyModuleNativeRoot
+sweepLegacyNpatchCache
+sweepLibNpatchCache
+sweepModuleNativeCache
+sweepModuleNativeRoot
+sweepOriginApkCache
+switchAllClassLoader
+switchLock
+sync
+synchronizedList
+synchronizedMap
+synchronizedSet
+syncronizeApi
+system
+systemServerCL
+system_server
+t
+tag
+take
+target
+targetApiVersion
+targetGms
+targetId
+targetPackageName
+targetSdkVersion
+terminal
+test
+text
+theUnsafe
+this object is not an instance of the given class
+this$0
+this$1
+thisObj
+thisObject
+throwCommonIOException
+throwable
+time
+to module com.google.gson
+toArray
+toByteArray
+toFile
+toHexString
+toHookedTarget
+toHookedTargetState
+toIndex (
+toIntExact
+toList
+toLowerCase
+toMap
+toMillis
+toPath
+toPattern
+toString
+toURI
+toUpperCase
+top.nkbe.npatch
+top.nkbe.npatch.
+top.nkbe.npatch.loader
+top.nkbe.npatch.manager.ModuleService
+top.nkbe.npatch.manager.provider.config
+top.nkbe.npatch.remote
+totalSeconds
+track
+track$lambda$0
+track$lambda$1
+trackLoadedApk
+transact
+transfer
+translateAttrId
+translateResId
+trim
+trimToNull
+trimToSize
+true
+tryGetFileHash
+tryGetFileSize
+tryLock
+tryLock threw exception, proceeding without lock
+tryRegisterWatcher
+tryRegisterWatcher: failed to register file watcher
+tryUnregisterWatcher
+type
+uid
+unbindService
+uncaughtException
+unexpected-json-structure
+unflattenFromString
+unfreeze
+unhook
+unhookLayout
+unhookMethod
+unlinkToDeath
+unlock
+unmap
+unmodifiableList
+unmodifiableMap
+unreflect
+unreflectGetter
+unregisterOnSharedPreferenceChangeListener
+unsupported
+update
+updateMiuiImpl
+updateModulesCache
+updatePreferences
+updateRemotePreferences
+url
+useCaches
+useManager
+useMicroG
+useMinimalNativeFileHook
+user_id
+usesCleartextTraffic
+v
+v1.0.7
+v2.2-core
+val$bindLatch
+val$callback
+val$classActivityRes
+val$classResKey
+val$context
+val$group
+val$isSystemServer
+val$listener
+val$lpparam
+val$originalApkPath
+val$originalCreator
+val$patchedApkPath
+val$processName
+val$result
+val$target
+value
+value == null
+valueAt
+valueOf
+values
+variant
+vector-hot-reload
+version
+versionCode
+versionRouter
+view
+virtualMethodsOffset
+virtualTarget
+virtualTargetOf
+visibleApkPath
+visitFile
+vtable
+w
+wait
+walkFileTree
+watchable
+wipeAll
+withInitial
+withLegacy
+worker
+worker$lambda$0
+wrap
+write
+writeInt
+writeInterfaceToken
+writeLong
+writeNoException
+writeObject
+writeStamp
+writeString
+writeStringArray
+writeStringList
+writeStrongBinder
+writeStrongInterface
+writeToParcel
+writeTypedList
+writeTypedObject
+xmlInstanceDetails
+xposed.dummy.XResourcesSuperClass
+xposed.dummy.XTypedArraySuperClass
+xposedauthor
+xposeddescription
+xposedminversion
+xposedname
+xposedpackage
+xposedscope
+xposedsharedprefs
+xposedstaticscope
+xposedtargetversion
+xposedversion
+year
+years
+yyyy-MM-dd'T'HH:mm:ss.SSS
+yyyyMMdd
+zone
+{
+{serializeNulls:false,factories:
+}
+~~R8{"backend":"cf","compilation-mode":"release","has-checksums":false,"pg-map-id":"b9e414a","r8-mode":"compatibility","sha-1":"c714d2618d85c9614f741865d64e0908d65e2c70","version":"3.2.10-dev"}
+~~R8{"backend":"dex","compilation-mode":"release","has-checksums":false,"min-api":28,"pg-map-id":"c199bc759b654a79e8918f30062e420f0797f02c943f2320ea9e56aa332965c8","r8-mode":"full","version":"9.4.24"}
+喵喵
+喵喵喵
+喵喵喵喵
+喵喵猫
+喵喵貓
+喵猫
+喵猫喵
+喵猫猫
+喵猫貓
+喵貓
+喵貓喵
+喵貓猫
+喵貓貓
+猫喵
+猫喵喵
+猫喵喵喵
+猫喵猫
+猫喵貓
+猫猫
+猫猫喵
+猫貓
+猫貓喵
+貓喵
+貓喵喵
+貓喵喵喵
+貓喵猫
+貓喵貓
+貓猫
+貓猫喵
+貓貓
+貓貓喵

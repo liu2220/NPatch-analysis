@@ -1,0 +1,210 @@
+package top.nkbe.npatch.ui.page
+
+import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.PaddingValues
+import androidx.compose.foundation.layout.WindowInsets
+import androidx.compose.foundation.layout.asPaddingValues
+import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.navigationBars
+import androidx.compose.foundation.pager.HorizontalPager
+import androidx.compose.foundation.pager.rememberPagerState
+import androidx.compose.runtime.Composable
+import androidx.compose.runtime.derivedStateOf
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.rememberCoroutineScope
+import androidx.compose.runtime.snapshotFlow
+import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.unit.dp
+import androidx.lifecycle.viewmodel.compose.viewModel
+import androidx.navigationevent.NavigationEventInfo
+import androidx.navigationevent.compose.NavigationBackHandler
+import androidx.navigationevent.compose.rememberNavigationEventState
+import dev.chrisbanes.haze.HazeState
+import dev.chrisbanes.haze.rememberHazeState
+import kotlinx.coroutines.flow.distinctUntilChanged
+import kotlinx.coroutines.launch
+import nkbe.util.ShizukuApi
+import top.nkbe.npatch.R
+import top.nkbe.npatch.ui.component.SearchBar
+import top.nkbe.npatch.ui.page.manage.AppManageBody
+import top.nkbe.npatch.ui.page.manage.AppManageFab
+import top.nkbe.npatch.ui.page.manage.ModuleManageBody
+import top.nkbe.npatch.ui.component.SearchBarFake
+import top.nkbe.npatch.ui.component.SearchBox
+import top.nkbe.npatch.ui.component.SearchPager
+import top.nkbe.npatch.ui.component.SearchStatus
+import top.nkbe.npatch.ui.component.NPatchScaffold
+import top.nkbe.npatch.ui.component.NPatchTopAppBar
+import top.nkbe.npatch.ui.util.LocalFloatingBottomBarPadding
+import top.nkbe.npatch.ui.util.LocalFloatingGlassBottomBar
+import top.nkbe.npatch.ui.util.backgroundAwareHazeStyle
+import top.nkbe.npatch.ui.viewmodel.manage.ModuleManageViewModel
+import top.yukonga.miuix.kmp.basic.MiuixScrollBehavior
+import top.yukonga.miuix.kmp.basic.ScrollBehavior
+import top.yukonga.miuix.kmp.basic.TabRow
+import top.yukonga.miuix.kmp.basic.TabRowDefaults
+
+@Composable
+fun ManageScreen(
+    navigator: Navigator,
+    selectedPage: Int = 0,
+    onSelectedPageChange: (Int) -> Unit = {},
+) {
+    val scope = rememberCoroutineScope()
+    val tabTitles = listOf(stringResource(R.string.apps), stringResource(R.string.modules))
+    val useFloatingGlassBottomBar = LocalFloatingGlassBottomBar.current
+
+    val safeSelectedPage = selectedPage.coerceIn(0, tabTitles.lastIndex)
+    val pagerState = rememberPagerState(
+        initialPage = safeSelectedPage,
+        pageCount = { tabTitles.size }
+    )
+    val settledPage by remember(pagerState) {
+        derivedStateOf { pagerState.settledPage }
+    }
+    val scrollBehavior = MiuixScrollBehavior()
+
+    val manageSearchLabel = stringResource(R.string.manage_search)
+    val searchStatus = remember(manageSearchLabel) { SearchStatus(manageSearchLabel) }
+    val moduleManageViewModel = viewModel<ModuleManageViewModel>()
+    val hazeState = rememberHazeState()
+    val hazeStyle = backgroundAwareHazeStyle()
+
+    val dynamicTopPadding by remember {
+        derivedStateOf { 12.dp * (1f - scrollBehavior.state.collapsedFraction) }
+    }
+    val floatingBottomBarPadding = LocalFloatingBottomBarPadding.current
+
+    val backEventState = rememberNavigationEventState(NavigationEventInfo.None)
+    NavigationBackHandler(
+        state = backEventState,
+        isBackEnabled = !searchStatus.isExpand() && pagerState.currentPage != 0,
+        onBackCompleted = {
+            scope.launch {
+                pagerState.animateScrollToPage(0)
+            }
+        },
+    )
+
+    LaunchedEffect(safeSelectedPage) {
+        if (!pagerState.isScrollInProgress && pagerState.targetPage != safeSelectedPage) {
+            pagerState.animateScrollToPage(safeSelectedPage)
+        }
+    }
+
+    LaunchedEffect(pagerState) {
+        snapshotFlow { pagerState.settledPage }
+            .distinctUntilChanged()
+            .collect(onSelectedPageChange)
+    }
+
+    LaunchedEffect(
+        settledPage,
+        ShizukuApi.isReady,
+        moduleManageViewModel.enabledActivationPackagesKey
+    ) {
+        if (settledPage == 1) {
+            moduleManageViewModel.refreshScopedActivationState()
+            if (ShizukuApi.isReady) {
+                moduleManageViewModel.refreshEnabledActivations()
+            }
+        }
+    }
+
+    NPatchScaffold(
+        topBar = {
+            searchStatus.TopAppBarAnim {
+                NPatchTopAppBar(
+                    title = stringResource(R.string.screen_manage),
+                    scrollBehavior = scrollBehavior,
+                    hazeState = hazeState,
+                    hazeStyle = hazeStyle,
+                )
+            }
+        },
+        floatingActionButton = {
+            if (settledPage == 0) {
+                AppManageFab(
+                    navigator = navigator,
+                    modifier = if (useFloatingGlassBottomBar) {
+                        Modifier.padding(bottom = floatingBottomBarPadding)
+                    } else {
+                        Modifier
+                    }
+                )
+            }
+        },
+        popupHost = {
+            searchStatus.SearchPager(
+                searchBarTopPadding = dynamicTopPadding,
+                expandBar = { status, padding ->
+                    SearchBar(status, padding)
+                },
+                belowExpandBar = {
+                    TabRow(
+                        tabs = tabTitles,
+                        selectedTabIndex = settledPage,
+                        onTabSelected = {
+                            onSelectedPageChange(it)
+                            scope.launch { pagerState.animateScrollToPage(it) }
+                        },
+                        modifier = Modifier.padding(horizontal = 12.dp).padding(bottom = 6.dp),
+                        colors = TabRowDefaults.tabRowColors(backgroundColor = Color.Transparent)
+                    )
+                }
+            )
+        }
+    ) { innerPadding ->
+        searchStatus.SearchBox(
+            searchBarTopPadding = dynamicTopPadding,
+            contentPadding = innerPadding,
+            hazeState = hazeState,
+            hazeStyle = hazeStyle,
+            collapseBar = { status, topPadding, innerPad ->
+                Column(modifier = Modifier.padding(bottom = 6.dp)) {
+                    SearchBarFake(
+                        label = status.label,
+                        searchBarTopPadding = topPadding,
+                        innerPadding = innerPad,
+                        onClick = { status.current = SearchStatus.Status.EXPANDING }
+                    )
+                    TabRow(
+                        tabs = tabTitles,
+                        selectedTabIndex = settledPage,
+                        onTabSelected = {
+                            onSelectedPageChange(it)
+                            scope.launch { pagerState.animateScrollToPage(it) }
+                        },
+                        modifier = Modifier.padding(horizontal = 12.dp),
+                        colors = TabRowDefaults.tabRowColors(backgroundColor = Color.Transparent)
+                    )
+                }
+            }
+        ) { boxHeight ->
+            HorizontalPager(
+                state = pagerState,
+                modifier = Modifier.fillMaxSize()
+            ) { page ->
+                val contentPadding = PaddingValues(
+                    top = innerPadding.calculateTopPadding() + boxHeight.value + 8.dp,
+                    bottom = innerPadding.calculateBottomPadding() + floatingBottomBarPadding
+                )
+                when (page) {
+                    0 -> AppManageBody(navigator, searchStatus.searchText, contentPadding, scrollBehavior, hazeState)
+                    1 -> ModuleManageBody(
+                        searchStatus.searchText,
+                        contentPadding,
+                        scrollBehavior,
+                        hazeState,
+                        moduleManageViewModel
+                    )
+                }
+            }
+        }
+    }
+}

@@ -1,0 +1,237 @@
+============================== doSigBypass (Landroid/content/Context; I Z)V
+  sget                         v0, Ltop/nkbe/npatch/loader/SigBypass;->activeSigBypassLevel I
+  invoke-static                v0, v10, Ljava/lang/Math;->max(I I)I
+  move-result                  v0
+  sput                         v0, Ltop/nkbe/npatch/loader/SigBypass;->activeSigBypassLevel I
+  const/4                      v0, 5
+  const/4                      v1, 0
+  const/4                      v2, 1
+  if-ne                        v10, v0, +004h
+  move                         v0, v2
+  goto                         +2h
+  move                         v0, v1
+  sget-boolean                 v3, Ltop/nkbe/npatch/loader/SigBypass;->stealthModeActive Z
+  if-nez                       v3, +007h
+  if-eqz                       v0, +003h
+  goto                         +3h
+  move                         v3, v1
+  goto                         +2h
+  move                         v3, v2
+  sput-boolean                 v3, Ltop/nkbe/npatch/loader/SigBypass;->stealthModeActive Z
+  invoke-static                v10, Ltop/nkbe/npatch/loader/SigBypass;->effectiveHookLevel(I)I
+  move-result                  v3
+  sget-object                  v4, Ltop/nkbe/npatch/loader/SigBypass;->visibleApkPath Ljava/lang/String;
+  if-eqz                       v4, +003h
+  goto                         +5h
+  invoke-virtual               v9, Landroid/content/Context;->getPackageResourcePath()Ljava/lang/String;
+  move-result-object           v4
+  if-eqz                       v11, +006h
+  if-lt                        v3, v2, +004h
+  move                         v11, v2
+  goto                         +2h
+  move                         v11, v1
+  if-lt                        v3, v2, +00ch
+  sget-object                  v5, Ltop/nkbe/npatch/loader/SigBypass;->redirectApkPath Ljava/lang/String;
+  if-nez                       v5, +008h
+  invoke-static                v9, Ltop/nkbe/npatch/loader/SigBypass;->extractOriginalApk(Landroid/content/Context;)Ljava/lang/String;
+  move-result-object           v5
+  sput-object                  v5, Ltop/nkbe/npatch/loader/SigBypass;->redirectApkPath Ljava/lang/String;
+  const/4                      v5, 4
+  const-string                 v6, "NPatch-SigBypass"
+  if-nez                       v0, +042h
+  if-lt                        v3, v2, +040h
+  sget-object                  v7, Ltop/nkbe/npatch/loader/SigBypass;->redirectApkPath Ljava/lang/String;
+  if-eqz                       v7, +03ch
+  invoke-static                v4, v7, Ltop/nkbe/npatch/loader/SigBypass;->hookJavaIO(Ljava/lang/String; Ljava/lang/String;)V
+  invoke-static                Ltop/nkbe/npatch/loader/SigBypass;->hookJavaFilePathAccessors()V
+  if-ne                        v10, v5, +004h
+  move                         v7, v2
+  goto                         +2h
+  move                         v7, v1
+  sget-boolean                 v8, Ltop/nkbe/npatch/loader/SigBypass;->useMinimalNativeFileHook Z
+  if-nez                       v8, +00ah
+  sget-object                  v8, Ltop/nkbe/npatch/loader/SigBypass;->redirectApkPath Ljava/lang/String;
+  invoke-static                v8, Ltop/nkbe/npatch/loader/SigBypass;->is360ProtectedApk(Ljava/lang/String;)Z
+  move-result                  v8
+  if-eqz                       v8, +003h
+  move                         v1, v2
+  sput-boolean                 v1, Ltop/nkbe/npatch/loader/SigBypass;->useMinimalNativeFileHook Z
+  if-eqz                       v1, +011h
+  const-string                 v1, "360-like protector detected, using minimal native APK redirect"
+  invoke-static                v6, v1, Ltop/nkbe/npatch/loader/util/XLog;->i(Ljava/lang/String; Ljava/lang/String;)V
+  sget-object                  v1, Ltop/nkbe/npatch/loader/SigBypass;->redirectApkPath Ljava/lang/String;
+  invoke-virtual               v9, Landroid/content/Context;->getPackageName()Ljava/lang/String;
+  move-result-object           v8
+  invoke-static                v4, v1, v8, v11, v7, Lorg/lsposed/lspd/nativebridge/SigBypass;->enableOpenatHookMinimal(Ljava/lang/String; Ljava/lang/String; Ljava/lang/String; Z Z)V
+  goto                         +ah
+  sget-object                  v1, Ltop/nkbe/npatch/loader/SigBypass;->redirectApkPath Ljava/lang/String;
+  invoke-virtual               v9, Landroid/content/Context;->getPackageName()Ljava/lang/String;
+  move-result-object           v8
+  invoke-static                v4, v1, v8, v11, v7, Lorg/lsposed/lspd/nativebridge/SigBypass;->enableOpenatHook(Ljava/lang/String; Ljava/lang/String; Ljava/lang/String; Z Z)V
+  xor-int/lit8                 v1, v7, 1
+  sput-boolean                 v1, Ltop/nkbe/npatch/loader/SigBypass;->nativeOpenatEnabled Z
+  sput-boolean                 v11, Ltop/nkbe/npatch/loader/SigBypass;->libHideEnabled Z
+  if-eqz                       v0, +032h
+  invoke-static                v9, Ltop/nkbe/npatch/loader/SigBypass;->enableStealthSignatureBypass(Landroid/content/Context;)V
+  sget-object                  v10, Ltop/nkbe/npatch/loader/SigBypass;->redirectApkPath Ljava/lang/String;
+  if-nez                       v10, +008h
+  const-string                 v9, "Stealth: original APK unavailable, GOT redirect disabled"
+  invoke-static                v6, v9, Ltop/nkbe/npatch/loader/util/XLog;->w(Ljava/lang/String; Ljava/lang/String;)V
+  return-void                  
+  invoke-virtual               v9, Landroid/content/Context;->getPackageName()Ljava/lang/String;
+  move-result-object           v11
+  invoke-static                v9, Ltop/nkbe/npatch/loader/SigBypass;->hostNativeLibraryRoots(Landroid/content/Context;)[Ljava/lang/String;
+  move-result-object           v9
+  invoke-static                v4, v10, v11, v9, Lorg/lsposed/lspd/nativebridge/SigBypass;->enableGotRedirect(Ljava/lang/String; Ljava/lang/String; Ljava/lang/String; [Ljava/lang/String;)Z
+  move-result                  v9
+  if-eqz                       v9, +011h
+  sget-boolean                 v9, Ltop/nkbe/npatch/loader/SigBypass;->gotRedirectEnabled Z
+  if-nez                       v9, +007h
+  const-string                 v9, "Stealth: bhook GOT/PLT redirect enabled"
+  invoke-static                v6, v9, Ltop/nkbe/npatch/loader/util/XLog;->i(Ljava/lang/String; Ljava/lang/String;)V
+  sput-boolean                 v2, Ltop/nkbe/npatch/loader/SigBypass;->gotRedirectEnabled Z
+  invoke-static                Ltop/nkbe/npatch/loader/SigBypass;->hookRuntimeLibraryLoadForGotRefresh()V
+  return-void                  
+  const-string                 v9, "Stealth: bhook registration failed"
+  invoke-static                v6, v9, Ltop/nkbe/npatch/loader/util/XLog;->w(Ljava/lang/String; Ljava/lang/String;)V
+  return-void                  
+  const/4                      v11, 2
+  if-lt                        v3, v11, +00eh
+  invoke-static                v9, Ltop/nkbe/npatch/loader/SigBypass;->hookPackageArchiveInfo(Landroid/content/Context;)V
+  invoke-static                v9, Ltop/nkbe/npatch/loader/SigBypass;->hookHasSigningCertificate(Landroid/content/Context;)V
+  invoke-static                v9, Ltop/nkbe/npatch/loader/SigBypass;->hookGetApplicationInfo(Landroid/content/Context;)V
+  invoke-static                v9, Ltop/nkbe/npatch/loader/SigBypass;->hookApkPathAccessors(Landroid/content/Context;)V
+  const/4                      v11, 3
+  if-lt                        v3, v11, +047h
+  invoke-static                v9, Ltop/nkbe/npatch/loader/SigBypass;->hookPackageInfoConstructor(Landroid/content/Context;)Z
+  move-result                  v11
+  if-nez                       v11, +005h
+  invoke-static                v9, Ltop/nkbe/npatch/loader/SigBypass;->hookPackageInfoCreator(Landroid/content/Context;)V
+  invoke-static                v9, Ltop/nkbe/npatch/loader/SigBypass;->hookPackageParserGeneratePackageInfo(Landroid/content/Context;)V
+  invoke-static                v9, Ltop/nkbe/npatch/loader/SigBypass;->hookApplicationInfoConstructor(Landroid/content/Context;)V
+  invoke-static                v9, Ltop/nkbe/npatch/loader/SigBypass;->hookGetPackageInfo(Landroid/content/Context;)V
+  sget-object                  v11, Ltop/nkbe/npatch/loader/SigBypass;->redirectApkPath Ljava/lang/String;
+  if-nez                       v11, +008h
+  const-string                 v11, "Svc redirect skipped: original APK unavailable"
+  invoke-static                v6, v11, Ltop/nkbe/npatch/loader/util/XLog;->w(Ljava/lang/String; Ljava/lang/String;)V
+  goto                         +2ah
+  invoke-static                Ltop/nkbe/npatch/loader/SigBypass;->isArm64RuntimeSupported()Z
+  move-result                  v11
+  if-nez                       v11, +008h
+  const-string                 v11, "Svc redirect skipped on non-arm64 runtime ABI"
+  invoke-static                v6, v11, Ltop/nkbe/npatch/loader/util/XLog;->w(Ljava/lang/String; Ljava/lang/String;)V
+  goto                         +1eh
+  sget-object                  v11, Ltop/nkbe/npatch/loader/SigBypass;->redirectApkPath Ljava/lang/String;
+  invoke-virtual               v9, Landroid/content/Context;->getPackageName()Ljava/lang/String;
+  move-result-object           v0
+  invoke-static                v4, v11, v0, Lorg/lsposed/lspd/nativebridge/SigBypass;->enableSvcRedirect(Ljava/lang/String; Ljava/lang/String; Ljava/lang/String;)Z
+  move-result                  v11
+  if-eqz                       v11, +00eh
+  sget-boolean                 v11, Ltop/nkbe/npatch/loader/SigBypass;->svcRedirectEnabled Z
+  if-nez                       v11, +007h
+  const-string                 v11, "Svc redirect enabled"
+  invoke-static                v6, v11, Ltop/nkbe/npatch/loader/util/XLog;->i(Ljava/lang/String; Ljava/lang/String;)V
+  sput-boolean                 v2, Ltop/nkbe/npatch/loader/SigBypass;->svcRedirectEnabled Z
+  goto                         +6h
+  const-string                 v11, "Svc redirect failed to init"
+  invoke-static                v6, v11, Ltop/nkbe/npatch/loader/util/XLog;->w(Ljava/lang/String; Ljava/lang/String;)V
+  sget-object                  v11, Ltop/nkbe/npatch/loader/SigBypass;->redirectApkPath Ljava/lang/String;
+  if-eqz                       v11, +02eh
+  if-ne                        v10, v5, +02ch
+  invoke-static                Ltop/nkbe/npatch/loader/SigBypass;->isArm64RuntimeSupported()Z
+  move-result                  v10
+  if-nez                       v10, +008h
+  const-string                 v9, "Seccomp skipped on non-arm64 runtime ABI"
+  invoke-static                v6, v9, Ltop/nkbe/npatch/loader/util/XLog;->w(Ljava/lang/String; Ljava/lang/String;)V
+  return-void                  
+  sget-object                  v10, Ltop/nkbe/npatch/loader/SigBypass;->redirectApkPath Ljava/lang/String;
+  invoke-virtual               v9, Landroid/content/Context;->getPackageName()Ljava/lang/String;
+  move-result-object           v9
+  invoke-static                v4, v10, v9, Lorg/lsposed/lspd/nativebridge/FunPatch;->enableSeccompV2Redirect(Ljava/lang/String; Ljava/lang/String; Ljava/lang/String;)Z
+  move-result                  v9
+  if-eqz                       v9, +00eh
+  sget-boolean                 v9, Ltop/nkbe/npatch/loader/SigBypass;->seccompRedirectEnabled Z
+  if-nez                       v9, +007h
+  const-string                 v9, "Seccomp enabled"
+  invoke-static                v6, v9, Ltop/nkbe/npatch/loader/util/XLog;->i(Ljava/lang/String; Ljava/lang/String;)V
+  sput-boolean                 v2, Ltop/nkbe/npatch/loader/SigBypass;->seccompRedirectEnabled Z
+  return-void                  
+  const-string                 v9, "Seccomp failed to init"
+  invoke-static                v6, v9, Ltop/nkbe/npatch/loader/util/XLog;->w(Ljava/lang/String; Ljava/lang/String;)V
+  return-void                  
+  if-lt                        v3, v2, +009h
+  if-nez                       v11, +007h
+  const-string                 v9, "Original APK unavailable, native signature bypass disabled"
+  invoke-static                v6, v9, Ltop/nkbe/npatch/loader/util/XLog;->w(Ljava/lang/String; Ljava/lang/String;)V
+  return-void                  
+============================== effectiveHookLevel (I)I
+  const/4                      v0, 4
+  if-eq                        v1, v0, +007h
+  const/4                      v0, 5
+  if-ne                        v1, v0, +003h
+  goto                         +2h
+  return                       v1
+  const/4                      v1, 3
+  return                       v1
+============================== enableStealthSignatureBypass (Landroid/content/Context;)V
+  invoke-static                v1, Ltop/nkbe/npatch/loader/SigBypass;->hookPackageArchiveInfo(Landroid/content/Context;)V
+  invoke-static                v1, Ltop/nkbe/npatch/loader/SigBypass;->hookHasSigningCertificate(Landroid/content/Context;)V
+  invoke-static                v1, Ltop/nkbe/npatch/loader/SigBypass;->hookPackageInfoConstructor(Landroid/content/Context;)Z
+  move-result                  v0
+  if-nez                       v0, +005h
+  invoke-static                v1, Ltop/nkbe/npatch/loader/SigBypass;->hookPackageInfoCreator(Landroid/content/Context;)V
+  invoke-static                v1, Ltop/nkbe/npatch/loader/SigBypass;->hookPackageParserGeneratePackageInfo(Landroid/content/Context;)V
+  invoke-static                v1, Ltop/nkbe/npatch/loader/SigBypass;->hookGetPackageInfo(Landroid/content/Context;)V
+  return-void                  
+============================== hookRuntimeLibraryLoadForGotRefresh ()V
+  sget-boolean                 v0, Ltop/nkbe/npatch/loader/SigBypass;->gotRefreshHookInstalled Z
+  if-eqz                       v0, +003h
+  goto                         +20h
+  new-instance                 v0, Ltop/nkbe/npatch/loader/SigBypass$13;
+  invoke-direct                v0, Ltop/nkbe/npatch/loader/SigBypass$13;-><init>()V
+  const-string                 v1, "loadLibrary0"
+  const-class                  v2, Ljava/lang/Runtime;
+  invoke-static                v2, v1, v0, Ltop/nkbe/npatch/loader/SigBypass;->hookAllMethodsQuietly(Ljava/lang/Class; Ljava/lang/String; Lde/robv/android/xposed/XC_MethodHook;)Z
+  move-result                  v1
+  const-string                 v3, "load0"
+  invoke-static                v2, v3, v0, Ltop/nkbe/npatch/loader/SigBypass;->hookAllMethodsQuietly(Ljava/lang/Class; Ljava/lang/String; Lde/robv/android/xposed/XC_MethodHook;)Z
+  move-result                  v0
+  or-int/2addr                 v0, v1
+  sput-boolean                 v0, Ltop/nkbe/npatch/loader/SigBypass;->gotRefreshHookInstalled Z
+  if-nez                       v0, +009h
+  const-string                 v0, "NPatch-SigBypass"
+  const-string                 v1, "Stealth: late-loaded native libraries cannot trigger a GOT refresh"
+  invoke-static                v0, v1, Ltop/nkbe/npatch/loader/util/XLog;->w(Ljava/lang/String; Ljava/lang/String;)V
+  return-void                  
+============================== hostNativeLibraryRoots (Landroid/content/Context;)[Ljava/lang/String;
+  new-instance                 v0, Ljava/util/LinkedHashSet;
+  invoke-direct                v0, Ljava/util/LinkedHashSet;-><init>()V
+  if-nez                       v2, +004h
+  const/4                      v2, 0
+  goto                         +5h
+  invoke-virtual               v2, Landroid/content/Context;->getApplicationInfo()Landroid/content/pm/ApplicationInfo;
+  move-result-object           v2
+  if-eqz                       v2, +013h
+  iget-object                  v1, v2, Landroid/content/pm/ApplicationInfo;->nativeLibraryDir Ljava/lang/String;
+  if-eqz                       v1, +00fh
+  iget-object                  v1, v2, Landroid/content/pm/ApplicationInfo;->nativeLibraryDir Ljava/lang/String;
+  invoke-virtual               v1, Ljava/lang/String;->isEmpty()Z
+  move-result                  v1
+  if-nez                       v1, +007h
+  iget-object                  v1, v2, Landroid/content/pm/ApplicationInfo;->nativeLibraryDir Ljava/lang/String;
+  invoke-virtual               v0, v1, Ljava/util/AbstractCollection;->add(Ljava/lang/Object;)Z
+  if-eqz                       v2, +013h
+  iget-object                  v1, v2, Landroid/content/pm/ApplicationInfo;->dataDir Ljava/lang/String;
+  if-eqz                       v1, +00fh
+  iget-object                  v1, v2, Landroid/content/pm/ApplicationInfo;->dataDir Ljava/lang/String;
+  invoke-virtual               v1, Ljava/lang/String;->isEmpty()Z
+  move-result                  v1
+  if-nez                       v1, +007h
+  iget-object                  v2, v2, Landroid/content/pm/ApplicationInfo;->dataDir Ljava/lang/String;
+  invoke-virtual               v0, v2, Ljava/util/AbstractCollection;->add(Ljava/lang/Object;)Z
+  const/4                      v2, 0
+  new-array                    v2, v2, [Ljava/lang/String;
+  invoke-virtual               v0, v2, Ljava/util/AbstractCollection;->toArray([Ljava/lang/Object;)[Ljava/lang/Object;
+  move-result-object           v2
+  check-cast                   v2, [Ljava/lang/String;
+  return-object                v2

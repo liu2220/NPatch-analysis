@@ -1,0 +1,63 @@
+[versions]
+room = "2.8.3"
+shizuku = "13.1.5"
+hiddenapi = "4.4.0"
+compose-bom = "2025.12.01"
+kotlin = "2.4.20"
+ksp = "2.3.10"
+commons-io = "2.20.0"
+beust-jcommander = "1.82"
+google-gson = "2.13.1"
+core-ktx = "1.17.0"
+miuix = "0.9.4"
+haze = "2.0.0-alpha01"
+backdrop = "1.0.6"
+webkit = "1.14.0"
+datastore = "1.1.3"
+coil = "2.7.0"
+
+[plugins]
+google-devtools-ksp = { id = "com.google.devtools.ksp", version.ref = "ksp" }
+rikka-tools-refine = { id = "dev.rikka.tools.refine", version.ref = "hiddenapi" }
+kotlin-android = { id = "org.jetbrains.kotlin.android", version.ref = "kotlin" }
+compose-compiler = { id = "org.jetbrains.kotlin.plugin.compose", version.ref = "kotlin" }
+kotlin-jvm = { id = "org.jetbrains.kotlin.jvm", version.ref = "kotlin" }
+
+[libraries]
+androidx-webkit = { group = "androidx.webkit", name = "webkit", version.ref = "webkit" }
+# Androidx Libraries
+androidx-core-ktx = { module = "androidx.core:core-ktx", version.ref = "core-ktx" }
+androidx-customview = "androidx.customview:customview:1.2.0"
+androidx-customview-poolingcontainer = "androidx.customview:customview-poolingcontainer:1.1.0"
+androidx-activity-compose = "androidx.activity:activity-compose:1.10.1"
+androidx-datastore-preferences = { module = "androidx.datastore:datastore-preferences", version.ref = "datastore" }
+androidx-lifecycle-viewmodel-compose = "androidx.lifecycle:lifecycle-viewmodel-compose:2.9.2"
+
+# Jetpack Compose Libraries
+androidx-compose-bom = { module = "androidx.compose:compose-bom", version.ref = "compose-bom" }
+androidx-compose-ui = { module = "androidx.compose.ui:ui" }
+androidx-compose-ui-tooling = { module = "androidx.compose.ui:ui-tooling" }
+androidx-compose-ui-tooling-preview = { module = "androidx.compose.ui:ui-tooling-preview" }
+androidx-compose-material-icons-extended = { module = "androidx.compose.material:material-icons-extended" }
+androidx-compose-material3 = { module = "androidx.compose.material3:material3" }
+
+# Database Libraries
+androidx-room-ktx = { module = "androidx.room:room-ktx", version.ref = "room" }
+androidx-room-runtime = { module = "androidx.room:room-runtime", version.ref = "room" }
+androidx-room-compiler = { module = "androidx.room:room-compiler", version.ref = "room" }
+
+# Rikka Libraries
+rikka-shizuku-api = { module = "dev.rikka.shizuku:api", version.ref = "shizuku" }
+rikka-shizuku-provider = { module = "dev.rikka.shizuku:provider", version.ref = "shizuku" }
+rikka-refine = { module = "dev.rikka.tools.refine:runtime", version.ref = "hiddenapi" }
+rikka-hidden-stub = { module = "dev.rikka.hidden:stub", version.ref = "hiddenapi" }
+
+# Other Third-Party Libraries
+commons-io = { module = "commons-io:commons-io", version.ref = "commons-io" }
+beust-jcommander = { module = "com.beust:jcommander", version.ref = "beust-jcommander" }
+google-gson = { module = "com.google.code.gson:gson", version.ref = "google-gson" }
+haze = { module = "dev.chrisbanes.haze:haze", version.ref = "haze" }
+hazeBlur = { module = "dev.chrisbanes.haze:haze-blur", version.ref = "haze" }
+backdrop = { module = "io.github.kyant0:backdrop", version.ref = "backdrop" }
+coil-compose = { module = "io.coil-kt:coil-compose", version.ref = "coil" }
+hiddenapibypass = { module = "org.lsposed.hiddenapibypass:hiddenapibypass", version = "4.3" }

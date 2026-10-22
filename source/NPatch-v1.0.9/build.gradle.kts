@@ -1,0 +1,304 @@
+import com.android.build.api.dsl.ApplicationExtension
+import com.android.build.api.variant.ApplicationAndroidComponentsExtension
+import com.android.build.gradle.BaseExtension
+import java.io.ByteArrayOutputStream
+import javax.inject.Inject
+import org.gradle.api.provider.ListProperty
+import org.gradle.api.provider.Property
+import org.gradle.api.provider.ValueSource
+import org.gradle.api.provider.ValueSourceParameters
+import org.gradle.process.ExecOperations
+import org.gradle.kotlin.dsl.extra
+
+plugins {
+    alias(libs.plugins.agp.lib) apply false
+    alias(libs.plugins.agp.app) apply false
+    alias(npatch.plugins.compose.compiler) apply false
+    alias(npatch.plugins.kotlin.android) apply false
+    alias(npatch.plugins.kotlin.jvm) apply false
+}
+
+abstract class GitCommitCountValueSource : ValueSource<Int, GitCommitCountValueSource.Parameters> {
+    interface Parameters : ValueSourceParameters {
+        val workingDirectory: Property<String>
+        val candidateRefs: ListProperty<String>
+        val fallback: Property<Int>
+    }
+
+    @get:Inject abstract val execOperations: ExecOperations
+
+    override fun obtain(): Int {
+        for (ref in parameters.candidateRefs.get()) {
+            val output = ByteArrayOutputStream()
+            val result = execOperations.exec {
+                commandLine("git", "-C", parameters.workingDirectory.get(), "rev-list", "--count", ref)
+                standardOutput = output
+                errorOutput = ByteArrayOutputStream()
+                isIgnoreExitValue = true
+            }
+            if (result.exitValue == 0) {
+                output.toString().trim().toIntOrNull()?.let { return it }
+            }
+        }
+        return parameters.fallback.get()
+    }
+}
+
+val commitCount = providers.of(GitCommitCountValueSource::class) {
+    parameters.workingDirectory.set(rootDir.absolutePath)
+    parameters.candidateRefs.set(
+        listOf(
+            "refs/remotes/origin/miuix",
+            "refs/heads/miuix",
+            "HEAD",
+        )
+    )
+    parameters.fallback.set(1)
+}.get().coerceAtLeast(1)
+
+val coreCommitCount = providers.of(GitCommitCountValueSource::class) {
+    parameters.workingDirectory.set(File(rootDir, "core").absolutePath)
+    parameters.candidateRefs.set(listOf("HEAD"))
+    parameters.fallback.set(3111)
+}.get()
+
+val defaultManagerPackageName by extra("top.nkbe.npatch")
+val apiCode by extra(102)
+val verCode by extra(commitCount)
+val verName by extra("1.0.8")
+val coreVerCode by extra(coreCommitCount)
+val coreVerName by extra("v2.2-core")
+val androidMinSdkVersion by extra(28)
+val androidTargetSdkVersion by extra(37)
+val androidCompileSdkVersion by extra(37)
+val androidCompileNdkVersion by extra("29.0.13846066")
+val androidBuildToolsVersion by extra("37.0.0")
+val androidSourceCompatibility by extra(JavaVersion.VERSION_21)
+val androidTargetCompatibility by extra(JavaVersion.VERSION_21)
+
+tasks.register<Delete>("clean") {
+    delete(layout.buildDirectory)
+}
+
+listOf("Debug", "Release").forEach { variant ->
+    val variantLower = variant.lowercase()
+    val remoteApiTask = tasks.register<Copy>("buildRemoteApi$variant") {
+        description = "Build and collect the NPatch Remote API $variant AAR"
+        dependsOn(":remote-api:assemble$variant")
+        from(project(":remote-api").layout.buildDirectory.dir("outputs/aar")) {
+            include("remote-api-$variantLower.aar")
+            rename { "npatch-remote-api-v1.0.0-$variantLower.aar" }
+        }
+        into(layout.projectDirectory.dir("out/$variantLower"))
+    }
+
+    tasks.register("build$variant") {
+        description = "Build NPatch with $variant"
+        dependsOn(tasks.findByPath(":jar:build$variant") ?: "jar:build$variant")
+        dependsOn(tasks.findByPath(":manager:build$variant") ?: "manager:build$variant")
+        dependsOn(remoteApiTask)
+    }
+}
+
+tasks.register("buildAll") {
+    dependsOn("buildDebug", "buildRelease")
+}
+
+fun Project.configureBaseExtension() {
+    extensions.findByType(BaseExtension::class)?.run {
+        compileSdkVersion(androidCompileSdkVersion)
+        ndkVersion = androidCompileNdkVersion
+        buildToolsVersion = androidBuildToolsVersion
+
+        externalNativeBuild.cmake {
+            version = "3.29.8+"
+            buildStagingDirectory = layout.buildDirectory.get().asFile
+        }
+
+        defaultConfig {
+            minSdk = androidMinSdkVersion
+            targetSdk = androidTargetSdkVersion
+
+            externalNativeBuild {
+                cmake {
+                    arguments += "-DVECTOR_ROOT=${File(rootDir.absolutePath, "core")}"
+                    arguments += "-DEXTERNAL_ROOT=${File(rootDir.absolutePath, "core/external")}"
+                    arguments += "-DCORE_ROOT=${File(rootDir.absolutePath, "core/native") }"
+                    abiFilters("arm64-v8a", "x86_64")
+                    val flags = arrayOf(
+                        "-Wall",
+                        "-Qunused-arguments",
+                        "-Wno-gnu-string-literal-operator-template",
+                        "-fno-rtti",
+                        "-fvisibility=hidden",
+                        "-fvisibility-inlines-hidden",
+                        "-fno-exceptions",
+                        "-fno-stack-protector",
+                        "-fomit-frame-pointer",
+                        "-Wno-builtin-macro-redefined",
+                        "-Wno-unused-value",
+                        "-D__FILE__=__FILE_NAME__",
+                    )
+                    cppFlags("-std=c++20", *flags)
+                    cFlags("-std=c18", *flags)
+                    arguments(
+                        "-DCMAKE_EXPORT_COMPILE_COMMANDS=ON",
+                        "-DVERSION_CODE=$verCode",
+                        "-DVERSION_NAME=$verName",
+                    )
+                }
+            }
+        }
+
+        compileOptions {
+            targetCompatibility(androidTargetCompatibility)
+            sourceCompatibility(androidSourceCompatibility)
+        }
+
+        buildTypes {
+            named("debug") {
+                externalNativeBuild {
+                    cmake {
+                        arguments.addAll(
+                            arrayOf(
+                                "-DCMAKE_CXX_FLAGS_DEBUG=-Og",
+                                "-DCMAKE_C_FLAGS_DEBUG=-Og",
+                            )
+                        )
+                    }
+                }
+            }
+            named("release") {
+                externalNativeBuild {
+                    cmake {
+                        val flags = arrayOf(
+                            "-Wl,--exclude-libs,ALL",
+                            "-ffunction-sections",
+                            "-fdata-sections",
+                            "-Wl,--gc-sections",
+                            "-fno-unwind-tables",
+                            "-fno-asynchronous-unwind-tables",
+                            "-flto=thin",
+                            "-Wl,--thinlto-cache-policy,cache_size_bytes=300m",
+                            "-Wl,--thinlto-cache-dir=${layout.buildDirectory.get().asFile.absolutePath}/.lto-cache", 
+                        )
+                        cppFlags.addAll(flags)
+                        cFlags.addAll(flags)
+                        val configFlags = arrayOf(
+                            "-Oz",
+                            "-DNDEBUG"
+                        ).joinToString(" ")
+                        arguments.addAll(
+                            arrayOf(
+                                "-DCMAKE_CXX_FLAGS_RELEASE=$configFlags",
+                                "-DCMAKE_CXX_FLAGS_RELWITHDEBINFO=$configFlags",
+                                "-DCMAKE_C_FLAGS_RELEASE=$configFlags",
+                                "-DCMAKE_C_FLAGS_RELWITHDEBINFO=$configFlags",
+                                "-DDEBUG_SYMBOLS_PATH=${layout.buildDirectory.get().asFile.absolutePath}/symbols", 
+                            )
+                        )
+                    }
+                }
+            }
+        }
+    }
+}
+
+fun Project.configureApplicationExtension(extension: ApplicationExtension) {
+    extension.run {
+        defaultConfig {
+            versionCode = verCode
+            versionName = verName
+        }
+
+        val candidatePaths = listOfNotNull(
+            System.getenv("ANDROID_STORE_FILE"),
+            project.findProperty("androidStoreFile")?.toString()
+        ).filter { it.isNotBlank() }
+
+        val config = signingConfigs.create("config") {
+            val androidStoreFile = candidatePaths.firstOrNull { rootProject.file(it).exists() }
+                ?: candidatePaths.firstOrNull()
+            val androidStorePassword = System.getenv("ANDROID_STORE_PASSWORD")
+                ?: project.findProperty("androidStorePassword")?.toString()
+            val androidKeyAlias = System.getenv("ANDROID_KEY_ALIAS")
+                ?: project.findProperty("androidKeyAlias")?.toString()
+            val androidKeyPassword = System.getenv("ANDROID_KEY_PASSWORD")
+                ?: project.findProperty("androidKeyPassword")?.toString()
+
+            val storeFileObj = androidStoreFile?.let { rootProject.file(it) }
+            if (storeFileObj != null && storeFileObj.exists() && androidStorePassword != null && androidKeyAlias != null && androidKeyPassword != null) {
+                storeFile = storeFileObj
+                storePassword = androidStorePassword
+                keyAlias = androidKeyAlias
+                keyPassword = androidKeyPassword
+            }
+            enableV2Signing = true
+            enableV3Signing = true
+        }
+        val selectedSigningConfig = if (config.storeFile?.exists() == true) {
+            config
+        } else {
+            if (candidatePaths.isNotEmpty()) {
+                logger.warn("WARNING: Custom signingConfig path(s) specified ($candidatePaths) but keystore file was not found or credentials incomplete. Falling back to debug signing config.")
+            }
+            signingConfigs["debug"]
+        }
+        buildTypes.configureEach {
+            signingConfig = selectedSigningConfig
+        }
+        lint {
+            abortOnError = true
+            checkReleaseBuilds = false
+        }
+    }
+
+    extensions.findByType(ApplicationAndroidComponentsExtension::class)?.let { androidComponents ->
+        val isWindows = providers.systemProperty("os.name").get().lowercase().contains("windows")
+        val aapt2Name = if (isWindows) "aapt2.exe" else "aapt2"
+        val aapt2File = File(
+            androidComponents.sdkComponents.sdkDirectory.get().asFile,
+            "build-tools/$androidBuildToolsVersion/$aapt2Name"
+        )
+        val archive = layout.buildDirectory.get().asFile.resolve(
+            "intermediates/optimized_processed_res/release/optimizeReleaseResources/resources-release-optimize.ap_"
+        )
+        val optimizeReleaseRes = tasks.register("optimizeReleaseRes") {
+            doLast {
+                if (!archive.isFile) return@doLast
+                val optimized = File(archive.parentFile, "${archive.name}.opt")
+                optimized.delete()
+                val process = ProcessBuilder(
+                    aapt2File.absolutePath,
+                    "optimize",
+                    "--collapse-resource-names",
+                    "--enable-sparse-encoding",
+                    "-o", optimized.absolutePath,
+                    archive.absolutePath,
+                ).redirectErrorStream(true).start()
+                val output = process.inputStream.bufferedReader().readText()
+                check(process.waitFor() == 0) { "aapt2 optimize failed for ${archive.name}: $output" }
+                archive.delete()
+                check(optimized.renameTo(archive)) { "Could not replace ${archive.name} with its optimized copy" }
+            }
+        }
+
+        tasks.configureEach {
+            if (name == "optimizeReleaseResources") {
+                finalizedBy(optimizeReleaseRes)
+            }
+        }
+    }
+}
+
+subprojects {
+    plugins.withId("com.android.application") {
+        configureBaseExtension()
+        extensions.findByType(ApplicationExtension::class)?.let {
+            configureApplicationExtension(it)
+        }
+    }
+    plugins.withId("com.android.library") {
+        configureBaseExtension()
+    }
+}

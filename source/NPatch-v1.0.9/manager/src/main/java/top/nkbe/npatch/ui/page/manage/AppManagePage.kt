@@ -1,0 +1,427 @@
+package top.nkbe.npatch.ui.page.manage
+
+import android.app.Activity
+import android.content.ClipboardManager
+import android.content.Context
+import android.content.Intent
+import android.util.Log
+import android.widget.Toast
+import androidx.activity.compose.rememberLauncherForActivityResult
+import androidx.activity.result.contract.ActivityResultContracts
+import androidx.compose.foundation.Image
+import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.lazy.items
+import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Add
+import androidx.compose.material.icons.filled.KeyboardCapslock
+import androidx.compose.runtime.*
+import androidx.compose.ui.Alignment
+import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.clip
+import androidx.compose.ui.hapticfeedback.HapticFeedbackType
+import androidx.compose.ui.input.nestedscroll.nestedScroll
+import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.platform.LocalDensity
+import androidx.compose.ui.platform.LocalHapticFeedback
+import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.semantics.Role
+import androidx.compose.ui.semantics.contentDescription
+import androidx.compose.ui.semantics.role
+import androidx.compose.ui.semantics.semantics
+import androidx.compose.ui.text.font.FontFamily
+import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.sp
+import androidx.core.net.toUri
+import androidx.documentfile.provider.DocumentFile
+import androidx.lifecycle.viewmodel.compose.viewModel
+import dev.chrisbanes.haze.HazeState
+import dev.chrisbanes.haze.hazeSource
+import kotlinx.coroutines.launch
+import top.nkbe.npatch.R
+import top.nkbe.npatch.BuildConfig
+import top.nkbe.npatch.config.Configs
+import top.nkbe.npatch.share.Constants
+import top.nkbe.npatch.share.LSPConfig
+
+import top.nkbe.npatch.ui.component.AppItem
+import top.nkbe.npatch.ui.component.NPatchPullToRefresh
+import top.nkbe.npatch.ui.page.ACTION_APPLIST
+import top.nkbe.npatch.ui.page.ACTION_STORAGE
+import top.nkbe.npatch.ui.page.Navigator
+import top.nkbe.npatch.ui.page.Route
+import top.nkbe.npatch.ui.viewmodel.manage.AppManageViewModel
+import top.nkbe.npatch.ui.viewstate.ProcessingState
+import nkbe.util.NeoPackageManager
+import top.yukonga.miuix.kmp.basic.FloatingActionButton
+import top.yukonga.miuix.kmp.basic.Icon
+import top.yukonga.miuix.kmp.basic.InfiniteProgressIndicator
+import top.yukonga.miuix.kmp.basic.ScrollBehavior
+import top.yukonga.miuix.kmp.basic.Text
+import top.yukonga.miuix.kmp.basic.TextButton
+import top.yukonga.miuix.kmp.basic.rememberPullToRefreshState
+import top.nkbe.npatch.ui.component.DialogButtonBar
+import top.nkbe.npatch.ui.component.DialogButtonBarAction
+import top.yukonga.miuix.kmp.overlay.OverlayDialog
+import top.nkbe.npatch.ui.component.OverlayLoadingDialog
+import top.yukonga.miuix.kmp.icon.MiuixIcons
+import top.yukonga.miuix.kmp.icon.extended.Folder
+import top.yukonga.miuix.kmp.icon.extended.GridView
+import top.yukonga.miuix.kmp.preference.ArrowPreference
+import top.yukonga.miuix.kmp.theme.MiuixTheme
+import top.yukonga.miuix.kmp.utils.overScrollVertical
+import top.yukonga.miuix.kmp.utils.scrollEndHaptic
+import java.io.IOException
+
+private const val TAG = "AppManagePage"
+
+@Composable
+fun AppManageBody(
+    navigator: Navigator,
+    searchQuery: String = "",
+    contentPadding: PaddingValues = PaddingValues(0.dp),
+    scrollBehavior: ScrollBehavior,
+    hazeState: HazeState
+) {
+    val viewModel = viewModel<AppManageViewModel>()
+    val context = LocalContext.current
+    val scope = rememberCoroutineScope()
+    val pullToRefreshState = rememberPullToRefreshState()
+    val hapticFeedback = LocalHapticFeedback.current
+
+    val filteredList = remember(viewModel.appList, searchQuery) {
+        if (searchQuery.isEmpty()) viewModel.appList
+        else viewModel.appList.filter {
+            it.first.label.contains(searchQuery, true) ||
+                    it.first.app.packageName.contains(searchQuery, true)
+        }
+    }
+
+    val isProcessing = viewModel.updateLoaderState is ProcessingState.Processing
+            || viewModel.optimizeState is ProcessingState.Processing
+            || viewModel.forceStopState is ProcessingState.Processing
+            || viewModel.forceRestartState is ProcessingState.Processing
+    if (isProcessing) {
+        val showLoading = remember { mutableStateOf(true) }
+        OverlayLoadingDialog(
+            text = stringResource(R.string.manage_loading),
+            show = showLoading.value,
+            onDismissRequest = { /* 阻断取消，等待处理完成 */ }
+        )
+    }
+
+    when (viewModel.updateLoaderState) {
+        is ProcessingState.Idle -> Unit
+        is ProcessingState.Processing -> Unit
+        is ProcessingState.Done -> {
+            val it = viewModel.updateLoaderState as ProcessingState.Done
+            val updateSuccessfully = stringResource(R.string.manage_update_loader_successfully)
+            val updateFailed = stringResource(R.string.manage_update_loader_failed)
+            LaunchedEffect(Unit) {
+                it.result.onSuccess {
+                    Toast.makeText(context, updateSuccessfully, Toast.LENGTH_SHORT).show()
+                }.onFailure {
+                    Toast.makeText(context, updateFailed, Toast.LENGTH_SHORT).show()
+                }
+                viewModel.dispatch(AppManageViewModel.ViewAction.ClearUpdateLoaderResult)
+            }
+        }
+    }
+
+    when (viewModel.optimizeState) {
+        is ProcessingState.Idle -> Unit
+        is ProcessingState.Processing -> Unit
+        is ProcessingState.Done -> {
+            val it = viewModel.optimizeState as ProcessingState.Done
+            val optimizeSucceed = stringResource(R.string.manage_optimize_successfully)
+            val optimizeFailed = stringResource(R.string.manage_optimize_failed)
+            LaunchedEffect(Unit) {
+                Toast.makeText(context, if (it.result) optimizeSucceed else optimizeFailed, Toast.LENGTH_SHORT).show()
+                viewModel.dispatch(AppManageViewModel.ViewAction.ClearOptimizeResult)
+            }
+        }
+    }
+
+    when (viewModel.forceStopState) {
+        is ProcessingState.Idle -> Unit
+        is ProcessingState.Processing -> Unit
+        is ProcessingState.Done -> {
+            val it = viewModel.forceStopState as ProcessingState.Done
+            val forceStopSucceed = stringResource(R.string.manage_force_stop_successfully)
+            val forceStopFailed = stringResource(R.string.manage_force_stop_failed)
+            LaunchedEffect(Unit) {
+                Toast.makeText(context, if (it.result) forceStopSucceed else forceStopFailed, Toast.LENGTH_SHORT).show()
+                viewModel.dispatch(AppManageViewModel.ViewAction.ClearForceStopResult)
+            }
+        }
+    }
+
+    when (viewModel.forceRestartState) {
+        is ProcessingState.Idle -> Unit
+        is ProcessingState.Processing -> Unit
+        is ProcessingState.Done -> {
+            val it = viewModel.forceRestartState as ProcessingState.Done
+            val forceRestartSucceed = stringResource(R.string.manage_force_restart_successfully)
+            val forceRestartFailed = stringResource(R.string.manage_force_restart_failed)
+            LaunchedEffect(Unit) {
+                Toast.makeText(context, if (it.result) forceRestartSucceed else forceRestartFailed, Toast.LENGTH_SHORT).show()
+                viewModel.dispatch(AppManageViewModel.ViewAction.ClearForceRestartResult)
+            }
+        }
+    }
+
+    NPatchPullToRefresh(
+        isRefreshing = viewModel.isRefreshing,
+        onRefresh = { viewModel.dispatch(AppManageViewModel.ViewAction.Refresh) },
+        pullToRefreshState = pullToRefreshState,
+        contentPadding = contentPadding,
+        modifier = Modifier.fillMaxSize()
+    ) {
+        LazyColumn(
+            modifier = Modifier
+                .fillMaxSize()
+                .nestedScroll(scrollBehavior.nestedScrollConnection)
+                .scrollEndHaptic()
+                .overScrollVertical()
+                .hazeSource(state = hazeState),
+            contentPadding = contentPadding,
+            overscrollEffect = null
+        ) {
+            if (filteredList.isEmpty()) {
+                item {
+                    Box(Modifier.fillParentMaxSize(), contentAlignment = Alignment.Center) {
+                        Column(horizontalAlignment = Alignment.CenterHorizontally) {
+                            if (NeoPackageManager.appList.isEmpty()) {
+                                InfiniteProgressIndicator()
+                                Spacer(Modifier.height(16.dp))
+                                Text(
+                                    text = stringResource(R.string.manage_loading),
+                                    style = MiuixTheme.textStyles.body1,
+                                    color = MiuixTheme.colorScheme.onSurfaceVariantSummary
+                                )
+                            } else {
+                                Text(
+                                    text = if (searchQuery.isNotEmpty()) stringResource(R.string.manage_no_search_results) else stringResource(R.string.manage_no_apps),
+                                    style = MiuixTheme.textStyles.body1,
+                                    color = MiuixTheme.colorScheme.onSurfaceVariantSummary
+                                )
+                            }
+                        }
+                    }
+                }
+            } else {
+                items(
+                    items = filteredList,
+                    key = { it.first.app.packageName }
+                ) { (appInfo, patchConfig) ->
+
+                    val isLocal = patchConfig.useManager
+                    val currentVersion = patchConfig.lspConfig.VERSION_CODE
+                    val managerVersion = LSPConfig.instance.VERSION_CODE
+
+                    val showVersionNumber = if (isLocal) {
+                        currentVersion < Constants.MIN_ROLLING_VERSION_CODE
+                    } else {
+                        currentVersion != managerVersion
+                    }
+
+                    val canUpdateLoader = if (isLocal) {
+                        currentVersion < Constants.MIN_ROLLING_VERSION_CODE
+                    } else {
+                        (currentVersion != managerVersion) || (patchConfig.managerPackageName != BuildConfig.APPLICATION_ID)
+                    }
+
+                    Box(modifier = Modifier.fillMaxWidth()) {
+                        AppItem(
+                            icon = {
+                                Image(
+                                    bitmap = NeoPackageManager.getIcon(appInfo),
+                                    contentDescription = null,
+                                    modifier = Modifier.fillMaxSize().clip(RoundedCornerShape(14.dp))
+                                )
+                            },
+                            label = appInfo.label,
+                            packageName = appInfo.app.packageName,
+                            summaryRow = {
+                                val patchColor = if (isLocal) MiuixTheme.colorScheme.primary else MiuixTheme.colorScheme.onSurfaceVariantSummary
+
+                                Row(verticalAlignment = Alignment.CenterVertically) {
+                                    val modeLabel = if (isLocal) {
+                                        "${stringResource(R.string.patch_local)} ${stringResource(R.string.manage_rolling)}"
+                                    } else {
+                                        stringResource(R.string.patch_integrated)
+                                    }
+
+                                    Text(
+                                        text = modeLabel,
+                                        color = patchColor,
+                                        fontSize = 12.sp,
+                                        fontWeight = FontWeight.SemiBold,
+                                        fontFamily = FontFamily.Serif
+                                    )
+
+                                    if (showVersionNumber) {
+                                        Spacer(modifier = Modifier.width(4.dp))
+                                        Text(
+                                            text = currentVersion.toString(),
+                                            color = patchColor,
+                                            fontSize = 12.sp,
+                                            fontWeight = FontWeight.SemiBold,
+                                            fontFamily = FontFamily.Serif
+                                        )
+                                    }
+
+                                    if (canUpdateLoader) {
+                                        Spacer(modifier = Modifier.width(6.dp))
+                                        with(LocalDensity.current) {
+                                            val size = 16.sp * 1.2
+                                            Icon(
+                                                imageVector = Icons.Filled.KeyboardCapslock,
+                                                contentDescription = null,
+                                                modifier = Modifier.size(size.toDp()),
+                                                tint = patchColor
+                                            )
+                                        }
+                                    }
+                                }
+                            },
+                            onClick = {
+                                hapticFeedback.performHapticFeedback(HapticFeedbackType.ContextClick)
+                                navigator.navigate(Route.AppDetail(appInfo.app.packageName))
+                            },
+                            onLongPress = {
+                                hapticFeedback.performHapticFeedback(HapticFeedbackType.ContextClick)
+                                navigator.navigate(Route.AppDetail(appInfo.app.packageName))
+                            }
+                        )
+                    }
+                }
+            }
+        }
+    }
+}
+
+@Composable
+fun AppManageFab(
+    navigator: Navigator,
+    modifier: Modifier = Modifier
+) {
+    val context = LocalContext.current
+    val scope = rememberCoroutineScope()
+    val shouldSelectDirectory = remember { mutableStateOf(false) }
+    val showNewPatchDialog = remember { mutableStateOf(false) }
+
+    val errorText = stringResource(R.string.patch_select_dir_error)
+    val launcher = rememberLauncherForActivityResult(ActivityResultContracts.StartActivityForResult()) {
+        try {
+            if (it.resultCode == Activity.RESULT_CANCELED) return@rememberLauncherForActivityResult
+            val uri = it.data?.data ?: throw IOException("No data")
+            val takeFlags = Intent.FLAG_GRANT_READ_URI_PERMISSION or Intent.FLAG_GRANT_WRITE_URI_PERMISSION
+            context.contentResolver.takePersistableUriPermission(uri, takeFlags)
+            Configs.storageDirectory = uri.toString()
+            Log.i(TAG, "Storage directory: ${uri.path}")
+            showNewPatchDialog.value = true
+        } catch (e: Exception) {
+            Log.e(TAG, "Error when requesting saving directory", e)
+            Toast.makeText(context, errorText, Toast.LENGTH_SHORT).show()
+        }
+    }
+
+    OverlayDialog(
+        title = stringResource(R.string.patch_select_dir_title),
+        summary = stringResource(R.string.patch_select_dir_text),
+        show = shouldSelectDirectory.value,
+        onDismissRequest = { shouldSelectDirectory.value = false },
+    ) {
+        DialogButtonBar(
+            negative = DialogButtonBarAction(
+                text = stringResource(android.R.string.cancel),
+                onClick = { shouldSelectDirectory.value = false },
+            ),
+            positive = DialogButtonBarAction(
+                text = stringResource(android.R.string.ok),
+                onClick = {
+                    launcher.launch(Intent(Intent.ACTION_OPEN_DOCUMENT_TREE))
+                    shouldSelectDirectory.value = false
+                },
+            ),
+        )
+    }
+
+    OverlayDialog(
+        title = stringResource(R.string.screen_new_patch),
+        show = showNewPatchDialog.value,
+        onDismissRequest = { showNewPatchDialog.value = false },
+    ) {
+        Column {
+            ArrowPreference(
+                title = stringResource(R.string.patch_from_storage),
+                startAction = { NewPatchSourceIcon(MiuixIcons.Regular.Folder) },
+                onClick = {
+                    navigator.navigate(Route.NewPatch(id = ACTION_STORAGE))
+                    showNewPatchDialog.value = false
+                },
+            )
+            ArrowPreference(
+                title = stringResource(R.string.patch_from_applist),
+                startAction = { NewPatchSourceIcon(MiuixIcons.Regular.GridView) },
+                onClick = {
+                    navigator.navigate(Route.NewPatch(id = ACTION_APPLIST))
+                    showNewPatchDialog.value = false
+                },
+            )
+            Spacer(Modifier.height(8.dp))
+            TextButton(
+                text = stringResource(android.R.string.cancel),
+                modifier = Modifier.fillMaxWidth(),
+                onClick = { showNewPatchDialog.value = false },
+            )
+        }
+    }
+
+    val addLabel = stringResource(R.string.add)
+    FloatingActionButton(
+        modifier = modifier.semantics(mergeDescendants = true) {
+            role = Role.Button
+            this.contentDescription = addLabel
+        },
+        onClick = {
+            val uri = Configs.storageDirectory?.toUri()
+            if (uri == null) {
+                shouldSelectDirectory.value = true
+            } else {
+                runCatching {
+                    val takeFlags = Intent.FLAG_GRANT_READ_URI_PERMISSION or Intent.FLAG_GRANT_WRITE_URI_PERMISSION
+                    context.contentResolver.takePersistableUriPermission(uri, takeFlags)
+                    if (DocumentFile.fromTreeUri(context, uri)?.exists() == false) throw IOException("Storage directory was deleted")
+                }.onSuccess {
+                    showNewPatchDialog.value = true
+                }.onFailure {
+                    Log.w(TAG, "Failed to take persistable permission for saved uri", it)
+                    Configs.storageDirectory = null
+                    shouldSelectDirectory.value = true
+                }
+            }
+        }
+    ) {
+        Icon(
+            imageVector = Icons.Filled.Add,
+            contentDescription = null,
+            tint = MiuixTheme.colorScheme.onPrimary
+        )
+    }
+}
+
+@Composable
+private fun NewPatchSourceIcon(imageVector: androidx.compose.ui.graphics.vector.ImageVector) {
+    Box(modifier = Modifier.size(24.dp), contentAlignment = Alignment.Center) {
+        Icon(
+            imageVector = imageVector,
+            contentDescription = null,
+            modifier = Modifier.fillMaxSize(),
+            tint = MiuixTheme.colorScheme.onBackground
+        )
+    }
+}
