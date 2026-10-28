@@ -232,3 +232,23 @@ H18 tab: hI=请输入验证码 hJ=请输入验证码
 届时 ⑧⑨⑩ 会给出「登录」按钮监听器类名、提交方法 `s(...)` 实参、真实 `.action` 端点与表单字段 → 据此在 v1.6.7 做精确端点映射（`.action` 风格，不再依赖失效的 `forceLoginSys`），一次性修好密码登录。短信模式始终走原生链路，不受影响。
 
 代码已构建验证（`CloudQueryHook_v1.6.6.apk`，versionCode 31，v2/v3 签名），提交 `gty_lsposed` 并推送。
+
+---
+
+## v1.6.7 分析（2026-10-28 14:47 日志 — 真正确定位登录提交链）
+
+### 关键实证（⑧ 监听器登记 + ⑨ 点击 + H9）
+1. **登录按钮真实监听器 = `com.geoway.cloudquery_leader.LoginActivity$n`**（TextView `id=2131230846` text=登录），**不是 `LoginActivity$l`**！`LoginActivity$p` 是「获取验证码」（`id=2131234724` text=获取验证码）。  
+   → 之前所有版本（v1.6.2~v1.6.6）挂 `LoginActivity$l.onClick` 的整条端点改写链路**全部挂错对象**，这是「验证码错误」长期修不好的真正根因之一。
+2. **登录走 `HttpURLConnection`（非 okhttp3）**：点登录后只有 `H9] TrustManagerImpl.verifyChain bypassed`（HTTPS 确实发出），但 `H8`/`H18 net` 的 okhttp 钩子**零记录** → 登录请求由平台 `HttpURLConnection`（`com.android.okhttp` 旧包）发出，square `okhttp3.OkHttpClient.newCall` 钩子天然漏抓。
+3. 用户在密码模式（`使用短信验证码登录 ›`）和短信模式都多次点了登录，复现闭环数据已齐。
+
+### v1.6.7 改动
+1. **⑥ 重写**：改为 hook `LoginActivity$n`（登录）与 `LoginActivity$p`（获取验证码）的 `onClick`，beforeHook 先 **dump 监听器全部 String 字段**（定位 endpoint 字段名）+ 命中计数；密码模式额外把登录监听器内 `loginBySms`→`loginByPwd`、`smsloginSys`→`loginSys` 的字段值改写。
+2. **⑬ 新增 `java.net.URL(String)` 构造器改写**：在 URL 构造**源头**把 `loginBySms`/`smsloginSys`/`sendSms` 替换为密码端点（`loginByPwd`/`loginSys`），**对 HttpURLConnection 与 okhttp3 一律生效**（覆盖 ⑦ 漏抓的场景）。这是最稳的端点重定向点。
+3. 删除失效的 `LoginActivity$l.onClick` 改写（挂错对象）。
+
+### 仍待确认（v1.6.8 可能要修的点）
+密码模式下，宿主 UI 仅被我们改成「密码框」，**但 app 的提交逻辑可能仍按短信参数组装 POST body**（`phone`+`code` 而非 `loginname`+`password`）。若 `n.onClick` 的字段 dump 显示提交参数字段固定、或 ⑬ 改写后服务端仍报「验证码错误」，则需进一步 hook 发请求处改写 body 字段名/值（届时据 dump 精修）。短信模式始终走原生链路。
+
+代码已构建验证（`CloudQueryHook_v1.6.7.apk`，versionCode 32，v2/v3 签名），提交 `gty_lsposed` 并推送。
