@@ -252,3 +252,49 @@ H18 tab: hI=请输入验证码 hJ=请输入验证码
 密码模式下，宿主 UI 仅被我们改成「密码框」，**但 app 的提交逻辑可能仍按短信参数组装 POST body**（`phone`+`code` 而非 `loginname`+`password`）。若 `n.onClick` 的字段 dump 显示提交参数字段固定、或 ⑬ 改写后服务端仍报「验证码错误」，则需进一步 hook 发请求处改写 body 字段名/值（届时据 dump 精修）。短信模式始终走原生链路。
 
 代码已构建验证（`CloudQueryHook_v1.6.7.apk`，versionCode 32，v2/v3 签名），提交 `gty_lsposed` 并推送。
+
+---
+
+## v1.6.8 分析（2026-10-28 15:06 日志 — 根因坐实：longMode 语义 + getSimpleName 死钩）
+
+### 用户反馈
+换到密码模式、输账号+密码点登录，**仍提示「验证码错误」**。附带新日志包 `Vector-logs-release-20261028-150613.zip`。
+
+### 关键实证（深度反编译 host-v5.043，classes2/classes4.dex）
+对宿主 APK 做指令级反编译（`dexdump -d` + `strings` grep），彻底厘清登录链路后，发现此前几版（v1.6.3~v1.6.7）的修复**方向整体错了**：
+
+1. **登录端点恒为 `smsloginSys`（新网关 REST）**：`https://gtdc.landcloud.org.cn/gateway/landcloud-arableland-quality-service/api/v1/user/smsloginSys`。dex 内 `smsloginSys`/`SendsmscodeSys`/`loginQRCode` 仅以新网关 REST 风格出现，**旧 `forceLoginSys` / `.action` 假设全部失效**。
+2. **服务端靠 `GwLoginInfo.longMode` 区分认证方式**（不是靠 URL）：
+   - `longMode == 1` → **短信登录**，用 `tel` + `verifyCode`；
+   - `longMode != 1` → **密码登录**，用 `loginName` + `passWord` + `token`。
+3. **表单登录构造器 `LoginActivity$b` 硬编码 `longMode=1`**：把 `f` 输入框（账号/手机）→`tel`、`g` 输入框（密码/验证码）→`verifyCode`。即无论 UI 改成什么，原生提交的永远是「短信体」。
+4. **密码登录体（loginName+passWord+token, longMode!=1）只被静默重登使用**（MainActivity/SplashActivity 的 72h 重登），普通表单提交永远走 `longMode=1` 的短信体。
+5. **唯一登录出口**是 `SecurityInterface.login(String, SurveyApp, GwLoginInfo, String, String, GwLoginInfo, List, UserAccount, LoginTimeoutListener, StringBuffer):boolean`，主 `GwLoginInfo` 是**第 3 个参数（args[2]）**，所有登录请求都从这条出口发出。
+
+> 结论：**密码模式要被服务端接受，必须改写 `GwLoginInfo` 本身——把 `longMode` 从 1 改为非 1，并把账号/密码映射到 `loginName`/`passWord` 字段**。单纯重写 URL（v1.6.7 的 ⑬）毫无意义，因为 URL 根本不变。
+
+### v1.6.7 为何彻底没生效（双重死因）
+1. **`isLogin` 判断名写错（致命）**：代码写成 `sc.getSimpleName().equals("LoginActivity$n")`，但 `getSimpleName()` 对内部类返回的是 **`"n"`** 而不是 `"LoginActivity$n"` → 该条件**永远为 false** → `LoginActivity$n` 下的字段 dump、URL(String) 改写（⑬）**自始至终从未触发**。日志里 `.onClick fields:` 为空、`url hook` 在登录时没改写，正是这个 bug 的实锤。
+2. **方向错**：即便 ⑬ 触发，它只改 URL 字符串，而端点恒为 `smsloginSys`，URL 改写对服务端区分方式（longMode）毫无影响，服务端仍按 `longMode=1` 把账号+密码当验证码校验 → 「验证码错误」。
+
+### v1.6.8 修复（直接改真出口的 GwLoginInfo 语义）
+新增 **⑭ 钩子**：hook `SecurityInterface.getInstance(Context)` 的 afterHook，拿到 impl 实例后 `hookAllMethods(implCls, "login", beforeHook)`（`sLoginHooked` 去重，避免 getInstance 多次回调重复挂）；beforeHook 中：
+- 仅当 `sLoginMode == MODE_PASSWORD` 且 `args[2]`（主 GwLoginInfo）非空；
+- 反射取 `longMode/tel/verifyCode/loginName/passWord/token` 字段（全部 `setAccessible`）；
+- **仅当 `longMode == 1`（原生短信表单）才改写**，避免破坏静默重登（其 longMode!=1 已是密码体）：
+  - `loginName ← tel`（账号）、`passWord ← verifyCode`（密码）；
+  - `tel ← tel`、`verifyCode ← ""`、`token ← SP("user").login_token`；
+  - `longMode ← pwdMode`（优先读 SP `loginmode_2.13` 的非 1 值，否则默认 **2**）；
+- 打印 `H18 login: rewrite->pwd lm=pwdMode loginName=... code.len=...` + `hit("H18.login.rewrite")`。
+
+配套：④ UI 注入时记录 `sAppContext = activity.getApplicationContext()`（供 ⑭ 读 SP 凭据）；`sLoginHooked` 并发去重集。
+
+> 这样密码模式提交时，服务端收到的就是 `longMode=2` 的密码体（`loginName`+`passWord`+`token`），与静默重登同一套语义，从而被服务端当作密码登录接受，消除「验证码错误」。短信模式（`sLoginMode==MODE_SMS`）走原生 `longMode=1` 短信体，完全不受影响。
+
+### 验证方式（需要一次复现闭环确认）
+刷入 `CloudQueryHook_v1.6.8.apk`：
+1. 密码模式（默认）输**账号+密码** → 点登录；
+2. 期望日志出现 `H18 login: rewrite->pwd lm=2 loginName=<账号> code.len=<密码长度>`，且**不再报「验证码错误」**；
+3. 若服务端对密码登录另有额外字段要求（如特定 `token` 来源、签名、或 `longMode` 另有取值约定），据日志再精修 ⑭ 的字段映射。
+
+代码已构建验证（`CloudQueryHook_v1.6.8.apk`，versionCode 33，v2/v3 签名），提交 `gty_lsposed` 并推送。
