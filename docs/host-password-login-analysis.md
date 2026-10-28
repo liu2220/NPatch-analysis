@@ -168,3 +168,34 @@ H18 tab: hI=请输入验证码 hJ=请输入验证码
 - 短信模式不受此影响，原生链路恒可用。
 
 代码已构建验证（`CloudQueryHook_v1.6.5.apk`，versionCode 30，v2/v3 签名），提交 `gty_lsposed` 并推送。
+
+---
+
+## v1.6.6 分析（基于 13:43 日志）—— 根因定位：后端是 `.action`，forceLoginSys 永不命中
+
+### 这次日志看到了什么
+用户在 13:42 刷入 v1.6.5、打开宿主，模块日志（`log/modules_*.log`）显示：
+- `H18 Z/m0/H/l/net hook ok` 全部注册成功 → v1.6.5 已生效；
+- `H18 p hook skip: NoSuchMethodError: LoginActivity#p(java.lang.String,java.lang.String)#exact` → **`p(String,String)` 再次确认不存在**（与 v1.6.4 结论一致）；
+- `H18 H hook ok` 触发 → 进了登录页 `H()`；
+- **但 `H18 l.d=` 从未打印** → 说明 `LoginActivity$l.onClick`（提交监听）在本次会话**从未被调用**，用户没有点登录按钮；
+- 唯一被抓到的鉴权请求是 `GET https://www.landcloud.org.cn:8443/landCloudWork3/security/loginByWx.action?code=null&imei=&guid=&version=5.043` —— 这是**微信自动登录**，不是表单提交。
+- 全量搜索（模块日志 + 81M `full.log`）只出现 `loginByWx.action`，**没有任何密码/短信登录端点**。
+
+### 根因（彻底坐实「验证码错误」的来由）
+1. **真实后端是 Struts 风格 `.action` 端点**（`/landCloudWork3/security/loginByWx.action`），**不是**文档 §2.3 假设的 Retrofit `smsloginSys`/`loginSys` 路径。
+2. `forceLoginSys`（②③⑥⑦ 都依赖它）只认识 `smsloginSys`/`smsLogin`/`sendSms`/`sendCode`/`/sms` 这些 Retrofit 风格命名 → **对 `.action` URL 永远零命中** → 密码模式端点改写静默失效 → 请求仍打到短信/微信端点 → 持续「验证码错误」。
+3. 文档 §2.3「Retrofit 端点 `smsloginSys`/`loginSys`」的假设**错误**，需以真实 `.action` 端点为准。
+
+### 为什么还没修好
+本次日志**缺一次真实登录提交**（用户没点登录），所以仍拿不到密码/短信端点的真实名字与表单字段（区分短信/密码到底是靠 URL 还是靠 `type` 表单字段），无法安全硬编码映射。当前 v1.6.5 的网络抓取钩子（⑦ + 模块自带 `[H8] okhttp`）**已能在点登录时抓到真实 URL + 表单**，等这次提交数据即可精确改写。
+
+### 下一步（需要用户一次复现闭环）
+请按下面步骤各点一次登录，再回传 Vector 日志：
+1. 刷入 `CloudQueryHook_v1.6.5.apk`，打开登录页；
+2. **密码模式**（默认）：输入账号 + 密码 → **点登录**（复现「验证码错误」）；
+3. 点底部蓝字切到**短信验证模式**：输入手机号 + 验证码 → **点登录**；
+4. 回传日志。
+届时日志会给出 `H18 l.d=...`、原生 `url=...`、`form=...`，据此在 v1.6.6 做精确的 `.action` 端点映射（例如 `security/loginByPassword.action` ↔ `security/loginBySms.action` 之类，以真实抓包为准），一次性修好密码登录。
+
+> 注：本次 13:42 的 v1.6.5 会话里「`H18 ui: mode toggle ready`」未出现，可能是微信自动登录抢先、登录表单未稳定展示所致；此前 v1.6.3 会话（13:09/13:11）有明确 `H18 ui: g -> password mode`，证明表单可达。若你那次确实看到了切换条，请告知；看不到则说明 UI 注入时机需加固（届时一并处理）。
