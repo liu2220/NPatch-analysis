@@ -125,3 +125,23 @@ H18 tab: hI=请输入验证码 hJ=请输入验证码
 - **新增 ⑤ `p(String,String)` 入口兜底** 与 **⑥ `l.onClick` 反射改 `l.d` 字段兜底**，覆盖 endpoint 来源于参数与字段的两条路径。
 
 代码已构建验证（`CloudQueryHook_v1.6.3.apk`，versionCode 28，v2/v3 签名），提交 `gty_lsposed` 并推送。
+
+---
+
+## v1.6.4 诊断（端点改写挂在错误提交链上）
+
+### 现象
+升级 v1.6.3 后，验证码框已变为密码框（④ UI 改造生效），但点登录按钮仍提示「验证码错误」——请求仍打到短信端点，端点改写未生效。
+
+### 根因（v1.6.3 日志实证）
+- `H18 m0 hook ok`（注册成功）但**登录提交时从未打印 endpoint**，说明 `LoginActivity.m0(String×4)` 在登录提交链路中**根本没被调用**；原②③⑤⑥ 全部挂在一条**错误的提交链**假设上。
+- `H18 p hook skip: NoSuchMethodError: LoginActivity#p(java.lang.String,java.lang.String)` → ⑤ 入口钩子方法签名与实际不符，从未生效。
+- 结论：登录提交走的是另一条**未被 hook 的真实路径**，运行时端点字符串、`type` 区分字段均未知，无法静态猜测，须运行时抓取。
+
+### 修复（v1.6.4，诊断先行）
+- 增强日志：**dump `m0` 全部实参**（类型+值）、**dump `l.d`/`l.e` 字段真实值**，确认端点/类型到底长什么样。
+- 新增 **⑦ OkHttp `newCall` 抓取钩子**：在 HTTP 层抓取登录相关请求的**真实 URL + POST 表单参数**（`FormBody` 字段名/值），直接暴露端点路径与服务端区分短信/密码的字段（`type`/`code`/`password` 等）。
+- 保留 ④ 密码框改造（已验证可用），`forceLoginSys` 改为对任意 String 实参生效（仍可能因未知真实字符串而不命中）。
+- 待用户刷 v1.6.4、复现一次登录失败并回传日志后，据真实端点/字段做 v1.6.5 的精确改写。
+
+代码已构建验证（`CloudQueryHook_v1.6.4.apk`，versionCode 29，v2/v3 签名），提交 `gty_lsposed`（推送受沙箱网络抖动影响，已提交本地、待网络恢复推送）。
