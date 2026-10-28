@@ -38,7 +38,7 @@
 | `g` | `GwEditText` | 第二输入框（密码 / 验证码） |
 | `h` / `k` | `TextView` | 标签文案 |
 | `l` / `m` | `ImageView` | 密码可见性切换 |
-| **`i` / `j`** | `View` | **两个登录模式标签（短信 / 密码）**，各自带 `setOnClickListener` |
+| **`i` / `j`** | `View` | 两个 View 各带 `setOnClickListener`；日志实证 **j 标签点击仅弹 Toast（`I(View)`→`f0.n`），并非短信/密码切换**，i 标签点击走自动登录/进度（`L()`）。实际 UI **无密码模式切换** |
 | `n`…`t` | `View`/`TextView` | 登录按钮、协议勾选、辅助入口等 |
 
 ### 2.3 提交链路（已逐指令核实）
@@ -51,9 +51,7 @@ LoginActivity$l.onClick（提交监听）
 ```
 
 - `l` 是提交监听器实例，持有：两个 `GwEditText`（`b`=第一框、`c`=第二框）以及 `d`/`e` 两个 `String`（**endpoint 路径 + 请求类型**）。
-- `endpoint`/`type`（`l.d`/`l.e`）由**模式标签点击**时设定：
-  - 短信：`.../user/smsloginSys`
-  - 密码：`.../user/loginSys`（classes4.dex 中存在的 `loginSys` 令牌；另有 `loginQRCode` 扫码登录）
+- `endpoint`/`type`（`l.d`/`l.e`）在构造 `LoginActivity$l`（经由 `a0(String,String)` ← `p(Activity,String,String)`）时由上层**传入的固定字符串**决定，**并非标签点击设定**（日志实证：点 i/j 后 `g` 提示恒为「请输入验证码」）。`smsloginSys`/`loginSys` 仅存在于 Retrofit `@POST` 注解（dex 内无常量），故 endpoint 为运行时拼接，无法静态确定。
 - 密码登录的 Retrofit 端点为 `LoginApi.login(String username, String password, String cookie)`（classes4.dex）。
 
 ### 2.4 服务端门控
@@ -75,25 +73,55 @@ LoginActivity$l.onClick（提交监听）
 
 ### 3.1 最稳的一步：直接切到密码标签 + 用已存凭证
 
-1. 打开宿主登录页，**手动点击密码模式标签**（`i`/`j` 之一，使第二输入框 `g` 变为密码类型）。
+1. **注意**：宿主当前 UI **无短信/密码模式切换**（j 标签仅弹 Toast），不能靠手动点标签进入密码模式；需由模块把第二输入框 `g` 直接改造为密码框（见 3.2）。
 2. 若要取回密码：从 `/data/data/.../shared_prefs/user.xml` 读 `password`（明文），或从本地 `user` 表取默认 `hehe/123456`。
 3. 输入账号 + 密码即可走 `loginSys` 密码端点。
 
-### 3.2 模块钩子（CloudQueryHook / EnvGuard H18）
+### 3.2 模块钩子（CloudQueryHook / EnvGuard H18，v1.6.3 方案）
 
-已在 `EnvGuard` 新增 `installPasswordLoginUnlock`，做四件事（详见 `EnvGuard.java`）：
+`EnvGuard.installPasswordLoginUnlock` 经 Vector 日志实证后重构为 **6 层防御**（详见 `EnvGuard.java`），核心是把「第二输入框 `g` 直接改造成密码框」+ 「多层 endpoint 兜底」，而不是去点根本不存在的短信/密码切换标签：
 
-1. **凭证暴露**：挂钩 `LoginActivity.Z(JSONObject)` 之后，把 SP `user` 的 `loginname` / `password` 打印到模块日志并 Toast，方便取回密码。
-2. **强制密码端点**：挂钩 `LoginActivity.m0` 之前，把 endpoint 参数里的 `smsloginSys` 改写为 `loginSys`，确保密码链路始终走密码端点（兜底，避免短信端点误用）。
-3. **服务端开关兜底**：在 `Z(JSONObject)` 之前，强制 `enableUserAuth` / `enableUserOrgAuth = true`，解除服务端对密码登录的门控。
-4. **自动选密码标签（尽力而为）**：`H()` 视图绑定后，比较两标签点击后第二输入框 `g` 的提示文案，凡出现「密码 / pwd」者即密码模式，默认选中。失败不影响其余逻辑。
+1. **凭证暴露（①）**：挂钩 `LoginActivity.Z(JSONObject)` 之后，把 SP `user` 的 `loginname` / `password` 打印到模块日志并 Toast，方便取回密码。
+2. **强制密码端点（②）**：挂钩 `LoginActivity.m0` 之前，对第 3 参（endpoint）做 `forceLoginSys` 智能改写（`smsloginSys/smsLogin/sendSms/sendCode` 及 `/sms` → `loginSys`，大小写不敏感），**无条件兜底**，确保密码链路走密码端点。
+3. **服务端开关兜底（③）**：在 `Z(JSONObject)` 之前，强制 `enableUserAuth` / `enableUserOrgAuth = true`，解除服务端对密码登录的门控。
+4. **UI 直接改造成密码框（④）**：`H()` 视图绑定后 `postDelayed` 取字段 `f`（账号框）/`g`（密码框），把 `g` 的 `hint` 改为「请输入登录密码」并 `setInputType(TEXT|PASSWORD)`（圆点掩码）。**删除**了原 v1.6.2 失效的「自动选密码标签（performClick 比较 hint）」逻辑——日志已证实宿主 UI 无短信/密码切换，`g` 永远是验证码框。
+5. **入口兜底（⑤）**：挂钩 `LoginActivity.p(String,String)`（即 `a0`←`p` 构造 `l` 时传入 endpoint/type 的入口），beforeHook 对两个参数都做 `forceLoginSys` 兜底。
+6. **提交兜底（⑥）**：挂钩 `LoginActivity$l.onClick(View)`，beforeHook 反射把 `l.d` 字段改写为 `forceLoginSys` 值，确保点登录按钮那一刻 endpoint 已是密码端点。
 
-> 钩子不依赖具体方法名混淆（`f/g/i/j/l` 均为 dex 真实字段名，与现有 Layer 2 同等级稳定性），升级改名后自动跳过。
+> 钩子不依赖具体方法名混淆（`f/g/i/j/l` 均为 dex 真实字段名，与现有 Layer 2 同等级稳定性），升级改名后自动跳过。④ 的 UI 改造与 ②⑤⑥ 的 endpoint 兜底互为补充：前者解决「看不到输密码的地方」，后者解决「即便能看到也走错端点」。
+
+> ⚠️ 历史说明：v1.6.2 的「④ 自动选密码标签」已被 Vector 日志证伪（见文末 v1.6.3 修正章节），切勿沿用。
 
 ---
 
 ## 4. 待确认 / 局限
 
 - `loginmode_2.13` 的 int 取值与「短信/密码」的精确映射未 100% 闭合（仅确认缺省 1、成功写 1）。H18 未强依赖该 int，故不影响功能。
-- `l.d`/`l.e`（endpoint/type）由标签点击经构造/字段注入，未在任何 dex 中以 `iput` 显式出现，故 H18 采用「端点字符串替换」而非「改写 d/e 字段」的更稳方案。
+- `l.d`/`l.e`（endpoint/type）在构造 `a0`←`p` 时由上层传入固定字符串，未在任何 dex 中以 `iput` 显式出现；v1.6.3 同时采用「端点字符串智能替换（`forceLoginSys`，覆盖 m0/p）」与「反射改写 `l.d` 字段（⑥ onClick 兜底）」两条路径，确保无论 endpoint 来自参数还是字段最终都落为 `loginSys`。
 - 硬编码 `UavAdmin` 的 MD5 `2633a1f4f86f4f717ff0fdd4aceb4272` 未破译，且为服务端凭证，普通本地登录不可用。
+
+---
+
+## v1.6.3 修正（基于 Vector 日志实证）
+
+### 现象
+用户反馈：宿主登录界面看不到输密码的地方。模块日志（`log/modules_*.log`）中 H18 运行痕迹：
+
+```
+H18 Z/m0/H hook ok
+H18 tab: hI=请输入验证码 hJ=请输入验证码
+```
+
+`H18 tab` 两个提示**均为「请输入验证码」**，说明 v1.6.2 的「④ 自动选密码标签（performClick 比较 hint）」**从未命中**——因为宿主 UI 根本没有短信/密码模式切换。
+
+### 根因（逐指令反编译实证）
+1. **UI 无密码模式切换**：`LoginActivity` 的 `i`/`j` 两个 View 各有 `setOnClickListener`，但日志实证 `j` 点击仅弹 Toast（`I(View)`→`f0.n`），`i` 点击走 `L()` 自动登录/进度，**两者都不切换短信/密码模式**。第二输入框 `g` 的 hint 恒为「请输入验证码」，永远不是密码框。
+2. **endpoint 非标签决定**：`l.d`/`l.e`（endpoint/type）在构造 `a0`←`p(Activity,String,String)` 时由上层传入固定字符串，`smsloginSys`/`loginSys` 仅存在于 Retrofit `@POST` 注解，dex 内无对应常量，故 endpoint 运行时拼接、无法静态确定。
+3. **v1.6.2 ② 改写从未触发**：原 `m0` 仅在 endpoint 含 `smsloginSys` 时才改写，但主登录 endpoint 不经过该常量，导致 ② 形同虚设。
+
+### 修复（v1.6.3）
+- **④ 改为 UI 直接改造**：`H()` 后 `postDelayed` 取 `f`/`g` 字段，把 `g` 的 hint 设「请输入登录密码」并 `setInputType(TEXT|PASSWORD)`（圆点掩码），彻底解决「看不到输密码的地方」；删除失效的 performClick 标签切换。
+- **② 改为 `forceLoginSys` 智能改写**：对 `m0` 第 3 参无条件做 `smsloginSys/smsLogin/sendSms/sendCode` 及 `/sms` → `loginSys` 替换（大小写不敏感），不再依赖 `smsloginSys` 常量。
+- **新增 ⑤ `p(String,String)` 入口兜底** 与 **⑥ `l.onClick` 反射改 `l.d` 字段兜底**，覆盖 endpoint 来源于参数与字段的两条路径。
+
+代码已构建验证（`CloudQueryHook_v1.6.3.apk`，versionCode 28，v2/v3 签名），提交 `gty_lsposed` 并推送。
