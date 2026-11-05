@@ -298,3 +298,29 @@ H18 tab: hI=请输入验证码 hJ=请输入验证码
 3. 若服务端对密码登录另有额外字段要求（如特定 `token` 来源、签名、或 `longMode` 另有取值约定），据日志再精修 ⑭ 的字段映射。
 
 代码已构建验证（`CloudQueryHook_v1.6.8.apk`，versionCode 33，v2/v3 签名），提交 `gty_lsposed` 并推送。
+
+---
+
+## v1.6.9 分析（2026-11-05 日志 — 自动离线模式 + 定位漂移根因）
+
+### 用户反馈
+「进去后默认打开离线模式，进而导致定位一直漂来漂去」。附带日志包 `Vector-logs-release-20261105-093155.zip`。
+
+### 根因（smali 指令级 + 日志双向实证）
+
+**① 「离线模式」的真实触发点（smali 实证）**
+- 两处调用点：`com.gykj.collect.vm.AreaViewModel.quaryCountryShape` / `com.gykj.staging.vm.AreaViewModel.quaryCountryShape` 与 `ShapeCollectMapActivity.saveIntenet`，均调用 **`com.blankj.utilcode.util.NetworkUtils.K()Z`**，返回 false 即弹 **「网络环境不佳,自动切换为离线模式」** / **「网络不可用,自动转为离线模式」**，随后 **`CountryBean.setOffline(true)`**。
+- `K()` 走 `ConnectivityManager.getActiveNetworkInfo()` 瞬时连接状态（dex 内无 ping 逻辑）——**启动/切网瞬间抖动一次即触发，且 setOffline(true) 单向锁存、不会自动切回在线**。这就是「进去后默认打开离线模式」：不是固定默认值，是首次网络判定抖动后被永久锁进离线。
+- 日志反证：整个会话 app 持续向 `gtdc.landcloud.org.cn`、`www.landcloud.org.cn:8443`、`jg.landcloud.org.cn:8553` 发 GET（getTaskPageListByUserSys / getMyInterestGroups / checkUpdate1 / GetAPPVersion），网络实际可达 → 判定假阴性。
+
+**② 「定位漂移」的根因（日志实锤）**
+- app 自有定位服务 `com.example.tool.location.LocService.onStatusChanged`：**GPS Provider 一丢失就切到网络定位**（常量「providerGPS服务丢失,切换至网络定位」）；高德 APS 定位 SDK 的 retype 枚举含「室内定位」（SF_WIFI/SF_CELL 等 WiFi/基站粗定位）。粗定位本身跳变 → 漂移。
+- **虚拟定位 App 实锤**：SELinux 持续拒绝 `uid=10320`（非宿主，宿主是 uid=10281）的 untrusted_app 访问 **`service_mock_location` / `service_mock_wifi`**（非标准服务，虚拟定位框架注册的私有服务）；模块侧 `B6.isFromMockProvider` 每会话命中 100+ 次（app 2Hz 检测模拟定位，B6 强制返回 false 隐藏）。虚拟定位 App 注入的 provider 与真实网络定位来回切换 → 在「虚拟位置」和「真实粗定位」之间跳变。
+- v1.6.8 密码登录修复状态：10-28 日志已见 `H18 login: rewrite->pwd lm=2 ...` 生效，11-05 会话为静默重登自动进入（无需登录页），与本问题无关。
+
+### v1.6.9 修复（⑮ 强制在线）
+- 新增 `installForceOnline`：hook `com.blankj.utilcode.util.NetworkUtils.K()`，**恒返 true**，两处自动离线触发点永不命中（`H18 online: NetworkUtils.K() -> true (force online)` + `hit("H18.online.force")` 一次性日志）。
+- 网络真正断开时请求自然失败并提示，不再被锁进离线降级。
+- 定位漂移属设备侧（虚拟定位 App 稳定性）：模块不动 provider，建议 ① 虚拟定位 App 里固定坐标/关闭摇杆漂移模式并开启「同时模拟网络定位」；② 若不再需要，关闭开发者选项「选择模拟位置信息应用」。GPS 稳定后 `LocService` 不再降级到网络定位，漂移消失。
+
+代码已构建验证（`CloudQueryHook_v1.6.9.apk`，versionCode 34，v2/v3 签名），提交 `gty_lsposed` 并推送。
