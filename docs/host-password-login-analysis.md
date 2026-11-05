@@ -324,3 +324,20 @@ H18 tab: hI=请输入验证码 hJ=请输入验证码
 - 定位漂移属设备侧（虚拟定位 App 稳定性）：模块不动 provider，建议 ① 虚拟定位 App 里固定坐标/关闭摇杆漂移模式并开启「同时模拟网络定位」；② 若不再需要，关闭开发者选项「选择模拟位置信息应用」。GPS 稳定后 `LocService` 不再降级到网络定位，漂移消失。
 
 代码已构建验证（`CloudQueryHook_v1.6.9.apk`，versionCode 34，v2/v3 签名），提交 `gty_lsposed` 并推送。
+
+## v1.7.0（2026-11-05）：离线修复后仍漂移——⑯ 定位流诊断上线
+
+### 复盘
+- 09:58 日志确认 v1.6.9 ⑮ 已生效（`H18 online(NetworkUtils.K) hook ok`），但用户反馈定位仍漂移。
+- 关键证据：`"室内定位"` 是高德 APS SDK `Retype` 枚举标签（GPS定位/WIFI定位/混合定位/基站定位/CDMA/城市/…），宿主 `mgr.t` 监听的 TextView 每会话都显示 `text=室内定位` → 地图展示坐标实际来自 AMap WiFi/基站粗定位（天然跳变）。
+- 虚拟定位 App（uid=10320，services：`service_mock_location`/`service_mock_wifi`/`service_mock_antidetection`/`service_hide_root`/`service_fl_*`）09:06–09:07 仍在运行，注入源与 AMap 粗定位交替生效 → 漂移。
+- `LocService.onStatusChanged(provider,status,bundle)` 反编译仅 10 条指令、只打日志（status==0 时 println"providerGPS服务丢失"），**降级逻辑不在此方法**，真正坐标消费在 AMap/LocService.onLocationChanged。
+
+### v1.7.0 修复：⑯ 定位流诊断（只记录不改写）
+- ⑯a `LocationManager.requestLocationUpdates`（hookAllMethods）：按 provider+minTime 去重记录宿主订阅的定位源。
+- ⑯b `Location.getLatitude/getLongitude`（hookAllMethods）：全局定位结果采样，2s 节流，记录 `provider lat lon acc`。
+- ⑯c `com.example.tool.location.LocService.onLocationChanged` afterHook：宿主自有定位服务回调采样。
+- ⑯d `com.kingoit.zxjg.common.business.data.FiveParams.setLat/setLon`（H12-2 已解析 getters[lon=o lat=n]）：地图展示层坐标容器写入采样。
+- 日志标记：`H18 loc:` / `H18 five:`。用于下一版实施精准过滤（如仅信 GPS/丢弃 network fix）。
+
+代码构建验证（`CloudQueryHook_v1.7.0.apk`，versionCode 34，v2/v3 签名）。
