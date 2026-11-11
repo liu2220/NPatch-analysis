@@ -341,3 +341,22 @@ H18 tab: hI=请输入验证码 hJ=请输入验证码
 - 日志标记：`H18 loc:` / `H18 five:`。用于下一版实施精准过滤（如仅信 GPS/丢弃 network fix）。
 
 代码构建验证（`CloudQueryHook_v1.7.0.apk`，versionCode 34，v2/v3 签名）。
+
+## v1.7.1（2026-11-11）：修复「偏到郑州」——H4 默认跟随真实定位源
+
+### 用户反馈与考古结论
+- 用户实际在浙江（11-11 日志 fix 稳定 `29.3853,120.0185`，acc=4m），H4 却把坐标强改为郑州（`34.7472,113.6255`，acc=3m），偏移约 1000km，无法接受。
+- git 考古：`LocationHook.java` / `HookConfig.java` 的郑州常量与 `Location<init> -> fake` 改写自 **v1.0.0（初始提交 f970e4e, 2026-10-15）** 即存在、默认启用且无开关；v1.6.0 扩到拷贝构造，v1.6.1 补齐「封堵全部真实定位入口」（`setResult(null)` 阻断真实注册）。此后 `LocationHook.java` 零改动。
+- 因此 1.6.3→现在定位相关文件全部零 diff；「1.6.3 没问题」并非 H4 不同，而是后续版本（尤其 v1.6.9 强制在线）恢复了真实定位链路，郑州伪造与浙江真实源开始交替暴露。11-11 日志实锤两套坐标交替（14:16:06–14:16:19 郑州/浙江来回跳，之后稳定浙江）。
+
+### 修复：H4 与真实定位源统一
+- 新增 `HookConfig.H4_FAKE_ENABLED`（默认 **false**）：false=透传真实定位源；true=旧版强制伪造郑州（可回退，FAKE_* 常量保留）。
+- `LocationHook.install()` 透传模式下**直接返回**，不安装任何 hook：不改写 `Location` 构造器、不伪造 `getLastKnownLocation` / `requestLocationUpdates` 回调、不 `setResult(null)` 阻断真实注册、不 `block()` PendingIntent / LocationCallback / `getCurrentLocation`。日志标记 `[H4] PASS-THROUGH (v1.7.1)`。
+- `SensorUnifyHook`（H17）的 `KLocationAndSerserManager.getLocation` 郑州改写同步受控；方位角统一逻辑不受影响。
+- `EnvGuard` B6（`isFromMockProvider -> false`）保留，确保宿主接受虚拟定位 App 注入的浙江坐标；⑯ 定位流诊断保留，用于验证修复后不再出现郑州。
+- H5/H6/H11 的 `OVERRIDE_*` 默认 `Double.NaN` / `fixed=false`，均为透传，无需改动。
+
+### 验证点
+刷入后日志应见 `[H4] PASS-THROUGH (v1.7.1)`，`H18 loc: src=fix` 不再出现 `34.7472/113.6255`，坐标稳定在浙江真实位置；离线模式（v1.6.9）与密码登录（v1.6.8）修复不受影响。
+
+代码构建验证（`CloudQueryHook_v1.7.1.apk`，versionCode 35，v2/v3 签名）。
