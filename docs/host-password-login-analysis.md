@@ -360,3 +360,43 @@ H18 tab: hI=请输入验证码 hJ=请输入验证码
 刷入后日志应见 `[H4] PASS-THROUGH (v1.7.1)`，`H18 loc: src=fix` 不再出现 `34.7472/113.6255`，坐标稳定在浙江真实位置；离线模式（v1.6.9）与密码登录（v1.6.8）修复不受影响。
 
 代码构建验证（`CloudQueryHook_v1.7.1.apk`，versionCode 35，v2/v3 签名）。
+
+## v1.7.2（2026-11-14）：支持 v5.044 —— ⑰ 虚拟定位行为检测反制
+
+### v5.044 逆向结论（REA 6.7.0 + jadx-headless-mcp 0.7.1 + dexdump）
+- APK：`261113_155803_v5.044_release.apk`，101MB / 7 dex / 29924 类。
+- **传统环境检测层**：`com.geoway.base.util.x` 由 9 方法扩到 28（a–z 全覆盖），但底层 API 未变（`ClassLoader.loadClass` / `getDeclaredField("disableHooks")` / `Runtime.exec("su")` / `getInstalledPackages` / `Settings$Secure|Global.getInt` / `Class.forName("android.os.SystemProperties")` / `File.exists` / `getStackTrace`）。Layer 1 抗混淆设计不依赖宿主类名，仍全覆盖。
+- **Layer 2 兼容性核对**：v5.043 硬编码的 9 个签名（y/z/A/u/v/w/n/q/x）在 v5.044 逐个核对**全部未变**（w/n/q/x 均带 `Context`），快路径仍命中；新增 `x.b(Context)` = 分身检测（`getInstalledPackages` 数同包名 >1），已纳入 Layer 2。
+- **明确不 hook**：`x.l/m/r` 是 GPS/传感器能力检测（强制 false 会触发「该设备无方向传感器，无法拍摄！」）；`m5.x2()` 硬编码 `return Boolean.TRUE`，是 H5 能力开关而非检测，改为 false 会破坏 H5 jsapi。
+- Settings 白名单补 `allow_mock_location`（v5.044 dex 新增键）。
+
+### 新增：虚拟定位行为检测（v5.043 无，旧项目零反制）
+指令级链路（classes2.dex）：
+- `com.geoway.cloudquery_leader.app.SurveyApp$w.a(AMapLocation)`：
+  `getLocationType()==1 && getSatellites()<=0` 连续 5 次 / 时间跨度 >30s + 坐标非零 + `hasAccuracy() && accuracy>0`
+  → Toast「信号网络差，请到开阔地带」+ log「定位结果异常，疑似虚拟定位，请核实！Satellites=0…」
+  → `sput-boolean v4(=1), SurveyApp.haveFakeLoc:Z`（PUBLIC STATIC）
+- `com.geoway.cloudquery_leader.configtask.camera.ConfigTaskSelfCameraActivity` 两处（02a9 / 082c）：
+  `if (!y1.b.b(ctx) && SurveyApp.haveFakeLoc)` → Toast「检测到疑似虚拟定位，无法拍摄！」+ `return-void`
+- `y1.b.b(Context)`：读 SP `user/fake_loc_can_photo`，默认 1 → true（放行）；该 key 出现在服务端下发配置列表中，可收紧为 0，收紧后 `haveFakeLoc=true` 即禁止举证。
+- 中文提示串（DEX MUTF-8 直提）：「检测到疑似虚拟定位，无法拍摄！」「定位结果异常，疑似虚拟定位」「虚拟定位检测中…」「设备已开启模拟位置」「检测到跳点，已过滤」「检测到可能的坐标系偏移，触发重新初始化。跳点比例」「为保证举证安全，请关闭开发者模式」。
+- **命中原因**：设备虚拟定位 App（uid=10320）注入的 GPS fix 通常 `satellites=0`、`type=1`，正好撞上判定；B6 `isFromMockProvider→false` 无效，因为该链路判的是卫星数与坐标质量，不读 mock 标记。
+
+### ⑰ 三重反制（`installV5044AntiFakeLoc`）
+| 钩子 | 目标 | 动作 |
+|---|---|---|
+| ⑰a | `com.amap.api.location.AMapLocation.getSatellites()` | afterHook：返回值 ≤0 时改为 12（>0 透传真实值），判定计数器在 `if-lez` 处被重置，`haveFakeLoc` 永不置位 |
+| ⑰b | `y1.b.b(Context)` | beforeHook：`setResult(true)`，两处拍照阻断条件恒假；并 `setStaticBooleanField(SurveyApp,"haveFakeLoc",false)` 清残留标志 |
+| ⑰c | `SurveyApp$w.a(AMapLocation)` | beforeHook：`setResult(null)` 跳过整个判定（含「信号网络差」Toast） |
+
+- 三重互不依赖，任一生效即可；全部 `findClassIfExists` + try-catch，v5.043 无新类时静默跳过（日志 `SurveyApp$w not found (v5.043 or renamed)`）。
+- hit 计数：`V5044.sat` / `V5044.photoGate` / `V5044.detector`，可用 `status()` 观测。
+- **保留未动**：B6 mock 伪装、B5 Settings 白名单、Layer 1/2、⑯ 定位诊断、v1.6.8 密码登录、v1.6.9 强制在线、v1.7.1 H4 透传。
+
+### 未覆盖 / 待实机确认（静态逆向结论，缺 v5.044 实机日志）
+- 「检测到跳点，已过滤」「坐标系偏移」：v1.7.1 后坐标稳定，反而好转；若虚拟定位 App 用摇杆/路线模拟仍会触发，属设备侧。
+- 「设备已开启模拟位置」（classes5 H5 jsapi `m5.D()/D0()`）：H5 侧提示，未确认是否阻断。
+- AMap SDK 反射读 `mIsFromMockProvider` 字段（classes.dex 有 `getSetIsFromMockProviderMethod`/`setIsFromMockProvider` 字符串）：若走字段而非方法，B6 会漏；本版主检测走卫星数，暂不处理。
+- 刷入后应见 3 条 `H18 v5044: ... hook ok`，拍照不再弹「检测到疑似虚拟定位，无法拍摄！」。
+
+代码构建验证（`CloudQueryHook_v1.7.2.apk`，versionCode 36，v2/v3 签名）。
