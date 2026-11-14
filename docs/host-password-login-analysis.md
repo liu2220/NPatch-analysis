@@ -418,3 +418,70 @@ H18 tab: hI=请输入验证码 hJ=请输入验证码
 
 ### 影响面
 仅涉及发布页模板与构建脚本，**未改动任何 Hook 逻辑**，`CloudQueryHook_v1.7.2.apk` 二进制不变（435,505 B，versionCode 36，v2/v3 签名）。发布页已按新模板重新生成并覆盖发布到原分享链接，线上校验：旧文案 0 命中，APK 直链 200。
+
+---
+
+## v1.7.3 日志实证：H5/OneMap SDK 侧模拟位置门（2026-11-14）
+
+日志包 `Vector-logs-release-20261114-155530.zip`（采集 15:55:30，会话 15:53:35 启动 → 15:55:11 宿主进程结束）。此前 v1.7.2 章节结尾的待确认项「设备已开启模拟位置（H5 侧提示，未确认是否阻断）」在本轮**实锤并修复**。
+
+### 日志实证（先排除噪声）
+- 模块加载正常：`anti-fake-loc installed (3/3 hooks)`、`[H4] PASS-THROUGH (v1.7.1)`；作用域覆盖主进程 / `core` / `pushservice` / `remote`。
+- 运行期命中统计：`B6.isFromMockProvider=100`、`V5044.detector=50`、`V5044.sat=1`、`H18.online.force=1`、`F.x.*` 各 1（Layer2 正常旁路）；**`V5044.photoGate=0`**。
+- `H18 loc: src=fix provider=gps lat=29.3524xx lon=120.0680xx acc=4~10m` 全程稳定在浙江，无郑州 `34.7472/113.6255`；`invokeFun6` 在 15:54:36、15:54:51 两次生成签名（坐标同为 `120.068…,29.352…`），**说明用户确实执行了两次拍照/取证动作**。
+- `full.log` 中 `虚拟定位 / 无法拍摄 / 定位结果异常 / 设备已开启模拟位置 / 验证码错误 / 离线模式` 等业务中文提示**全部 0 命中**（`grep -a` + UTF-8 字节级扫描排除编码问题）——不是没有报错，而是**阻断提示走 Toast，不进 logcat**。
+- 宿主进程 `15:55:11.392 has died: fg TOP`，但无 `am_crash` / `FATAL EXCEPTION` / `Killing 9608` / 无当前会话 tombstone（tombstones 全是 10-20～11-05 旧记录）；紧邻 15:55:10 两次 `key_back_press` 与 `Object died trying to hide custom toast`，符合**用户连按返回键退出**，非反检测自杀，也非本模块崩溃。`FATAL EXCEPTION: MiuiNearDownloadManagerHandler`、`CoreComponentFactory` CNFE、`crash_shell`（Vector 自身 `dz1.values` 异常）均为系统/框架噪声。
+
+### 用户实际链路与 v1.7.2 反制的错位
+日志里 Activity 跳转为 `MainActivity → MyPermissionActivity → H5Activity(15:54:10) → com.kingoit.onemap.ksdkmultimedia.MultiMediaActivity(15:54:27)`。而 v1.7.2 ⑰b hook 的 `y1.b.b(Context)` 只覆盖 geoway 原生拍照入口；`photoGate=0` 说明**用户根本没走这些入口**。逆向 v5.044 补齐后确认原生门共 8 处：
+
+| dex | 类 | 方法 | `haveFakeLoc` 读取 |
+|---|---|---|---|
+| classes2 | `configtask/camera/ConfigTaskSelfCameraActivity` | `onClick` | 2 |
+| classes3 | `gallery/camerax/SelfKotlinCameraActivity` | `onClick` | 2 |
+| classes3 | `news/camera/SimpleSelfCameraActivity` | `onClick` | 2 |
+| classes3 | `gallery/camerax/CameraXActivity` | `callRecord` / `callTakePicture` | 各 1 |
+
+8 处 `sget-boolean SurveyApp.haveFakeLoc` 前均紧邻 `invoke-static {…}, Ly1/b;.b:(Landroid/content/Context;)Z`，即 ⑰b 理论上能全覆盖——但用户走的是 OneMap SDK 链。
+
+### 真正的阻断点
+`R$string.gps_ismock_hint` 在 classes2 有 3 处真实引用，全部位于 `com.kingoit.onemap.ksdkmultimedia.helper`（`a0.L()`、`k.a()`、`t.J()`），三处逻辑完全一致：
+
+```text
+if (location.b.a(ctx))            → x.g(ctx, gps_isclose_hint) 「定位开关已关闭」; return-void
+if (location.b.b())               → x.g(ctx, gps_ismock_hint)  「设备已开启模拟位置」; return-void   ← 阻断
+... 继续拍照 / 录制 / drawLocationOrUpdate
+```
+
+`com.kingoit.zxjg.common.business.location.b` 定义于 classes3：
+- `b.a(Context)`：`Settings$Secure.getInt(resolver,"location_mode",0)==0 → true`（GPS 开关检测）。
+- `b.b()`：取 `LocationManager.getLastKnownLocation("gps")`，无效则退回 `"network"`；**`SDK_INT>=31` 时走 `location.a.a(Location)`，`SDK<31` 时走 `Location.isFromMockProvider()`**。
+- `com.kingoit.zxjg.common.business.location.a.a(Location)` 全部实现只有一行：`invoke-virtual Location.isMock():Z`（Android 12 / API 31 新增方法）。
+
+用户设备 `Redmi/apollo:12/SKQ1…`（SDK 31），因此走 `isMock()`；而 v1.7.2 的 B6 只 hook 了 `isFromMockProvider()`（SDK<31 分支），**`isMock()` 完全未覆盖** → `b.b()` 返回 true → 弹 `gps_ismock_hint` 并 `return-void` 阻断拍照。`b.b()` 另在 classes5 的 H5 JS API（含 `m5.E1` 等）5 处作为前置检查，故一处 hook 可全覆盖。`m5.D0/D2/G0` 只是返回「设备已开启模拟位置」文案常量的 JS API 错误码方法，**不是检测本体**，不需 hook。
+
+### ⑱ 四层等价反制（`installOneMapMockGuard`，v1.7.3）
+| 层 | 钩子 | 动作 | 作用 |
+|---|---|---|---|
+| L1 | `android.location.Location.isMock()` | beforeHook `setResult(false)` | 判定源头，系统类必装；即使 L2/L3 因宿主混淆失效也兜底 |
+| L2 | `location.a.a(Location)` | beforeHook `setResult(false)` | SDK≥31 包装方法 |
+| L3 | `location.b.b()` | beforeHook `setResult(false)` | 一处覆盖 3 个拍照 helper + 5 个 H5 JS API 共 8+ 处前置检查 |
+| L4 | `com.amap.api.location.AMapLocation.isMock()` | beforeHook `setResult(false)` | 高德 SDK 定位结果过滤（classes5 `com.loc.h0.a` 等） |
+
+- 全部 `findClassIfExists` + try-catch；安装日志 `H18 mockGuard: installed (N/4 hooks)`，命中日志 `V5044.isMock / V5044.locA / V5044.locB / V5044.amapIsMock`（下次日志可直接验证是否生效）。
+- **明确不 hook**：`location.b.a(Context)`（GPS 真关闭时仍应正常提示）、`x.g(Context,I)`（Toast 通道，粗暴屏蔽会连「请横向拍照」等正常提示一起吞掉）、`m5.D0/D2/G0`（错误文案常量）。
+- 新增 `HookConfig.H18_MOCK_GUARD_ENABLED=true` 总开关，可一键回退到 v1.7.2 行为做 A/B 对比。
+- 顺带更正 `HookEntry` 安装汇总文案 `H1-H13 → H1-H18`。
+- 保留 ⑰ 三重反制、B6、B5、Layer1/2、⑯ 诊断、v1.6.8 登录、v1.6.9 强制在线、v1.7.1 H4 透传，均未改动。
+
+### 复核 ⑰c 是否误伤定位
+完整 dump `SurveyApp$w` 后确认：`a(AMapLocation)` 是**纯检测回调**（`getLocationType()==1 && getSatellites()<=0` 连续计数 → Toast + `sput haveFakeLoc=true`），真正的定位分发在 `onLocationChanged(AMapLocation)`（GCJ02→GPS84 转换、写 `SurveyApp` 全局 `Location`/`AMapLocation`、`setProvider("GAODE")`），**不在 ⑰c 短路范围内**。日志实证短路 50 次后 `H18 loc` 采样与 `invokeFun6` 坐标仍连续正常，确认无误伤。
+
+### 验证
+- `javac -source 17 -target 17`：18 个源文件编译通过（125 个 class，仅既有 deprecation/unchecked 警告）。
+- `build_merged.sh`：产出 `CloudQueryHook_v1.7.3.apk`（439,601 B，versionCode 37，v2/v3 签名，根级 `classes.dex` / Zygisk 条目 / `update-binary` 755 权限全部校验通过）。
+- 发布页自检 `CHANGELOG_FOR:1.7.3` 与 `VERSION=1.7.3` 一致；生成页无 `__VERSION__` 占位残留、无旧文案残留。
+- dex 字符串核验：4 个 Hook 目标类名、`isMock`、4 个 hit key、`H18_MOCK_GUARD_ENABLED`、`installOneMapMockGuard` 调用、`H1-H18` 汇总文案全部存在。
+
+### 实机验证要点（下次抓日志）
+刷入 v1.7.3 后进入 `MultiMediaActivity` 拍照，应见 `H18 mockGuard: installed (4/4 hooks)` 与 `hit#1 V5044.locB`（以及 `V5044.isMock`）；`V5044.photoGate` 仍可能为 0（正常，用户不走原生门）。若 `V5044.locB` 命中且拍照不再弹「设备已开启模拟位置」，即确认修复生效。
